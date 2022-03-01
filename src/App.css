@@ -36,3 +36,85 @@
     transform: rotate(360deg);
   }
 }
+
+body {
+  box-sizing:border-box; /*cần được thiết lập để đảm bảo rằng padding và border được tính vào chiều rộng và chiều cao tổng thể của các phần tử*/
+}
+
+/*CSS cho UI của Auto_Grid*/
+.grid-container {
+  color:white;
+  display: grid;
+  height: auto; /*Để chiều cao tự động co giãn phù hợp với nội dung thì cần gán giá trị gì cho thuộc tính height*/ /*nếu height:400px thì các div bên trong có thể tràn ra ngoài, để auto để thay đổi height tùy nội dung kích thước div bên trong*/
+  align-content: center; /* align-content property to vertically align the grid inside the container,  value "center" will align the rows in the middle of the container:*/
+  grid-template-columns: auto;  /*1 cột cho mobile-first*/ /*nếu ghi auto auto auto auto thì canh 1 dòng 4 cột "dính" về trái*/
+  gap: 10px;
+  background-color: #2196F3;
+  padding: 10px;
+}
+
+.grid-container > div {
+  /*RGBA = red green blue alpha*/
+  background-color: black;
+  text-align: center;
+  padding: 20px 0;
+  font-size: 30px;
+}
+
+button { /*https://stackoverflow.com/questions/52134686/how-to-display-user-info-after-clicked-submit-in-react-js*/
+  background-color: black;
+  color:white;
+  padding: 10px;
+}
+/*CSS @media dành cho grid-template-columns  https://www.w3schools.com/cssref/tryit.asp?filename=trycss3_media_bg*/
+/*https://stackoverflow.com/questions/13550541/media-min-width-max-width*/
+/* responsive 3 cột trên laptop và 2 cột trên tablet, 1 cột trên mobile.*/
+
+@media only screen and (min-device-width: 480px) {
+  /*mobile browser smaller than 480px like iphone*/
+   /*grid-template-columns: auto;  không có gì thay đổi*/
+}
+
+/* different techniques for iPad screening */
+@media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait) {
+  /* For portrait layouts only --> 2 cột */
+  .grid-container {
+    grid-template-columns: auto auto;
+  }
+}
+
+@media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape) {
+  /* For landscape layouts only --> 3 cột */
+  .grid-container {
+    grid-template-columns: auto auto auto;
+  }
+}
+
+@media only screen and (min-device-width: 1025px) {
+  /*3 cột*/
+  .grid-container {
+    grid-template-columns: auto auto auto;
+  }
+}
+
+#chi_tiet_nhan_vien {
+  background-color:#61dafb;
+}
+
+.hopgiua {
+  background-color: aqua;
+}
+
+#navBAR {
+  padding: 2vh;
+  background-color: mediumslateblue;
+  color: whites;
+  color: white;
+  text-align: left;
+}
+
+#huong_dan_su_dung {
+  /*float:left; tuy nhiên float left sẽ làm width của div thu lại bằng width chữ, nên hr sẽ bị float-left lên trên luôn*/
+  text-align:left;
+  color:blue;
+}
