@@ -1,4 +1,4 @@
 1/ Link của online Repository:
-     https://github.com/khangly21/FunixDN2022.git 
-
+    _  https://github.com/khangly21/FunixDN2022.git 
+    _  branch: RJS101x_Assignment1_khanglvfx15073@funix.edu.vn
 2/ Cách sử dụng phần mềm
