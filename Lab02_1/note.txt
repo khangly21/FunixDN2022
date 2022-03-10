@@ -6,5 +6,5 @@ npx create-react-app MY_REACT_APP
 
 Khởi động:
 cd MY_REACT_APP
-npm start 
+npm start   //chạy package.json 
 
