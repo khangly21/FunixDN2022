@@ -1,6 +1,10 @@
 import logo from './logo.svg';
 import './App.css';
+import React from 'react'; //không có thì Error: React must be in scope when RETURNING JSX
+import {Navbar,NavbarBrand} from 'reactstrap'; //nếu có export default thì không cần {}
 
+//màn hình mặc định của React có đoạn "Edit src/App.js and save to reload."
+/*
 function App() {
   return (
     <div className="App">
@@ -21,5 +25,20 @@ function App() {
     </div>
   );
 }
+*/
 
+//Component is not defined
+class App extends React.Component {
+  render() {
+    return(
+      <div className="App">
+         <Navbar dark color="primary">
+           <div className="container">
+             <NavbarBrand href="/">Ristorante Con Fusion</NavbarBrand>
+           </div>
+         </Navbar>
+      </div>
+    )
+  }
+}
 export default App;
