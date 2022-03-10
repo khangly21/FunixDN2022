@@ -1,4 +1,10 @@
 10/3/2022, 3:59pm
 Học viên: Lý Viết Khang
 
+Cách install new React project:
+npx create-react-app MY_REACT_APP
+
+Khởi động:
+cd MY_REACT_APP
 npm start 
+
