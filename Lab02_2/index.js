@@ -16,7 +16,7 @@ import { Button } from 'reactstrap';
 /* dùng import rất dễ báo lỗi, nên dùng CDN */
 
 function Hello() {
-    return <h1>Hello World!</h1>;
+    return <h1>Hello World JSX!</h1>;
 }
 
 //using JSX to define the view of component
