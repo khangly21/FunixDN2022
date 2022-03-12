@@ -17,27 +17,11 @@
 - git remote add origin https://github.com/khangly21/FunixDN2022.git
 - git push origin HEAD:Lab03_1 --force   
    ** Could not resolve hostname head: Name or service not known.
-- 
+- git push origin Lab03_2 --force 
+   ** failed to push some refs => https://www.programmerall.com/article/3470451260/  (do remote branch Lab03_2 có file .gitignore nên phải pull về)
+- git pull -rebase origin Lab03_2 
+   ** Kết quả: pull về được file .gitignore
 
 
 
-- git branch Lab03_1
-    ** Fatal error: invalid object named "master" (vì nhánh master chỉ được tạo ra sau lệnh commit đầu tiên)
-- git add .
-- git commit -m "first commit to create branch master"
-- git branch 
-    * master
-- git branch Lab03_1
-- git branch 
-    Labo3_1
-    *master 
-- git checkout Lab03_1
-   ** Switched to branch 'Lab03_1' 
-- git branch
-    *Lab03_1
-    master
-- git add .
-   (lúc này không có gì staged hết vì toàn bộ nội dung thư mục Lab03_1 đã commit vào branch master)
-- git commit -m "go to branch Lab03_1"
-   On branch Lab03_1, nothing to commit , working tree clean
 
