@@ -24,7 +24,7 @@
    ** The common reason of this error is that the local git repository directory is empty. The solution is to commit the file before pushing it.
 - chuyển dữ liệu từ HEAD *master -> remote Lab03_2
    git push origin HEAD:Lab03_2 --force
-   //done
+   //done, now push to remote
    
 
 
