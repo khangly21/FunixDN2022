@@ -39,5 +39,11 @@
 - VẬY chỉ cần commit vào local branch master, rồi đồng bộ với github's remote branch Lab03_1 , chứ không cần tạo local branch Lab03_1 
 
 - đồng bộ note.txt từ local branch master lên github
-- khi dùng đường tắt x v Push thì thông báo "dùng upstream "master" ??" nếu nhấn yes thì nghĩa là nó tạo branch mới tên "master" trên github :(  
-
+- khi dùng "đường tắt" x v Push thì thông báo "dùng upstream "master" ??" nếu nhấn yes thì nghĩa là nó tạo branch mới tên "master" trên github :( 
+    ** có thông báo trên vì mặc định là local master branch thì push to remote master branch, nếu đồng ý thì trên github được tạo 1 branch mới tên "master" và nhận nội dung được push    
+    ** sau này khi local master branch có thay đổi rồi git push origin Lab03_1 là vô ích vì local master branch đã kết nối remote master  
+    
+- khi dùng đường tắt x v "Push to" thì có lựa chọn:
+    Choose a remote to publish to branch "master" to:
+      Choice 1: origin   https://github.com/khangly21/FunixDN2022.git
+      (chứng tỏ remote URL trên được gắn tag là 'origin')
