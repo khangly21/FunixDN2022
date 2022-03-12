@@ -1,0 +1,40 @@
+- sau khi tạo thư mục Lab03_1
+- git init
+- hoàn tất dự án React trong thư mục Lab03_1
+- git branch
+    ** Lúc này không có kết quả nào (vì chưa có nhánh nào trong local git)
+- git branch Lab03_1
+    ** Fatal error: invalid object named "master" (vì nhánh master chỉ được tạo ra sau lệnh commit đầu tiên)
+- git add .
+- git commit -m "first commit to create branch master"
+- git branch 
+    * master
+- git branch Lab03_1
+- git branch 
+    Labo3_1
+    *master 
+- git checkout Lab03_1
+   ** Switched to branch 'Lab03_1' 
+- git branch
+    *Lab03_1
+    master
+- git add .
+   (lúc này không có gì staged hết vì toàn bộ nội dung thư mục Lab03_1 đã commit vào branch master)
+- git commit -m "go to branch Lab03_1"
+   On branch Lab03_1, nothing to commit , working tree clean
+
+- git switch master
+- git branch 
+   Lab03_1
+   *master 
+- bây giờ đồng bộ nội dung Lab03_1 trong local master branch tới github 's remote Lab03_1 branch 
+- Kết nối remote Repository:
+  git remote add origin https://github.com/khangly21/FunixDN2022.git
+- đồng bộ local branch master tới remote branch Lab03_1
+  git push origin Lab03_1 
+  (kết quả là error: failed to push some refs to that URL)
+- git push origin Lab03_1 --force
+- Success!
+- do file note.txt đang trong trạng thái "U" (unstaged locally) nên không có trong github
+- VẬY chỉ cần commit vào local branch master, rồi đồng bộ với github's remote branch Lab03_1 , chứ không cần tạo local branch Lab03_1 
+
