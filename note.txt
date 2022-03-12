@@ -47,3 +47,7 @@
     Choose a remote to publish to branch "master" to:
       Choice 1: origin   https://github.com/khangly21/FunixDN2022.git
       (chứng tỏ remote URL trên được gắn tag là 'origin')
+
+- git push --set-upstream origin <branch name> <==??
+
+- giả sử lỡ dùng đường tắt làm cho local branch 
