@@ -3,4 +3,27 @@
    ** không trả lời vì chưa có branch nào
    ** phải có first commit để có branch đầu tiên là master  
 - git add note.txt    //cho file đầu tiên vào staging chuẩn bị commit vào local repo  
-   
+- git commit -m "First commit to have master branch"  
+- git branch 
+    *master  
+- Tạo local branch mới
+   git checkout -b LAB04
+   ( Created then Switched to the new branch LAB04)
+- git branch 
+   *LAB04
+   master 
+- How to list all contents in branch LAB04 (HEAD hiện nay ở LAB04)
+  git ls-files    
+  (Kết quả: LAB04 đang chứa note.txt, vì nó được tạo từ master branch nên phải thừa kế note.txt)
+  (không có lệnh git ls-folders)
+- github remote online URL được gắn nhãn là "lab4Tag"
+   git remote add lab04Tag https://github.com/khangly21/FunixDN2022.git
+- Your new branch LAB04 is now created, but it’s only available on your local machine. You’ll need to push (đồng bộ) it to the origin repository by running this command:
+  git push origin LAB04
+  (Fatal: origin does not appear to be a git repository, make sure you have the correct access right and the repository exists. could not read from remote repository)
+
+- git push lab04Tag Lab04
+  (Fatal: Lab04 cannot be resolved to branch)
+
+- git push lab04Tag LAB04
+  (Kết quả: trên github có branch mới tên là LAB04)
