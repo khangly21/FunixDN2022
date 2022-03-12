@@ -51,7 +51,7 @@
 - git push --set-upstream origin <branch name> <==??
 
 - giả sử lỡ dùng đường tắt làm cho local branch master tracks upstream remote master branch. Điều này là  khi "git push" sẽ tạo branch mới remotely là master nhận tất cả dữ liệu từ local master branch master track upstream remote master branch
-   ** Solution: 1/ current branch: master  2/ "git branch -u origin/Lab03_1"  thì kết quả là Branch master set up to track remote branch Lab03_1 from origin!
+   ** Solution: 1/ current branch: master  2/ "git branch -u origin/Lab03_1"  thì kết quả là "Branch master set up to track remote branch Lab03_1 from origin!"
 
 - thường thì đường tắt sẽ không Push được do báo lỗi refs , nên phải dùng "git push origin Lab03_1 --force "
 
