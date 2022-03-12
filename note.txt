@@ -1,3 +1,5 @@
+NOTE các bước:
+
 - sau khi tạo thư mục Lab03_1
 - git init
 - hoàn tất dự án React trong thư mục Lab03_1
