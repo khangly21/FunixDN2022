@@ -25,6 +25,8 @@
 - chuyển dữ liệu từ HEAD *master -> remote Lab03_2
    git push origin HEAD:Lab03_2 --force
    //done, now push to remote
-   
-
+- git push origin Lab03_2 --force    
+   ** ** encountered "Error: src refspec master does not match any. Error: failed to push some refs to"? 
+- git push origin HEAD:Lab03_2 --force
+   //succeeded!
 
