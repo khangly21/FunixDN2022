@@ -45,6 +45,7 @@ class Menu extends React.Component {
         console.log(menu); //Ham_tao_JSX_cac_mon_trong_menu mà không có return bọc JSX code thì mảng menu toàn các phần tử undefined
 
         //Reactstrap's media component is used to add some media to our project.
+        //https://www.geeksforgeeks.org/reactjs-reactstrap-media-component/
         return(
             <div className="container">
                 <div className="row">     
