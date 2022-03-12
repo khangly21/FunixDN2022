@@ -1,0 +1,6 @@
+- đã git init cho local repository
+- git branch 
+   ** không trả lời vì chưa có branch nào
+   ** phải có first commit để có branch đầu tiên là master  
+- git add note.txt    //cho file đầu tiên vào staging chuẩn bị commit vào local repo  
+   
