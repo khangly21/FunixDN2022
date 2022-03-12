@@ -39,3 +39,5 @@
 - VẬY chỉ cần commit vào local branch master, rồi đồng bộ với github's remote branch Lab03_1 , chứ không cần tạo local branch Lab03_1 
 
 - đồng bộ note.txt lên github
+- khi dùng đường tắt x v Push thì thông báo "dùng upstream "master" ??" nếu nhấn yes thì nghĩa là nó tạo branch mới tên "master" trên github :(  
+    
