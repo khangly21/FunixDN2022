@@ -43,6 +43,8 @@ class Menu extends React.Component {
         */
         const menu=this.state.dishes.map(this.Ham_tao_JSX_cac_mon_trong_menu); //không có this. là Ham_tao_JSX_cac_mon_trong_menu is not defined
         console.log(menu); //Ham_tao_JSX_cac_mon_trong_menu mà không có return bọc JSX code thì mảng menu toàn các phần tử undefined
+
+        //Reactstrap's media component is used to add some media to our project.
         return(
             <div className="container">
                 <div className="row">     
