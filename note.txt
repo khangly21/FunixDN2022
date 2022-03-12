@@ -6,10 +6,21 @@
    ** React UI library
    ** Reactstrap bootstrap-based UI library
       *** Reactstrap.Media vs Reactstrap.Card
-
-
 - git branch
     ** Lúc này không có kết quả nào (vì chưa có nhánh nào trong local git)
+- git add .  //tất cả files folders vào staging (chuẩn bị commit vào local repository)
+- git commit -m "first commit to create local master branch for Component Part 2"
+- git branch 
+   *master 
+- git status 
+   (On branch master, nothing to commit, working tree clean)
+- git remote add origin https://github.com/khangly21/FunixDN2022.git
+- git push origin HEAD:Lab03_1 --force   
+   ** Could not resolve hostname head: Name or service not known.
+- 
+
+
+
 - git branch Lab03_1
     ** Fatal error: invalid object named "master" (vì nhánh master chỉ được tạo ra sau lệnh commit đầu tiên)
 - git add .
@@ -29,109 +40,4 @@
    (lúc này không có gì staged hết vì toàn bộ nội dung thư mục Lab03_1 đã commit vào branch master)
 - git commit -m "go to branch Lab03_1"
    On branch Lab03_1, nothing to commit , working tree clean
-
-- git switch master
-- git branch 
-   Lab03_1
-   *master 
-- bây giờ đồng bộ nội dung Lab03_1 trong local master branch tới github 's remote Lab03_1 branch 
-- Kết nối remote Repository:
-  git remote add origin https://github.com/khangly21/FunixDN2022.git
-- đồng bộ local branch master tới remote branch Lab03_1
-  git push origin Lab03_1 
-  (kết quả là error: failed to push some refs to that URL)
-- git push origin Lab03_1 --force
-- Success!
-- do file note.txt đang trong trạng thái "U" (unstaged locally) nên không có trong github
-- VẬY chỉ cần commit vào local branch master, rồi đồng bộ với github's remote branch Lab03_1 , chứ không cần tạo local branch Lab03_1 
-
-- đồng bộ note.txt từ local branch master lên github
-- khi dùng "đường tắt" x v Push thì thông báo "dùng upstream "master" ??" nếu nhấn yes thì nghĩa là nó tạo branch mới tên "master" trên github :( 
-    ** có thông báo trên vì mặc định là local master branch thì push to remote master branch, nếu đồng ý thì trên github được tạo 1 branch mới tên "master" và nhận nội dung được push    
-    ** sau này khi local master branch có thay đổi rồi git push origin Lab03_1 là vô ích vì local master branch đã kết nối remote master  
-    
-- khi dùng đường tắt x v "Push to" thì có lựa chọn:
-    Choose a remote to publish to branch "master" to:
-      Choice 1: origin   https://github.com/khangly21/FunixDN2022.git
-      (chứng tỏ remote URL trên được gắn tag là 'origin')
-
-- git push --set-upstream origin <branch name> <==??
-
-- giả sử lỡ dùng đường tắt làm cho local branch master tracks upstream remote master branch. Điều này là  khi "git push" sẽ tạo branch mới remotely là master nhận tất cả dữ liệu từ local master branch master track upstream remote master branch
-   ** Solution: 1/ current branch: master  2/ "git branch -u origin/Lab03_1"  thì kết quả là "Branch master set up to track remote branch Lab03_1 from origin!"
-
-- thường thì đường tắt sẽ không Push được do báo lỗi refs , nên phải dùng "git push origin Lab03_1 --force "
-
-- https://www.git-tower.com/learn/git/faq/track-remote-upstream-branch/
-- https://stackoverflow.com/questions/171550/find-out-which-remote-branch-a-local-branch-is-tracking
-
-
-import { Card, CardImg, CardImgOverlay, CardText, CardBody,
-    CardTitle } from 'reactstrap';
-
-class Menu extends Component {
-
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            selectedDish: null
-        }
-    }
-
-    onDishSelect(dish) {
-        this.setState({ selectedDish: dish});
-    }
-
-    renderDish(dish) {
-        if (dish != null)
-            return(
-                <Card>
-                    <CardImg top src={dish.image} alt={dish.name} />
-                    <CardBody>
-                      <CardTitle>{dish.name}</CardTitle>
-                      <CardText>{dish.description}</CardText>
-                    </CardBody>
-                </Card>
-            );
-        else
-            return(
-                <div></div>
-            );
-    }
-
-    render() {
-
-        //JSX element
-        const menu = this.props.dishes.map((dish) => {
-            return (
-              <div  className="col-12 col-md-5 m-1">
-                <Card key={dish.id}
-                  onClick={() => this.onDishSelect(dish)}>
-                  <CardImg width="100%" src={dish.image} alt={dish.name} />
-                  <CardImgOverlay>
-                      <CardTitle>{dish.name}</CardTitle>
-                  </CardImgOverlay>
-                </Card>
-              </div>
-            );
-        });
-
-        return (
-            <div className="container">
-                <div className="row">
-                    {menu}
-                </div>
-                <div className="row">
-                  <div  className="col-12 col-md-5 m-1">
-                      {this.renderDish(this.state.selectedDish)}  //hàm tạo JSX
-                  </div>
-                </div>
-            </div>
-        );
-    }
-}
-
-
-
 
