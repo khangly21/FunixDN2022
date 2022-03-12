@@ -1,3 +1,6 @@
+LAB04 13/3/2022
+Học viên: lý viết khang
+
 - đã git init cho local repository
 - git branch 
    ** không trả lời vì chưa có branch nào
@@ -26,4 +29,9 @@
   (Fatal: Lab04 cannot be resolved to branch)
 
 - git push lab04Tag LAB04
-  (Kết quả: trên github có branch mới tên là LAB04)
+  (Kết quả: trên github có branch mới tên là LAB04, không cần mở github ra tồi "create LAB04 from main" rồi kế thừa .gitignore của main trong khi local chưa có -> pull về mới push được sau đó)
+
+- git add .
+- git commit -m "modified note"
+- git push lab04Tag LAB04
+  (Toàn bộ nội dung note.txt được đồng bộ trên github !)
