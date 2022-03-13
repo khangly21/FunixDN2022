@@ -9,3 +9,42 @@
 - git branch 
    Không có phản hồi, do chưa có master branch 
 - git add note.txt   //cho vào staged chuẩn bị commit
+- git commit -m "first commit to create branch master"
+  git branch 
+    *master 
+- tạo branch mới (kế thừa từ master branch) Lab04_1 để push lên github tạo branch cùng tên
+   git checkout -b LAB04_1
+
+- git branch 
+   *LAB04_1
+   master
+
+- git ls-files    
+  => LAB04_1 đang chứa note.txt  (do rẽ ra từ master)
+
+- github remote online URL được gắn nhãn là "lab04_1_Tag" 
+  =>  git remote add lab04_1_Tag https://github.com/khangly21/FunixDN2022.git
+
+- Your new branch LAB04 is now created, but it’s only available on your local machine. You’ll need to push (đồng bộ) it to the origin repository by running this command:
+  => git push lab04_1_Tag LAB04_1 
+  => trên remote git Repo, đã tạo branch tên là "LAB04_1" tại url tagged "lab04_1_Tag"
+
+- copy các files/folders bên trong thư mục LAB04 paste qua LAB04_1 
+
+- So sánh sự thay đổi từ LAB04 thành LAB04_1:
+    ** LAB04
+        *** index.js nhận JSX <App/> sau đó index.js sẽ render trực tiếp ra DOM object id "#root"
+        *** tới lượt App renders Menu
+        *** tới lượt Menu sẽ nhận JSX <DishDetails/> 
+
+    ** LAB04_1
+        *** index.js (kết nối trực tiếp div#root) nhận JSX <App/> 
+        *** App sẽ nhận JSX con là Main
+        *** tới lượt Main sẽ nhận 2 JSX con là:
+            **** Menu
+                ***** khi Menu nhận sự kiện onClick, thì sẽ truyền dishId để cập nhật key:value sau của Main class cha của nó
+                      selectedDish: dishId
+            **** DishDetail
+                ***** dựa vào state của Main, dùng hàm filter lọc ra đối tượng đầu tiên [0] so sánh bằng dishId  
+                
+
