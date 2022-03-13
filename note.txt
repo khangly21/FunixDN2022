@@ -42,3 +42,8 @@ Organize your app into:
 - git commit -m "modified note"
 - git push lab04Tag LAB04
   (Toàn bộ nội dung note.txt được đồng bộ trên github !)
+
+- Sau khi làm xong dự án:
+  git add .
+  git commit -m "last modification"
+  git push lab04Tag LAB04
