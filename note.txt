@@ -1,0 +1,11 @@
+- Nếu copy paste thư mục (đã có git theo dõi) Lab04 rồi đổi thành tên thư mục Lab04_1
+   ** nghĩa là copy luôn các branches của git đó
+   ** git init   => reinitialized existing git repository
+   ** git branch => *Lab04  master
+
+- tạo thư mục rỗng tên Lab04_1
+- New terminal >> git init 
+   ** Initialized empty Git repository
+- git branch 
+   Không có phản hồi, do chưa có master branch 
+- git add note.txt   //cho vào staged chuẩn bị commit
