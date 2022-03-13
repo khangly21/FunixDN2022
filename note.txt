@@ -1,6 +1,13 @@
 LAB04 13/3/2022
 Học viên: lý viết khang
 
+
+Organize your app into:
+  + presentational components --> look and feel of the app --> DishdetailComponent.js (sau khi hiển thị cố định cấu trúc list của biến dishes miễn là state.selectedDish != null, khi class con MenuComponent có emitted events "onClick" targeting Card thì gọi hàm renderDish() thuộc file DishdetailsComponent.js để nêu chi tiết món vừa chọn )
+  + container components --> data and behavior (state, provide the data and handle user interactions.) --> MainComponent.js
+
+
+-----------------------------------------------------------------------------------
 - đã git init cho local repository
 - git branch 
    ** không trả lời vì chưa có branch nào
