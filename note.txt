@@ -36,6 +36,15 @@
         *** index.js nhận JSX <App/> sau đó index.js sẽ render trực tiếp ra DOM object id "#root"
         *** tới lượt App renders Menu
         *** tới lượt Menu sẽ nhận JSX <DishDetails/> 
+        *** Vai trò của App component : 
+            **** render 
+            **** lưu trữ state của ứng dụng (application-state dữ liệu của ứng dụng/App) là mảng DISHES và sẽ truyền cho các child component
+               ***** tuy nhiên DISHES nằm trong thư mục tên "shared", vậy App component có nên lưu mảng DISHES trong state của mình? 
+        *** dữ liệu state về selectedDish do MenuComponent lưu trữ
+        *** Vai trò của DishdetailComponent:
+            **** lưu trữ state có chứa selectedDish:null , sau đó selectedDish được cập nhất với dish gửi tới thông qua props từ class cha MenuComponent
+            **** phân tích dữ liệu trong selectedDish đã cập nhật
+            **** sau đó render
 
     ** LAB04_1
         *** index.js (kết nối trực tiếp div#root) nhận JSX <App/> 
@@ -46,5 +55,76 @@
                       selectedDish: dishId
             **** DishDetail
                 ***** dựa vào state của Main, dùng hàm filter lọc ra đối tượng đầu tiên [0] so sánh bằng dishId  
-                
+        *** Vai trò của App component : 
+            **** chỉ render, không lưu trữ app-state và truyền cho con nữa
+            **** import Main 
+            **** Main là CONTAINER component 
+        *** bootstrap dark color="primary" 
+            => là màu blue 
+        *** Cách dùng filter 
+           filter(  ===  )[0]
+           nghĩa là chỉ lọc lấy phần tử đầu tiên của mảng
+        
+        *** dữ liệu state về selectedDish do MainComponent lưu trữ  (xem hình State and Props trong Bài 4: React Component)
+           **** state trong Main thay đổi (dẫn tới Main component sẽ re-render để cập nhật phần tương ứng ) khi class con Menu emits/submits Events
+           **** Main truyền/supplies "props" cho class con Menu và DishDetails 
+-       *** Vai trò của DishdetailComponent:
+           **** Không cần update gì hết, vì nó đã là một Rresentational component chỉ với nhiệm vụ return Chuoi_JSX chứa các thẻ và <Component_Reference/>
+           **** Nhận render những gì sau khi click 1 hình
 
+                this.onDishSelect=this.onDishSelect.bind(this);
+                this.renderDish=this.renderDish.bind(this);
+                <div id="more_details" className="row">
+                        <div className="col-12 col-md-5 m-1">
+                            STT: {this.state.selectedDish.id}
+                            {this.renderDish(this.state.selectedDish)}
+                        </div>
+
+                        <div className="col-12 col-md-5 m-1" style={{paddingTop:'2vw'}}>
+                            <h2>Comments on this dish:</h2>
+                            <DishDetails mon_duoc_chon={this.state.selectedDish}/>
+                        </div>
+                        
+                </div>
+
+
+                renderDish(dish){ //tham số là 1 object
+                      console.log(dish); //khi chưa chọn hình nào thì là null lúc load page => cần sửa lại chỉ chừng nào Click hình mới chạy hàm này
+                      //viết rẽ nhánh các return để tạo Chuoi_JSX
+                      if(dish!=null){
+                          console.log("yAY,a dish is selected");
+              
+                          //thay vì dùng các thẻ của Reactstrap, thì dùng div cũng được
+                          //thay từng div bằng Reactstrap để theo dõi lỗi, thấy báo lỗi ngay chỗ Reactstrap.CardBody
+                             /// Solution: xem lại trong https://reactstrap.github.io/
+                             /// React.CardImgOverlay cũng invalid
+                             /// <React.Card body></React.Card> cùng cấp với CardImg cũng invalid
+                          //div src={dish.image} alt={dish.name} thì không tạo ra hình lặp lại như Reactstrap.Img
+                          
+                          return(
+                              <Reactstrap.Card  body>
+                                  <Reactstrap.CardImg src={dish.image} alt={dish.name}/>
+                                  <Reactstrap.CardTitle>{dish.name}</Reactstrap.CardTitle>
+                                  <Reactstrap.CardText>{dish.description}</Reactstrap.CardText>
+                              </Reactstrap.Card>
+                          );
+                      }else {
+                          return(
+                              <div></div>
+                          );
+                      }
+                }
+
+
+        *** Vai trò của MenuComponent:
+           **** Turn Menu Component into a Presentational Component (xem hình states & props của Bài 4: React Component)
+               ***** update its contents by removing the state and removing the DishdetailComponent reference
+                    ****** không truyền state xuống class con bằng cách gọi reference:  <Dishdetails mon_chon={this.state.selectedDish}/>
+               ***** make use of the onClick supplied by MainComponent through the props to deal with the clicking of a menu item
+               ***** không lưu local state,  nhận được this.props.mon_duoc_chon từ class cha Main thì chỉ có nhiệm vụ duy nhất là return RSX biến {this.props.mon_duoc_chon} thôi, hoặc dùng các hàm map(), filter() hay custom binded_to_class Functions để xử lý nữa
+ 
+
+- Hoàn thành dự án
+  ** git add .
+  ** git commit -m "completing commit to local repo"
+  ** git push lab04_1_Tag LAB04_1 
