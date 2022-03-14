@@ -63,7 +63,6 @@ class Main extends React.Component {
     
                     <div id="re_render">
                         <em>Mã món được chọn:</em> {this.state.selectedDish}
-                        {this.renderDish(dish_duoc_chon)} 
                     </div>
 
                     <DishDetails 
