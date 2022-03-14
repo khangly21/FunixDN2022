@@ -1,0 +1,157 @@
+FUNCTIONAL COMPONENT 
+-  We will reimplement both the MenuComponent and DishdetailComponent as pure functional components
+- Illustrate the reimplementation of presentational components as pure functional components
+- Save all the changes and do a Git commit with the message "Functional Components".
+
+SO SÁNH LAB04_2 vs LAB04_1 
+* chung Main, với dữ liệu quan trọng là state 
+   this.state={
+            dishes:DISHES,
+            selectedDish:null  //đây là id của món ăn (không phải đối tượng) //mặc định là 0 
+        };
+
+* Luồng dữ liệu của Menu Component:
+    *** Chung 
+        //Nhận props.dishes từ Main và áp dụng map()
+        //nhận props.onClick từ Main và áo dụng cho callback của hàm map(), sau đó Main chờ phản hồi từ Menu thông quan sự kiện onClick
+
+    *** LAB04_2 (Functional components)
+        **** phía Menu sử dụng props nhận được:
+            ***** props.dishes  --> dữ liệu này được hàm map() phân tích thành nhiều dish , lý do là để tái sử dụng RenderMenuItem function reference cho từng dish để hiển thị ra Card --> nhiều dish đi vào 1 hàm RenderMenuItem để đầu ra là nhiều JSX Cards
+            ***** props.onClick --> hàm này được tái sử dụng cho nhiều Card --> 1 Card 1 hàm onClick
+        **** element bên class con Menu kích hoạt Event về phía class cha Main:
+            <Card onClick={() => onClick(dish.id)}>  
+
+    *** LAB04_1 (Class components)
+        **** Main component cung cấp "props" gồm dishes là mảng các món ăn + "onClick" là hàm nhận dishId là param và trả về là một gọi hàm Ten_ham() nhằm thay đổi state của Main" cho Menu component
+        **** phía Menu nhận props:
+           ***** this.props.dishes
+           ***** <Reactstrap.Card key={dish.id} onClick={() => this.props.onClick(dish.id)}>
+
+* Luồng dữ liệu của DishdetailComponent.js:
+    *** Chung:
+       **** dùng 
+       **** chỉ khi 1 selectedDishId != null thì Main dùng hàm filter tìm trong danh sách dishes những đối tượng có dish.id ===selectedDishId
+       **** Main gọi DishdetailComponent reference tới hàm DishdetailComponent để lấy nội dung của dish vừa tìm thấy rồi render
+       **** render tên và description của 1 selectedDish 
+       **** render comments cho 1 selectedDish 
+
+    *** LAB04_2 (Functional components)
+        function RenderDish({dish}) {  
+             . . .
+        }
+
+        function RenderComments({comments}) {
+            . . .
+        }
+
+        const  DishDetail = (props) => {
+            . . .   
+        }
+
+    *** LAB04_1 (Class components)
+        **** Hàm Main có dùng hàm renderDish(dish) của DishDetails, đáng lẽ renderDish phải nằm trong component DishDetails
+        **** props từ Main 
+            <DishDetails 
+                dish={this.state.dishes.filter((dish) => dish.id === this.state.selectedDish)[0]}
+            />
+* Sự binding
+    ** Không có liên hệ code giữa Menu và DishdetailComponent
+    ** chọn dish.id được gửi tới Main , rồi từ Main mới gọi tới DishdetailComponent
+
+CODE:
+- MenuComponent.js
+import React from 'react';
+import { Card, CardImg, CardImgOverlay,
+    CardTitle } from 'reactstrap';
+
+    function RenderMenuItem ({dish, onClick}) {
+        return (
+            <Card
+                onClick={() => onClick(dish.id)}>
+                <CardImg width="100%" src={dish.image} alt={dish.name} />
+                <CardImgOverlay>
+                    <CardTitle>{dish.name}</CardTitle>
+                </CardImgOverlay>
+            </Card>
+        );
+    }
+const Menu = (props) => {
+
+        const menu = props.dishes.map((dish) => {
+            return (
+                <div className="col-12 col-md-5 m-1"  key={dish.id}>
+                    <RenderMenuItem dish={dish} onClick={props.onClick} />
+                </div>
+            );
+        });
+
+        return (
+            <div className="container">
+                <div className="row">
+                    {menu}
+                </div>
+            </div>
+        );
+    }
+    export default Menu;
+
+
+- DishdetailComponent.js
+
+import React from 'react';
+import { Card, CardImg, CardText, CardBody,
+    CardTitle } from 'reactstrap';
+
+
+    function RenderDish({dish}) {
+    
+      . . .
+
+    }
+
+    function RenderComments({comments}) {
+      
+      . . .
+      
+    }
+
+    const  DishDetail = (props) => {
+
+      . . .
+      
+    }
+
+export default DishDetail;
+
+
+
+
+
+
+GIT 
+- git init 
+- thêm file note.txt
+- git add .
+- git commit -m "first commit" 
+- git branch 
+    *master 
+
+- Khi đồng bộ trên remote git repo thì mới có x v Push xuất hiện
+- tạo local branch mới xuất phát từ master branch 
+   git checkout -b LAB04_2
+   (Switch to a new branch LAB04_2)
+- git branch 
+   * LAB04_2  
+     master 
+
+-  git ls-files
+    (note.txt)
+- git remote add lab04_2 https://github.com/khangly21/FunixDN2022.git
+- git push lab04_2 LAB04_2
+
+- Hoàn thành Lab04_2 
+  ** git add .
+  ** git commit -m "Functional Components"
+  ** git push lab04_2 LAB04_2 
+  
