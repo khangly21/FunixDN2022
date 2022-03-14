@@ -1,0 +1,8 @@
+HEADER and FOOTER 
+
+
+
+GIT
+
+- git init
+- tạo note.txt
