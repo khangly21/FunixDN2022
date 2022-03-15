@@ -1,0 +1,6 @@
+GIT
+- git init 
+- tạo file note.txt 
+- git add note.txt 
+- git commit -m "first commit to make master branch"
+- git branch 
