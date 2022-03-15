@@ -4,3 +4,18 @@ GIT
 - git add note.txt 
 - git commit -m "first commit to make master branch"
 - git branch 
+   * master
+- git checkout -b LAB05_2
+- git branch 
+- git ls-files
+- git remote add lab05_2_label https://github.com/khangly21/FunixDN2022.git
+- git push lab05_2_label LAB05_2
+- Update:
+   ** git add .
+   ** git commit -m "React Router"
+   ** git push lab05_2_label LAB05_2
+
+REACT ROUTER
+- Configure the routes for React router to enable you to navigate to various pages 
+   ** minimal setup --> CDN setup without the hefty webpack configuration
+     *** https://www.pluralsight.com/guides/using-react-router-with-cdn-links
