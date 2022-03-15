@@ -1,8 +1,113 @@
 HEADER and FOOTER 
+- header and a footer to our React application using two React components
+- use of multiple components put together form the application's view
+- Font Awesome icons  
+- Bootstrap-social 
+   ** https://www.cdnpkg.com/bootstrap-social?id=24649
+   => https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.css
+=> dùng index.js để giúp ứng dụng chạy FontAwesome và Bootstrap-social
+- reacstrap   
+   ** import { Navbar, NavbarBrand, Jumbotron } from 'reactstrap';
+   ** Jumbotron 
+      *** A jumbotron indicates a big grey box for calling extra attention (EX note, do you know) to some special content or information.
+         <div class="container">
+            <div class="jumbotron">
+                 ...
+            </div>
+            ...
+         </div>
 
+THỨ TỰ cha-con (class-function)
+   ** cha (dạng Class component): Main , con (dạng Functional Component): MenuComponent và Dishdetails  
+   ** Do trong JS lúc gọi hàm thì hàm được gọi đứng trước hay sau hàm gọi cũng được
+   ** trong index.html thì Main đứng trước 2 hàm Menu và Dishdetails --> OK
 
+THỨ TỰ cha-con (class-class)
+   ** Main (class component) , con(class component): MenuClassComponent, HeaderComponent, FooterComponent
+   ** script Main đứng trước script children --> ok  
+   ** Lab04_1 --> pure Class components ; Lab04_2 --> pure Functional components ; Lab05_1 --> Class component (UI khi chưa chọn món) + Functional Component (UI khi đã click chọn món )
+
+Thứ tự (App.js_index.js) so với Main và các class con của Main 
+   ** Nếu HeaderComponent và FooterComponent đứng sau Main, nhưng đứng sau luôn App_index.js thì báo lỗi
+   ** Nếu HeaderComponent và FooterComponent đứng sau Main, nhưng đứng TRƯỚC App_index.js thì không báo lỗi "ReferenceError: Header" 
+
+Trong render(){} , return(JSX) vs ArrowFunction  ()=>{}
+   ** nếu dùng arrowFunc thay cho return(JSX), thì sẽ báo lỗi Header không có return(JSX) nào
 
 GIT
-
 - git init
 - tạo note.txt
+- git add note.txt
+- git commit -m "commit note.txt"
+- git branch 
+   *master 
+- git checkout -b LAB05_1
+- git branch 
+- git ls-files
+- git remote add lab05_1_label https://github.com/khangly21/FunixDN2022.git
+- git push lab05_1_label LAB05_1
+- cập nhật:
+   ** git add .
+   ** git commit -m "Header and Footer"
+   ** git push lab05_1_label LAB05_1
+
+CODE of FOOTER: 
+  function Footer(props) {
+    return(
+    <div className="footer">
+        <div className="container">
+            <div className="row justify-content-center">             
+                  <div className="col-4 offset-1 col-sm-2">
+                    <h5>Links</h5>
+                     <ul className="list-unstyled">
+                         <li><a href="#">Home</a></li>
+                         <li><a href="#">About</a></li>
+                         <li><a href="#">Menu</a></li>
+                         <li><a href="contactus.html">Contact</a></li>
+                     </ul>
+                  </div>
+                  <div className="col-7 col-sm-5">
+                     <h5>Our Address</h5>
+                     <address>
+      		              121, Clear Water Bay Road<br />
+      		              Clear Water Bay, Kowloon<br />
+      		              HONG KONG<br />
+      		              <i className="fa fa-phone fa-lg"></i>: +852 1234 5678<br />
+      		              <i className="fa fa-fax fa-lg"></i>: +852 8765 4321<br />
+      		              <i className="fa fa-envelope fa-lg"></i>: <a href="mailto:confusion@food.net">confusion@food.net</a>
+                     </address>
+                  </div>
+
+                  <div className="col-12 col-sm-4 align-self-center">
+                     <div className="text-center">
+                         <a className="btn btn-social-icon btn-google" href="http://google.com/+"><i className="fa fa-google-plus"></i></a>
+                         <a className="btn btn-social-icon btn-facebook" href="http://www.facebook.com/profile.php?id="><i className="fa fa-facebook"></i></a>
+                         <a className="btn btn-social-icon btn-linkedin" href="http://www.linkedin.com/in/"><i className="fa fa-linkedin"></i></a>
+                         <a className="btn btn-social-icon btn-twitter" href="http://twitter.com/"><i className="fa fa-twitter"></i></a>
+                         <a className="btn btn-social-icon btn-google" href="http://youtube.com/"><i className="fa fa-youtube"></i></a>
+                         <a className="btn btn-social-icon" href="mailto:"><i className="fa fa-envelope-o"></i></a>
+                     </div>
+                  </div>
+
+               </div>
+            <div className="row justify-content-center">             
+                <div className="col-auto">
+                    <p>© Copyright 2018 Ristorante Con Fusion</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    )
+}
+
+
+LINK FONT AWESOME cdn
+   ** Không có tác dụng:
+      <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+      <!--bootstrap social media css-->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.css">
+      <!--https://www.bootstrapcdn.com/fontawesome/-->
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css" integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous">
+
+   ** Có tác dụng (bao gồm cả bootstrap social media và fontawesome) 
+      => w3school: <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
