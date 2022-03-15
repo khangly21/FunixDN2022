@@ -54,6 +54,7 @@ class Main extends React.Component {
                 //các thẻ <Reactstrap.Navbar dark color="primary">, NavbarBrand đều không dùng style={{color: "red"}} color="success" được do không hiển thị trong Inspect HTML
 
                 //Các Reactstrap sau chỉ có tác dụng khi click 1 hình 
+                // "/home" hiện <h1>HOME</h1> và children của nó như "/home/assssccs" sẽ cũng hiện <h1>HOME</h1>. Muốn children không bị ảnh hưởng thì phải có exact, nghĩa là "/home/assssccs" sẽ không hiện HOME, chỉ có duy nhật "/home" là hiện HOME
                 <div>
                     <ReactRouterDOM.HashRouter>
                         <ul>
@@ -65,8 +66,8 @@ class Main extends React.Component {
 
                         <ReactRouterDOM.Route exact={true} path='/home' component={HomePage}/>
                         <ReactRouterDOM.Route exact={true} path='/aboutus' component={aboutus}/>
-                        <ReactRouterDOM.Route path='/aboutus/contactus' component={contactus}/>
-                        <ReactRouterDOM.Route path='/menu' component={()=>
+                        <ReactRouterDOM.Route exact={true} path='/aboutus/contactus' component={contactus}/>
+                        <ReactRouterDOM.Route exact={true} path='/menu' component={()=>
                             <div>
                                 <Reactstrap.Navbar color="success" light>
                                      <div className="container">
