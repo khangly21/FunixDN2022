@@ -1,3 +1,4 @@
+GIT
 - git init 
 - tạo file note.txt 
 - git add note.txt 
@@ -9,3 +10,143 @@
 - git ls-files
 - git remote add lab05_3_label https://github.com/khangly21/FunixDN2022.git
 - git push lab05_3_label LAB05_3
+- Cập nhật
+  ** git add .
+  ** git commit -m "Single Page Applications Part 1"
+  ** git push lab05_3_label LAB05_3
+
+TIẾP NỐI LAB05_2
+  ** Lab05_2: đã triển khai SPA bằng cách tích hợp ba component khác nhau, và cung cấp cách điều hướng giữa các view trong ứng dụng React
+  ** Lab05_3: chúng ta đã bỏ qua là hiển thị các chi tiết của một món ăn đã chọn bằng 1 tính năng bổ sung của React Router giúp chuyển các tham số trong URL và sử dụng các tham số tới một component khác để hiển thị view ở đó  
+     *** <Link to={`/menu/${dish.id}`} >
+     *** Đối tượng match cho phép chúng ta match khớp <Route path> với URL
+       **** Ví dụ khi bạn dùng menu/:id thì nếu match.params.id có giá trị là 42. thì path sẽ là menu/42 
+       => Hiểu điều này, chúng ta hãy cập nhật ứng dụng React của chúng ta để chúng ta có thể hiển thị chi tiết của bất kỳ món ăn nào mà người dùng click vào.
+     *** Do món được chọn đã được đánh dấu "featured:true" nên không cần DishDetailsComponent nữa
+         => sau khi Menu shows các món thì không cần click chọn món nữa
+TÀI NGUYÊN cho Lab05_3
+   dishes.js , promotion.js, leader.js , comments.js   
+
+SO SÁNH Main_Home của Lab05_3 và Lab05_2
+   ** giống
+      *** đều có HashRouter khi selectedDish != null hay ==null
+
+   ** Lab05_3
+      *** HomeComponent 
+         **** to fetch and display the "featured" dish từ đó có các tương ứng "featured" promotion and "featured" leader
+         **** cả 3 đối tượng dish, promotion, leader đều có các thuộc tính "name, image, description" nên dùng chung template là <Card> </Card>
+         **** riêng thuộc tính  "designation" chỉ có ở leader
+
+      *** MainComponent
+         **** local state không lưu dishId (vì dish được chọn sẽ có đánh dấu trong mảng DISHES với thuộc tính featured : true) mà lưu 4 mảng trong thư mục share: DISHES, COMMENTS, PROMOTIONS, LEADERS
+         **** filter từng mảng tìm ra đối tượng dish, leader, promotion có featured:true . Ba đối tượng đó được props truyền tới class con Home
+      *** Leverage the React router to enable the development of single page applications (Tận dụng bộ định tuyến để hỗ trợ Ứng dụng trang đơn )
+      *** Router vs Switch (Bộ định tuyến vs Bộ chuyển mạch)
+      *** khi selectedDish == null
+         **** dùng các references tới components    
+
+
+   ** LAB05_2
+      *** Home 
+         **** chỉ có 1 chữ "Home" => Lab05_3 sẽ truyền nội dung cho HomeComponent
+         **** Home không truyền props cho Menu, nên Home đổi nội dung thì không ảnh hưởng Menu
+      *** MainComponent
+         **** duy trì local state là dishId
+         **** gọi references tới các components con là:
+            ***** <Home />
+            ***** <AboutUs/>
+            ***** <Contact/>
+            ***** <Header/> , <Footer/>
+            ***** <DishDetails/>
+            ***** <Menu/>
+      *** khi selectedDish != null
+         **** dùng các references tới components:
+            ***** Header, Footer
+            ***** ngay khi local state của Main cập nhật dishId, thì javascript tìm ra dishId  này của dish nào, rồi MenuClassComponent dùng đối tượng props để  chuyển  "dish được chọn" cho class con DishDetail
+
+      *** khi selectedDish == null
+         **** dùng các references tới components    
+            ***** Header, Footer
+            ***** MenuClassComponent
+ 
+
+_ khi click Home thì React.createElement: type is invalid
+    function RenderCard({item}){
+  //bên trong { } là biến Javascript hay JS expression
+  // các biến trong đối tượng leader
+  return(
+    <Reactstrap.Card>
+      <Reactstrap.CardImg src={item.image} alt={item.name}></Reactstrap.CardImg>
+      <Reactstrap.CardBody>
+        <Reactstrap.CardTitle>{item.name} </Reactstrap.CardTitle>
+        {item.designation?<Reactstrap.CardSubtitle>{item.designation}</Reactstrap.CardSubtitle>:null}
+        <Reactstrap.CardText>{item.description}</Reactstrap.CardText>
+      </Reactstrap.CardBody>
+    </Reactstrap.Card>
+  )
+}
+
+function RenderCard({item}){
+  //bên trong { } là biến Javascript hay JS expression
+  // các biến trong đối tượng leader
+  return(
+    <Reactstrap.Card>
+      <Reactstrap.CardImg src={item.image} alt={item.name}></Reactstrap.CardImg>
+      <Reactstrap.CardBody>
+        <Reactstrap.CardTitle>{item.name} </Reactstrap.CardTitle>
+        {item.designation?<Reactstrap.CardSubtitle>{item.designation}</Reactstrap.CardSubtitle>:null}
+        <Reactstrap.CardText>{item.description}</Reactstrap.CardText>
+      </Reactstrap.CardBody>
+    </Reactstrap.Card>
+  )
+}
+
+function Home(props) {
+  //update the HomeComponent.ts file to fetch and display the featured dish, promotion and leader
+
+    return(
+      <div className="container">
+        <div className="row align-items-start">
+          <div className="col-12 col-md m-1">
+            <RenderCard item={props.dish} />
+          </div> 
+          <div className="col-12 col-md m-1">
+            <RenderCard item={props.promotion} />  
+          </div>
+          <div className="col-12 col-md m-1">
+            <RenderCard item={props.leader} /> 
+          </div>
+        </div>
+      </div>
+    );
+}
+
+//đoạn sau thì ok
+function Home(props) {
+  //update the HomeComponent.ts file to fetch and display the featured dish, promotion and leader
+
+    return(
+      <h1>KHANG</h1>
+    );
+}
+
+//đoạn sau ok, tạo 3 cột nội dung 1,2,3
+function Home(props) {
+  //update the HomeComponent.ts file to fetch and display the featured dish, promotion and leader
+
+    return(
+      <div className="container">
+        <div className="row align-items-start">
+          <div className="col-12 col-md m-1">
+              <h1>1</h1>
+          </div> 
+          <div className="col-12 col-md m-1">
+              <h1>2</h1>
+          </div>
+          <div className="col-12 col-md m-1">
+              <h1>3</h1>
+          </div>
+        </div>
+      </div>
+    );
+}
