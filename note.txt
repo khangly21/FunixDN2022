@@ -17,3 +17,42 @@ GIT
 
 LƯU Ý
   * Lưu ý: trong file DishDetailComponent.js, nếu bạn khai báo DishDetail component là class thì những chỗ trong hướng dẫn đang sử dụng là props.abc thì cần sửa lại thành this.props.abc
+
+SO SÁNH Lab05_3 và lab05_4
+    * Lab05_3
+        ** bỏ qua DishDetailComponent
+        ** Bỏ việc chọn món if (dish != null) thì Main không dùng <Menu/> nữa , mà Main sẽ dùng <MenuClassComponent/>
+        ** nếu muốn dùng DishDetailComponent, MenuClassComponent phải <Reactstrap.Card onClick={() => onClick(dish.id)}> phát sinh event truyền dish.id tới class cha Main, tới lượt Main thấy state của mình thay đổi sẽ yêu cầu DishDetailComponent hiển thị re-render
+        ** Main gọi Menu theo cách;
+                        <ReactRouterDOM.Route exact={true} path='/menu' component={()=>
+                            <div>
+                                <Reactstrap.Navbar dark="true" color="primary">
+                                    <div>
+                                        <Reactstrap.NavbarBrand href="/home" style={{color:"white"}}>klass component Menu</Reactstrap.NavbarBrand>
+                                    </div>
+                                </Reactstrap.Navbar>
+         
+                                <Header/>
+
+                                <Menu
+                                    dishes={this.state.dishes}
+                                    //onClick={(dishId) => this.onDishSelect(dishId)}
+                                />
+
+                                <Footer/>
+                            </div>
+                        }/>
+    * lab05_4
+        ** dùng reference <Menu/>
+        ** bổ sung (integrate) DishDetailComponent vào ứng dụng đơn trang 
+        ** Configure the routes in your React router configuration to enable the use of route parameters within the URL to pass information to a component.
+            *** You will use a route parameter in the URL to pass in the details of the selected dish to the DishdetailComponent
+        ** <Link to={`/menu/${dish.id}`} ></Link>
+        ** import { Breadcrumb, BreadcrumbItem } from "reactstrap"
+            *** https://www.geeksforgeeks.org/reactjs-reactstrap-breadcrumb-component/
+            *** Breadcrumb Component provides a way to indicate the location of the current page
+        ** http://127.0.0.1:5500/index.html#/menu/2  với tham số id có thể là 1,2,3,4
+
+CẬP NHẬT file
+    * MenuClassComponent  
+        --> to enable the information about the selected dish to be passed to the DishdetailComponent:      
