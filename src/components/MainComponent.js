@@ -1,6 +1,6 @@
 class Main extends React.Component {
     constructor(props) {
-        super(props);
+        super(props); //call superclass constructor
         this.state={
             dishes:DISHES,
             comments:COMMENTS,
@@ -40,7 +40,21 @@ class Main extends React.Component {
         //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions
     */
 
+    //https://www.educba.com/react-componentdidmount/
+    /*
+    componentWillUnmount(){
+        console.log(componentWillUnmount);
+    }
+    
+    componentDidMount(){
+        console.log("componentDidMount");
+    }
+    componentDidUpdate(){
+        console.log("componentDidUpdate");
+    }
+    */
     render(){
+        console.log("render");
         const HomePage = () => {
             console.log(this.state.dishes.filter((dish)=>dish.featured==true)[0]); //trả về Object dish có id 0 có featured:true
             return(
@@ -72,6 +86,15 @@ class Main extends React.Component {
             );
         };
 
+        const DishNoId=()=>{
+            return(
+                <MenuClassComponent
+                    dishes={this.state.dishes}
+                />
+            )
+            //NOTE: do path='/menu' không có thuộc tính exact="true" nên nhánh con  path='/menu/:dishId' sẽ thừa hưởng view của "/menu"
+        }
+
 
         return(
                 //<Menu/> referencer không còn được Main gọi mặc định nữa, mà phải thông qua 1 path
@@ -79,6 +102,8 @@ class Main extends React.Component {
                 // thử cho exact xuống path /menu, không phải path /  thì sau khi có chữ Home, nhấn /aboutus sẽ xuất hiện chữ About us ngay sau Home mà Home không biến mất
                 //<Reactstrap.Navbar dark color="primary"> => react_devtools_backend.js:3973 Warning: Received `true` for a non-boolean attribute `dark`. 
                     ///If you want to write it to the DOM, pass a string instead: dark="true" or dark={value.toString()}.
+                    /// cũng như Breadcrumb, chỉ ghi 1 chữ exact là mặc định true
+                // nếu <ReactRouterDOM.Route  path='/menu' component={<h3>Xin hãy truyền tham số dishId</h3>}/>  sẽ báo lỗi Warning: React.createElement: type is object <h3/> which is invalid 
                 <div>
                     <ReactRouterDOM.HashRouter>
                         <ul>
@@ -88,10 +113,12 @@ class Main extends React.Component {
                             <li><ReactRouterDOM.Link to='/contactus'>Contact Us</ReactRouterDOM.Link></li>
                         </ul>
 
+
                         <ReactRouterDOM.Route exact={true} path='/home' component={HomePage}/>
                         <ReactRouterDOM.Route exact={true} path='/aboutus' component={aboutus}/>
                         <ReactRouterDOM.Route exact={true}  path='/contactus' component={Contact}/>
-                        <ReactRouterDOM.Route exact={true} path='/menu/:dishId' component={DishWithId}/>
+                        <ReactRouterDOM.Route  path='/menu' component={DishNoId}/>
+                        <ReactRouterDOM.Route exact  path='/menu/:dishId' component={DishWithId}/>
 
                      
                     </ReactRouterDOM.HashRouter>
