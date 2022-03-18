@@ -41,10 +41,8 @@ class Main extends React.Component {
     */
 
     //https://www.educba.com/react-componentdidmount/
-    /*
-    componentWillUnmount(){
-        console.log(componentWillUnmount);
-    }
+    
+    
     
     componentDidMount(){
         console.log("componentDidMount");
@@ -52,7 +50,11 @@ class Main extends React.Component {
     componentDidUpdate(){
         console.log("componentDidUpdate");
     }
-    */
+
+    componentWillUnmount(){
+        console.log("componentWillUnmount");
+    }
+    
     render(){
         console.log("render");
         const HomePage = () => {
@@ -89,13 +91,16 @@ class Main extends React.Component {
         const DishNoId=()=>{
             return(
                 <MenuClassComponent
+                    message={<b style={{color:'orange'}}>thêm param 0,1,2,3 trên URL để xem chi tiết món ăn</b>}
                     dishes={this.state.dishes}
                 />
             )
-            //NOTE: do path='/menu' không có thuộc tính exact="true" nên nhánh con  path='/menu/:dishId' sẽ thừa hưởng view của "/menu"
+            //NOTE: 
+                /// 1. do path='/menu' không có thuộc tính exact="true" nên nhánh con  path='/menu/:dishId' sẽ thừa hưởng view của "/menu"
+                /// 2. Nếu ghi message={<b style='color:orange'> thì Error: The `style` prop expects a mapping from style properties to values, not a string. For example, style={{marginRight: spacing + 'em'}} when using JSX.
+                /// 3. Nếu ghi message={<b style={{color:orange}}> thì nó hiểu là có biến orange thì Error: orange is undefined
         }
-
-
+        
         return(
                 //<Menu/> referencer không còn được Main gọi mặc định nữa, mà phải thông qua 1 path
                 //exact or exact={true} As the name suggests, it is ： Precise matching => SOLVE problem: https://codedamn.com/learn/reactjs/routing-introduction/exact-route-match.5b9VpWg_Ps

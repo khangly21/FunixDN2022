@@ -29,12 +29,19 @@ class MenuClassComponent extends React.Component {
         //nhận props.onClick từ Main và áo dụng cho callback của hàm map()
         console.log(this.props.dishes); //ok, lấy được mảng 4 phần tử từ class cha là Main gửi tới
         const menu=this.props.dishes.map(this.Trinh_bay_cac_mon_trong_menu);
+        const message=this.props.message;
         console.log(menu);
         //https://www.geeksforgeeks.org/how-to-pass-data-from-child-component-to-its-parent-in-reactjs/
+
+        //do {message} đã có b tag, thì return này b sẽ tăng độ đậm
         return(
-            <div className="row">     
-                {menu}
+            <div>
+                <b>{message}</b>
+                <div className="row">             
+                    {menu}
+                </div>
             </div>
+            
         ) 
     }
 }
