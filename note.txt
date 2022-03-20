@@ -5,12 +5,12 @@ GIT  (Tên thư mục: RJS101x_Assignment2_khanglvfx15073@funix.edu.vn)
 - git commit -m "first commit to make master branch"
 - git branch 
    * master
-- git checkout -b LAB05_4
+- git checkout -b RJS101x_Assignment2_khanglvfx15073@funix.edu.vn
 - git branch 
 - git ls-files
-- git remote add lab05_4_label https://github.com/khangly21/FunixDN2022.git
-- git push lab05_4_label LAB05_4
+- git remote add RJS_assignment2_label https://github.com/khangly21/FunixDN2022.git
+- git push RJS_assignment2_label RJS101x_Assignment2_khanglvfx15073@funix.edu.vn
 - Cập nhật
   ** git add .
-  ** git commit -m "Single Page Applications Part 2"
-  ** git push lab05_4_label RJS101x_Assignment2_khanglvfx15073@funix.edu.vn
+  ** git commit -m "modified project 2"
+  ** git push RJS_assignment2_label RJS101x_Assignment2_khanglvfx15073@funix.edu.vn

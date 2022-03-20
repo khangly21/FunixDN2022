@@ -1,0 +1,120 @@
+body {
+  margin:0;
+  padding:0;
+  font-family:'Roboto,Arial, Helvetica, sans-serif';
+  width:100%;
+  height:auto;
+  box-sizing:border-box;
+  /*https://www.codeproject.com/questions/989229/overflow-x-hidden-is-not-working-in-mobile*/
+  overflow-x: hidden; /* Hide horizontal scrollbar */
+  /*overflow-y: hidden; /* Hide vertical scrollbar */
+  /*Note that overflow: hidden will also remove the functionality of the scrollbar. It is not possible to scroll inside the page.*/
+}
+
+.footerCSS{
+    background-color:#073421;
+    margin:0px auto;
+    padding: 20px 0px 20px 0px;
+    clear: left; /*tránh float:left theo UI của Phong_ban và của UI Salary*/ /*https://www.w3schools.com/Css/css_float_clear.asp*/
+}
+
+h5{
+    color:orangered
+}
+
+.navitem_css {
+    color:white;
+}
+
+/*trong React là Link nhưng trong browser là a*/
+a {
+    text-decoration:none;
+}
+
+#nut_nhan_vien { /*https://stackoverflow.com/questions/52134686/how-to-display-user-info-after-clicked-submit-in-react-js*/
+  background-color: black;
+  color:white;
+  padding: 1vw;
+  margin:1vh;
+}
+
+@media only screen and (max-device-width: 480px) { /*VD iphone 6*/
+     
+    /*UI Nhan_vien -> 2 cột, mobile browser smaller than 480px like iphone*/
+     .grid-container {
+      width:100%;
+      display: grid;
+      grid-gap: 2vw; /* add spacing for better visibility */
+      grid-template-columns: auto auto;
+    }
+
+    /*1 cột của UI Phong_ban, có responsive*/
+    .proportion_according_to_screen_size {
+      width: 100%;
+      float: left;
+      text-align: center;
+    }
+  }
+  
+  /* different techniques for iPad screening */
+  @media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait) {
+    /* For portrait layouts only --> 4 cột */
+    .grid-container {
+      width:100%; /*yêu cầu 4 cột phải phân bố hết hàng row*/
+      display: grid;
+	    grid-gap: 10px; /* add spacing for better visibility */
+      grid-template-columns: auto auto auto auto;
+    }
+
+    /*2 cột của UI Phong_ban và UI Salary, có responsive*/
+    .proportion_according_to_screen_size, .responsive_to_screen_size {
+      width: 50%;
+      float: left;
+      text-align: center;
+    }
+  }
+  
+  @media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape) {
+    /* For landscape layouts only --> 3 cột UI Nhan_vien*/
+    .grid-container {
+      width:100%;
+      display: grid;
+	    grid-gap: 10px; /* add spacing for better visibility */
+      grid-template-columns: auto auto auto auto;
+    }
+
+    /*2 cột của UI Phong_ban và UI salary, có responsive*/
+    .proportion_according_to_screen_size, .responsive_to_screen_size {
+      width: 50%;
+      float: left;
+      text-align: center;
+    }
+  }
+  
+  /*Nest Hub 1024px, Nest Hub Max 1028px*/
+  @media only screen and (min-device-width: 1025px) {
+    /*3 cột UI Nhan_vien*/
+    .grid-container {
+      width:100%;
+      display: grid;
+	    grid-gap: 10px; /* add spacing for better visibility */
+      grid-template-columns: auto auto auto auto auto auto;
+    }
+
+    /*3 cột của UI Phong_ban và UI salary, có responsive*/
+    .proportion_according_to_screen_size, .responsive_to_screen_size {
+      width: 33%;
+      float: left;
+      text-align: center;
+    }
+  }
+  
+
+  
+
+  .boxes {
+    background: #0f0f25;
+    color:aqua;
+    margin: 3px;
+    padding: 10px;
+  }
