@@ -123,7 +123,7 @@ class Main extends React.Component {
                     <WebBody_of_Employees data={this.state.Chuoi_JSX_tat_ca_Nhan_vien} />
                     <WebBody_of_Departments data={this.state.Chuoi_JSX_tat_ca_Phong_ban}/>
                     <WebBody_of_Salaries data={this.state.Chuoi_JSX_tat_ca_Bang_luong}/>
-                    
+                    <WebBody_of_EmployeeDetail data={this.state.}/>
                     <Chi_tiet_nhan_vien chitietnhanvien={this.state.Chuoi_JSX_chi_tiet_Nhan_vien}/>
                     <Footer_ResponsiveGrid_CSSBootstrap5/>
                 </div>

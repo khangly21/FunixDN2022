@@ -87,9 +87,9 @@ class HeaderClassComponent extends React.Component {
                 )//object là CHuoi_JSX để cùng emit event để tới class cha
 
                 const Chuoi_JSX_employee_Hinh_and_details=(
-
+                    <div></div>
                 )
-                
+
                 return(
                     //https://www.techboxweb.com/how-to-add-images-in-react/
                     //React Media can wrap both Text and Image
