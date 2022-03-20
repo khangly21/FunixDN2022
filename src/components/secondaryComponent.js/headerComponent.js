@@ -83,9 +83,13 @@ class HeaderClassComponent extends React.Component {
                         Phòng ban: <em>{nhan_vien.department.name}</em> <br/> 
                         Số ngày nghỉ còn lại: <em>{nhan_vien.annualLeave}</em> <br/>
                         Số ngày đã làm thêm: <em>{nhan_vien.overTime}</em>
-                    </span>
-                    
+                    </span> 
                 )//object là CHuoi_JSX để cùng emit event để tới class cha
+
+                const Chuoi_JSX_employee_Hinh_and_details=(
+
+                )
+                
                 return(
                     //https://www.techboxweb.com/how-to-add-images-in-react/
                     //React Media can wrap both Text and Image
@@ -94,7 +98,7 @@ class HeaderClassComponent extends React.Component {
 
                     //từng phần tử của mang_Nut_va_Hinh_nhan_vien . Lợi thế của map là giúp thiết kế từng phần tử của mảng đầu ra
                     <div style={{textAlign:"center"}}>
-                        <Reactstrap.Media style={{width:"14vw"}} object src={nhan_vien.image} alt={nhan_vien.name}/>
+                        <Reactstrap.Media onClick={()=>this.props.onClick_to_image_of_employee_to_get_more_facts(Chuoi_JSX_employee_Hinh_and_details)} style={{width:"14vw"}} object src={nhan_vien.image} alt={nhan_vien.name}/>
                         <button key={nhan_vien.id} onClick={()=>this.props.Button_event_handler_lay_chi_tiet_nhan_vien(Chuoi_JSX_employee_details)} id="nut_nhan_vien">{nhan_vien.name}</button>
                     </div>
                     
