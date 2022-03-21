@@ -9,15 +9,17 @@ class Main extends React.Component {
             Chuoi_JSX_tat_ca_Nhan_vien:"",
             Chuoi_JSX_tat_ca_Phong_ban:"",
             Chuoi_JSX_tat_ca_Bang_luong:"",
-
+            Chuoi_JSX_chi_tiet_Hinh_text_nhan_vien:"",
             Chuoi_JSX_chi_tiet_Nhan_vien:"",
-            Ma_so_nhan_vien_duoc_chon:null  //đây là id của món ăn (không phải đối tượng) //mặc định là 0 
+            Ma_so_nhan_vien_duoc_chon:null //đây là id của món ăn (không phải đối tượng) //mặc định là 0 
         };
         //this.onEmployeeSelected=this.onEmployeeSelected.bind(this);
         this.onReceive_JSX_Nhanvien_from_HeaderClassComponent=this.onReceive_JSX_Nhanvien_from_HeaderClassComponent.bind(this);
         this.onReceive_JSX_Phongban_from_HeaderClassComponent=this.onReceive_JSX_Phongban_from_HeaderClassComponent.bind(this);
         this.onReceive_JSX_BangLuong_from_HeaderClassComponent=this.onReceive_JSX_BangLuong_from_HeaderClassComponent.bind(this);
         this.receiveEmployeeDetails=this.receiveEmployeeDetails.bind(this);
+        this.onReceive_JSX_CakeCompany_from_HeaderClassComponent=this.onReceive_JSX_CakeCompany_from_HeaderClassComponent.bind(this);
+        this.onReceiveJSX_nhanvien_Hinh_va_text_from_HeaderClassComponent=this.onReceiveJSX_nhanvien_Hinh_va_text_from_HeaderClassComponent.bind(this);
     }
 
     //Main nhận Chuoi_JSX từ Header để gửi cho (employee||department||salary) BodyComponent tương ứng
@@ -28,6 +30,7 @@ class Main extends React.Component {
             Chuoi_JSX_tat_ca_Phong_ban:"", //sẽ disable luôn <WebBody_of_Departments/>
             Chuoi_JSX_tat_ca_Bang_luong:"", //sẽ disable luôn <WebBody_of_Salaries/>
             Chuoi_JSX_chi_tiet_Nhan_vien:"",
+            Chuoi_JSX_chi_tiet_Hinh_text_nhan_vien:""
         });
         console.log("state Chuoi_JSX toàn nhân viên hiện tại: ",this.state.Chuoi_JSX_tat_ca_Nhan_vien)
     }
@@ -38,6 +41,7 @@ class Main extends React.Component {
             Chuoi_JSX_chi_tiet_Nhan_vien:"",
             Chuoi_JSX_tat_ca_Phong_ban:Chuoi_JSX, //sẽ kích hoạt hàm return của Main
             Chuoi_JSX_tat_ca_Bang_luong:"",
+            Chuoi_JSX_chi_tiet_Hinh_text_nhan_vien:""
         });
     }
 
@@ -47,6 +51,7 @@ class Main extends React.Component {
             Chuoi_JSX_chi_tiet_Nhan_vien:"",
             Chuoi_JSX_tat_ca_Phong_ban:"", //sẽ kích hoạt hàm return của Main
             Chuoi_JSX_tat_ca_Bang_luong:Chuoi_JSX,
+            Chuoi_JSX_chi_tiet_Hinh_text_nhan_vien:""
         });
     }
 
@@ -55,8 +60,19 @@ class Main extends React.Component {
             Chuoi_JSX_tat_ca_Nhan_vien:"",
             Chuoi_JSX_chi_tiet_Nhan_vien:"",
             Chuoi_JSX_tat_ca_Phong_ban:"", 
-            Chuoi_JSX_tat_ca_Bang_luong:""
+            Chuoi_JSX_tat_ca_Bang_luong:"",
+            Chuoi_JSX_chi_tiet_Hinh_text_nhan_vien:""
         });
+    }
+
+    onReceiveJSX_nhanvien_Hinh_va_text_from_HeaderClassComponent(Chuoi_JSX){
+        this.setState({
+            Chuoi_JSX_tat_ca_Nhan_vien:"",
+            Chuoi_JSX_chi_tiet_Nhan_vien:"",
+            Chuoi_JSX_tat_ca_Phong_ban:"", 
+            Chuoi_JSX_tat_ca_Bang_luong:"",
+            Chuoi_JSX_chi_tiet_Hinh_text_nhan_vien:Chuoi_JSX,
+        })
     }
 
 
@@ -116,6 +132,7 @@ class Main extends React.Component {
                         onClickonLiDepartment={(Chuoi_JSX)=>this.onReceive_JSX_Phongban_from_HeaderClassComponent(Chuoi_JSX)} 
                         onClickonLiSalary={(Chuoi_JSX)=>this.onReceive_JSX_BangLuong_from_HeaderClassComponent(Chuoi_JSX)} 
                         onClickonCakeCompany={(Chuoi_JSX)=>this.onReceive_JSX_CakeCompany_from_HeaderClassComponent(Chuoi_JSX)}
+                        onClick_to_image_of_employee_to_get_more_facts={(Chuoi_JSX)=>this.onReceiveJSX_nhanvien_Hinh_va_text_from_HeaderClassComponent(Chuoi_JSX)}
                         
                         Button_event_handler_lay_chi_tiet_nhan_vien={(Chuoi_JSX)=>this.receiveEmployeeDetails(Chuoi_JSX)}
                         
@@ -123,7 +140,8 @@ class Main extends React.Component {
                     <WebBody_of_Employees data={this.state.Chuoi_JSX_tat_ca_Nhan_vien} />
                     <WebBody_of_Departments data={this.state.Chuoi_JSX_tat_ca_Phong_ban}/>
                     <WebBody_of_Salaries data={this.state.Chuoi_JSX_tat_ca_Bang_luong}/>
-                    <WebBody_of_EmployeeDetail data={this.state.}/>
+                    <WebBody_of_EmployeeDetail data={this.state.Chuoi_JSX_chi_tiet_Hinh_text_nhan_vien}/>
+                    
                     <Chi_tiet_nhan_vien chitietnhanvien={this.state.Chuoi_JSX_chi_tiet_Nhan_vien}/>
                     <Footer_ResponsiveGrid_CSSBootstrap5/>
                 </div>

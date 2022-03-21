@@ -87,7 +87,31 @@ class HeaderClassComponent extends React.Component {
                 )//object là CHuoi_JSX để cùng emit event để tới class cha
 
                 const Chuoi_JSX_employee_Hinh_and_details=(
-                    <div></div>
+                    //https://www.w3schools.com/bootstrap/bootstrap_grid_system.asp
+                    // Laptop: ảnh 3 cột, chữ 9 cột.
+                    // Tablet: ảnh 4 cột, chữ 8 cột.
+                    // Mobile: ảnh 12 cột, chữ 12 cột.
+
+                    //https://www.w3schools.com/bootstrap/bootstrap_grid_examples.asp
+                    //mặc dù div nhưng lại cùng hàng và div không chiếm toàn chiều rộng browser
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-lg-3 col-md-4 col-sm-12">
+                                <Reactstrap.Media style={{width:"10vw"}} object src={nhan_vien.image} alt={nhan_vien.name}/>
+                            </div>
+
+                            <div className="col-lg-9 col-md-8 col-sm-12">
+                                Họ và tên: <em>{nhan_vien.name}</em> <br/>
+                                Ngày sinh: <em>{dateForma_dd_mm_yyyy}</em> <br/>
+                                Ngày vào công ty: <em>{enterCompanyDate}</em>  <br/>
+                                Phòng ban: <em>{nhan_vien.department.name}</em> <br/> 
+                                Số ngày nghỉ còn lại: <em>{nhan_vien.annualLeave}</em> <br/>
+                                Số ngày đã làm thêm: <em>{nhan_vien.overTime}</em>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    
                 )
 
                 return(
@@ -98,7 +122,12 @@ class HeaderClassComponent extends React.Component {
 
                     //từng phần tử của mang_Nut_va_Hinh_nhan_vien . Lợi thế của map là giúp thiết kế từng phần tử của mảng đầu ra
                     <div style={{textAlign:"center"}}>
-                        <Reactstrap.Media onClick={()=>this.props.onClick_to_image_of_employee_to_get_more_facts(Chuoi_JSX_employee_Hinh_and_details)} style={{width:"14vw"}} object src={nhan_vien.image} alt={nhan_vien.name}/>
+                        <ReactRouterDOM.BrowserRouter>  
+                            <ReactRouterDOM.Link className="navitem_css" exact to={{pathname:`/nhan_vien/${nhan_vien.id}`}} onClick={()=>this.props.onClick_to_image_of_employee_to_get_more_facts(Chuoi_JSX_employee_Hinh_and_details)} >
+                                <Reactstrap.Media  style={{width:"14vw"}} object src={nhan_vien.image} alt={nhan_vien.name}/>
+                            </ReactRouterDOM.Link> 
+                        </ReactRouterDOM.BrowserRouter>
+                        
                         <button key={nhan_vien.id} onClick={()=>this.props.Button_event_handler_lay_chi_tiet_nhan_vien(Chuoi_JSX_employee_details)} id="nut_nhan_vien">{nhan_vien.name}</button>
                     </div>
                     

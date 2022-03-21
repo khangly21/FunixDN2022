@@ -1,0 +1,8 @@
+_ click "The cake company" sẽ dẫn tới "/"
+_ click Menus sẽ xuất hiện 3 menu items 
+_ click Nhân viên sẽ có danh sách nhân viên
+   ** click Tên NV sẽ xuất hiện thông tin NV trong cùng trang 
+   ** click Hình NV sẽ tới đường dẫn mới có id nhân viên  
+_ click Phòng ban và Bảng lương sẽ hiện danh sách 
+_ Trở về trang chủ bằng click "The cake company"
+_ thay đổi screen của các devices khác nhau sẽ responsive
