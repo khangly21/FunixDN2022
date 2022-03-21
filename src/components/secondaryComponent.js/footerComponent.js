@@ -13,10 +13,10 @@ function Footer_ResponsiveGrid_CSSBootstrap5(props){
                     <div className="col-sm-12 col-md-6 col-lg-4" style={{textAlign:'center'}}>
                         <h5>Links</h5>
                         <ul className="list-unstyled">
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">About</a></li>
-                            <li><a href="#">Menu</a></li>
-                            <li><a href="#">Contact</a></li>
+                            <li><a href="#">Nhân viên</a></li>
+                            <li><a href="#">Phòng ban</a></li>
+                            <li><a href="#">Bảng lương</a></li>
+                         
                         </ul>
                     </div>
 

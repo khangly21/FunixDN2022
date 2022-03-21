@@ -97,8 +97,8 @@ class HeaderClassComponent extends React.Component {
                     <div className="container">
                         <nav aria-label="breadcrumb">  
                             <ol class="breadcrumb">  
-                                <li class="breadcrumb-item"><a href="#" role="button" tabindex="0">The Cake Company</a></li>  
-                                <li class="breadcrumb-item"><a href="#" role="button" tabindex="0">Nhân viên</a></li>  
+                                <li class="breadcrumb-item"><a href="/" role="button" tabindex="0">The Cake Company</a></li>  
+                                <li class="breadcrumb-item"><a href="/nhan_vien" role="button" tabindex="0">Nhân viên</a></li>  
                                 <li class="breadcrumb-item active" aria-current="page">{nhan_vien.name}</li>  
                             </ol>  
                         </nav>  
@@ -260,7 +260,7 @@ class HeaderClassComponent extends React.Component {
                 var Chuoi_JSX_lam_dau_vao_cua_Salary_bodyComponent=(
                     <div className="container">
                         <Reactstrap.Breadcrumb>  
-                            <Reactstrap.BreadcrumbItem href="#">Cake Company </Reactstrap.BreadcrumbItem>  
+                            <Reactstrap.BreadcrumbItem ><a href="/">Cake Company</a> </Reactstrap.BreadcrumbItem>  
                             <Reactstrap.BreadcrumbItem active >  
                                 Bảng lương
                             </Reactstrap.BreadcrumbItem>  
@@ -290,10 +290,8 @@ class HeaderClassComponent extends React.Component {
                     //TIP: thử tới .footerCSS trong file App.css để bỏ đi clear:left; thì thấy nguyên div của footer cũng float left theo các div  phía trên nó
                     <div className="container">
                         <Reactstrap.Breadcrumb>  
-                            <Reactstrap.BreadcrumbItem href="#">Cake Company </Reactstrap.BreadcrumbItem>  
-                            <Reactstrap.BreadcrumbItem active >  
-                                Phòng ban
-                            </Reactstrap.BreadcrumbItem>  
+                            <Reactstrap.BreadcrumbItem><a href="/"> Cake Company </a></Reactstrap.BreadcrumbItem>  
+                            <Reactstrap.BreadcrumbItem active >  Phòng ban  </Reactstrap.BreadcrumbItem>  
                         </Reactstrap.Breadcrumb>
                     
                         <div>
