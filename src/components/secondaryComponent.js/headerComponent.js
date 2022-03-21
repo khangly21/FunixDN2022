@@ -288,11 +288,21 @@ class HeaderClassComponent extends React.Component {
 
                 var Chuoi_JSX_lam_dau_vao_cua_Department_bodyComponent=(
                     //TIP: thử tới .footerCSS trong file App.css để bỏ đi clear:left; thì thấy nguyên div của footer cũng float left theo các div  phía trên nó
-                    <div>
-                        
-                        {Mang_thong_tin_ve_phong_ban}
-                       
+                    <div className="container">
+                        <Reactstrap.Breadcrumb>  
+                            <Reactstrap.BreadcrumbItem href="#">Cake Company </Reactstrap.BreadcrumbItem>  
+                            <Reactstrap.BreadcrumbItem active >  
+                                Phòng ban
+                            </Reactstrap.BreadcrumbItem>  
+                        </Reactstrap.Breadcrumb>
+                    
+                        <div>
+                            
+                            {Mang_thong_tin_ve_phong_ban}
+                           
+                        </div>
                     </div>
+                    
                 )
 
 
