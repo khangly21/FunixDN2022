@@ -258,11 +258,20 @@ class HeaderClassComponent extends React.Component {
                 var Chuoi_JSX_lam_dau_vao_cua_MainComponent="";
                 
                 var Chuoi_JSX_lam_dau_vao_cua_Salary_bodyComponent=(
-                    <div>
+                    <div className="container">
+                        <Reactstrap.Breadcrumb>  
+                            <Reactstrap.BreadcrumbItem href="#">Cake Company </Reactstrap.BreadcrumbItem>  
+                            <Reactstrap.BreadcrumbItem active >  
+                                Bảng lương
+                            </Reactstrap.BreadcrumbItem>  
+                        </Reactstrap.Breadcrumb>
+                        <div>
                         
-                        {Mang_thong_tin_ve_bang_luong}
+                            {Mang_thong_tin_ve_bang_luong}
                        
+                        </div> 
                     </div>
+                    
                 )
 
                 var Chuoi_JSX_lam_dau_vao_cua_employeebodyComponent=(
