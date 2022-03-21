@@ -95,6 +95,13 @@ class HeaderClassComponent extends React.Component {
                     //https://www.w3schools.com/bootstrap/bootstrap_grid_examples.asp
                     //mặc dù div nhưng lại cùng hàng và div không chiếm toàn chiều rộng browser
                     <div className="container">
+                        <nav aria-label="breadcrumb">  
+                            <ol class="breadcrumb">  
+                                <li class="breadcrumb-item"><a href="#" role="button" tabindex="0">The Cake Company</a></li>  
+                                <li class="breadcrumb-item"><a href="#" role="button" tabindex="0">Nhân viên</a></li>  
+                                <li class="breadcrumb-item active" aria-current="page">{nhan_vien.name}</li>  
+                            </ol>  
+                        </nav>  
                         <div className="row">
                             <div className="col-lg-3 col-md-4 col-sm-12">
                                 <Reactstrap.Media style={{width:"10vw"}} object src={nhan_vien.image} alt={nhan_vien.name}/>
