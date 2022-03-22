@@ -1,11 +1,4 @@
 function Footer_ResponsiveGrid_CSSBootstrap5(props){
-    //100% render component's view --> Presentational component
-    //FontAwesome 6.1.0 free icons: https://fontawesome.com/v6/search?m=free
-    //https://stackoverflow.com/questions/52612249/fontawesomeicon-defined-but-never-used-even-though-it-is-required => https://fontawesome.com/docs/web/setup/host-yourself/webfonts
-    // Facebook <i className="fa-brands fa-facebook"></i>  or <FontAwesomeIcon icon="fa-brands fa-facebook" />
-    //className="btn btn-social-icon btn-facebook" chỉ hỗ trợ bởi bootstrap-social với khung nền xanh dương , còn lại icon "f" phải lấy từ font-awesome 4 (vì font-awesome6 không hợp version)
-    //.justify-content-center chỉ tác dụng lên .row và không tác dụng trên .col , nên với col phải dùng style={{textAlign:'center'}}
-    //Tỷ lệ cố định <div className="col> <div className="col-6"> <div className="col>
     return(
             <div className="container-fluid footerCSS">
                 <div className="row justify-content-center">
@@ -72,10 +65,6 @@ function Footer_ResponsiveGrid_CSSBootstrap5(props){
                         <p> &copy; Copyright 2022 by Ly Viet Khang</p>
                     </div>
                 </div>
-
-                
-                    
-            
             </div>
     )
 }

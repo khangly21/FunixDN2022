@@ -6,3 +6,31 @@ _ click Nhân viên sẽ có danh sách nhân viên
 _ click Phòng ban và Bảng lương sẽ hiện danh sách 
 _ Trở về trang chủ bằng click "The cake company"
 _ thay đổi screen của các devices khác nhau sẽ responsive
+_ Chức năng Search tên nhân viên :
+   ** VD search word như "A" sẽ ra "Nguyễn Văn A"
+   ** Nếu không search chữ nào mà click nút luôn thì ra tất cả nhân viên
+_ Do không dùng package webpack.config.js nên không chỉnh được true cho https://webpack.js.org/configuration/dev-server/:
+      module.exports = {
+        //...
+         devServer: {
+            historyApiFallback: true,
+         },
+      };
+   nên để khắc phục cannot GET /Nhan_vien 
+   thay vì:
+      <ReactRouterDOM.HashRouter>  
+         <Reactstrap.Breadcrumb>  
+            <Reactstrap.BreadcrumbItem ><a href="/">Cake Company</a> </Reactstrap.BreadcrumbItem>  
+            <Reactstrap.BreadcrumbItem ><a href="/nhan_vien">Nhân viên</a> </Reactstrap.BreadcrumbItem>  
+            <Reactstrap.BreadcrumbItem active >  
+               {nhan_vien.name}
+            </Reactstrap.BreadcrumbItem>  
+         </Reactstrap.Breadcrumb>
+      </ReactRouterDOM.HashRouter>
+   
+   thì dùng:
+      <ReactRouterDOM.BrowserRouter>  
+            <span ><a href="/">Cake Company</a> </span>  
+            <ReactRouterDOM.Link exact to="/nhan_vien" onClick={()=>this.props.onClickonLiEmployee(Chuoi_JSX_lam_dau_vao_cua_employeebodyComponent)}  >/ Nhân viên</ReactRouterDOM.Link>
+            <span>  / {nhan_vien.name}</span>  
+      </ReactRouterDOM.BrowserRouter>

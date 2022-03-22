@@ -1,12 +1,13 @@
-body {
+html,body {
+  box-sizing:border-box;
   margin:0;
   padding:0;
   font-family:'Roboto,Arial, Helvetica, sans-serif';
-  width:100%;
+  width:cal(100%-0px);
   height:auto;
-  box-sizing:border-box;
+  overflow-x:hidden;
   /*https://www.codeproject.com/questions/989229/overflow-x-hidden-is-not-working-in-mobile*/
-  overflow-x: hidden; /* Hide horizontal scrollbar */
+  /* overflow-x: hidden;  Hide horizontal scrollbar */
   /*overflow-y: hidden; /* Hide vertical scrollbar */
   /*Note that overflow: hidden will also remove the functionality of the scrollbar. It is not possible to scroll inside the page.*/
 }

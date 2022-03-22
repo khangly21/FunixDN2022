@@ -4,7 +4,7 @@ const WebBody_of_EmployeeDetail=(props) => {
     var Introduction=`Chi tiết Nhân viên của công ty, ngày <b>${currentDate_DDMMYYYY}</b>`;
     
     var Chuoi_JSX_Chi_tiet_nhan_vien=props.data;
-    if(Chuoi_JSX_Chi_tiet_nhan_vien != "") //tức là có emitted event từ phía onClick của tag li "Phòng ban" của Header làm cập nhật this.state.Chuoi_JSX_tat_ca_Phong_ban != 0 và đồng thời các Chuoi_JSX khác == 0
+    if(Chuoi_JSX_Chi_tiet_nhan_vien != "") 
     {
       return(  
         <div className="container-fluid">
