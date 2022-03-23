@@ -9,7 +9,7 @@
 - git branch 
 - git ls-files
 - git remote add LAB06_1_label https://github.com/khangly21/FunixDN2022.git
-- git push LAB06_1_label LAB06_1
+- git push LAB06_1_label Lab06_1
 - Cập nhật
   ** git add .
   ** git commit -m "modified lab06_1"
