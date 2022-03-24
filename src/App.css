@@ -19,6 +19,11 @@ html,body {
     clear: left; /*tránh float:left theo UI của Phong_ban và của UI Salary*/ /*https://www.w3schools.com/Css/css_float_clear.asp*/
 }
 
+.inputRenderingCSS{
+  clear: left; /*tránh float:left theo UI của Phong_ban và của UI Salary*/
+}
+
+
 h5{
     color:orangered
 }

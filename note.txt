@@ -14,3 +14,18 @@ GIT  (Tên thư mục: RJS101x_Assignment2_khanglvfx15073@funix.edu.vn)
   ** git add .
   ** git commit -m "modified project 2"
   ** git push RJS_assignment2_label RJS101x_Assignment2_khanglvfx15073@funix.edu.vn
+
+
+* Nhận xét từ Mentor sau Review :
+   ** VD trong departmentBodyComponent:
+      *** đặt tên WebBody_of_Departments dài quá, không nên có dấu _ 
+      *** nên đặt tên như toLocaleDateString , dangerouslySetInnerHTML
+   ** React Router cần hiểu sâu hơn
+      *** ReactRouterDOM.Link 
+      *** không dùng <a></a> vì tải toàn bộ trang, ngược lại với mục đích của Single Page Application
+   ** Khác nhau giữa class Component và functional Component?
+      *** gợi ý: class component có lifecycle: constructor, componentDidMount, render ....
+
+   ** vì sao đang dùng class component lại chuyển sang Functional component? 
+   ** Nhận xét : Đã hoàn thành các chức năng cơ bản, chức năng nâng cao đang làm còn sai Chưa nắm rõ lý thuyết, cần phải tìm hiểu thêm. Code chưa rõ ràng, cần phải code đẹp hơn, rõ ràng hơn
+      *** cần hỏi thêm Mentors để tổ chức code tốt hơn
