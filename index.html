@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controlled form</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.css">
+    <!--https://www.bootstrapcdn.com/fontawesome/-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css" integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous">
+    <link rel="stylesheet" href= "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    
+    <div id="root"></div>
+
+    <!--nhúng data làm đầu vào cho component MenuComponent.js-->
+    <script type="text/babel" src="./src/share/dishes.js"></script>
+    <script type="text/babel" src="./src/share/comments.js"></script>
+    <script type="text/babel" src="./src/share/promotions.js"></script>
+    <script type="text/babel" src="./src/share/leaders.js"></script>
+    <!--trong index.js không thể nhúng nội dung của App.js vào thông qua thẻ script được (sẽ bị Error: undefined <App/>), nên phải viết theo thứ tự trong index.html-->
+    <script type="text/babel" src="./src/components/MainComponent.js"></script>
+    <script type="text/babel" src="./src/components/DishdetailsComponent.js"></script>
+    <script type="text/babel" src="./src/components/MenuComponent.js"></script>
+    <script type="text/babel" src="./src/components/MenuClassComponent.js"></script>
+
+
+    <!--link to Header and Footer-->
+    <script type="text/babel" src="./src/components/HeaderComponent.js"></script>
+    <script type="text/babel" src="./src/components/FooterComponent.js"></script>
+    <!--các components chịu sự điều hướng của path-->
+    <script type="text/babel" src="./src/components/HomeComponent.js"></script>
+    <script type="text/babel" src="./src/components/AboutusComponent.js"></script>
+    <script type="text/babel" src="./src/components/ContactComponent.js"></script>
+    
+
+    <script type="text/babel" src="./src/App.js"></script>    
+    <script type="text/babel" src="./index.js">
+        //nội dung của index.js sẽ đi vào đây
+    </script>
+    
+
+
+    <!--react, react-dom and babel-->
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <!--thiếu CDN babel thì script text/babel không bao giờ chạy-->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!--import { Breadcrumb, BreadcrumbItem,
+            Button, Form, FormGroup, Label, Input, Col } from 'reactstrap';-->
+    <!--script src="https://cdnjs.cloudflare.com/ajax/libs/reactstrap/4.8.0/reactstrap.min.js" ></!--script-->
+    <script src="https://unpkg.com/reactstrap@8.10.1/dist/reactstrap.min.js"></script> 
+    <!--React Router https://www.cdnpkg.com/react-router-dom?id=65732  , phiên bản 5.0.0 sẽ 2 vulnerables-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-router-dom/5.2.0/react-router-dom.min.js"></script>
+    <!--script src="https://unpkg.com/react-router-dom@5.0.0/umd/react-router-dom.min.js"></!script-->
+    
+</body>
+</html>
