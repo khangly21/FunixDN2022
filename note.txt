@@ -5,12 +5,21 @@
 - git commit -m "first commit to make master branch"
 - git branch 
    * master
-- git checkout -b LAB06_1
+- git checkout -b LAB06_1    //vừa tạo nhánh mới LAB06_1 vừa trỏ HEAD tới LAB06_1
 - git branch 
 - git ls-files
-- git remote add LAB06_1_label https://github.com/khangly21/FunixDN2022.git
-- git push LAB06_1_label Lab06_1
+- git remote add LAB06_1_label https://github.com/khangly21/FunixDN2022.git   //tạo server remote add có tên là "LAB06_1_label"
+- git push LAB06_1_label LAB06_1    //phải cùng tên với local branch LAB06_1
+   ** nếu có lỗi: fatal no configured push destination  (nghĩa là không biết push tới đâu)
+   ** git push --set-upstream LAB06_1_label LAB06_1
+   ** Nếu vẫn có lỗi fatal no configured push destination   hay failed to push some refs to ... thì https://www.javaprogramto.com/2021/11/error-failed-to-push-some-refs-to.html
+   ** git branch thấy chỉ có * master (nghĩa là quên tạo nhánh LAB06_1) --> quay lại từ git checkout
+
 - Cập nhật
   ** git add .
   ** git commit -m "modified lab06_1"
   ** git push LAB06_1_label LAB06_1
+
+* tài liệu tham khảo
+   ** https://www.letsreact.org/how-to-add-jsx-to-react-form/
+
