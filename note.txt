@@ -5,8 +5,26 @@
 - git commit -m "first commit to make master branch"
 - git branch 
    * master
-- git checkout -b LAB06_2    //vừa tạo nhánh mới LAB06_3 vừa trỏ HEAD tới LAB06_3
+- git checkout -b LAB06_3   //vừa tạo nhánh mới LAB06_3 vừa trỏ HEAD tới LAB06_3
+   * giả sử ghi sai thành "git checkout -b LAB06_2" thì làm sao xóa branch LAB06_2 ?
+      ** git branch 
+         * LAB06_2  
+           master
+
+      ** tiếp cận 1:" git branch -d LABO6_2 " sẽ không tác dụng do hiện HEAD đang trỏ tới LAB06_2
+      ** tiếp cận 2: Phải chuyển tới master trước "git checkout master"
+                     "git branch"
+                        LAB06_2 
+                        *master
+                     Sau đó mới xóa: " git branch -d LABO6_2 "
+                     "git branch"
+                        *master
+                     Sau đó thêm nhánh: git checkout -b LAB06_3
+
 - git branch 
+   *LAB06_3
+    master
+    
 - git ls-files
 - git remote add LAB06_3_label https://github.com/khangly21/FunixDN2022.git   //tạo server remote add có tên là "LAB06_2_label"
 - git push LAB06_3_label LAB06_3    //phải cùng tên với local branch LAB06_1
@@ -21,4 +39,18 @@
   ** git push LAB06_3_label LAB06_3
 
 
-            
+- tài liệu tham khảo
+   ** https://www.w3schools.com/w3css/w3css_modal.asp
+      *** A modal is a dialog box/popup window that is displayed on top of the current page
+   ** https://reactjs.org/docs/uncontrolled-components.html
+      *** In a controlled component, form data is handled by a React component
+      *** The alternative is uncontrolled components, where form data is handled by the DOM itself. => In most cases, we recommend using controlled components to implement forms
+
+   ** (Controlled Form)
+      *** https://reactjs.org/docs/forms.html#controlled-components
+   ** (Uncontrolled form)
+      *** https://tutorials.freshersnow.com/react-js/react-js-forms/   
+      *** https://reactjs.org/docs/uncontrolled-components.html#the-file-input-tag
+      *** https://reactjs.org/docs/refs-and-the-dom.html
+      *** https://datacadamia.com/web/javascript/react/forwarding-ref
+
