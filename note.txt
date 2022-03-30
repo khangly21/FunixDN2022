@@ -35,7 +35,62 @@
               }
               //event chính là React onblur event  
          **** Tuy nhiên, onBlur event có thể hữu ích trong các trường hợp:
-            ***** storing the value from the form input - one-way binding
-            ***** validation of input fields      
+               ***** validation of input fields      
+       ***** storing the value from the form input - one-way binding
+* Form onSubmit event
+   ** <Reactstrap.FormGroup row>
+                                <Reactstrap.Col md={{size: 10, offset: 2}}>
+                                    <Reactstrap.Button type="submit" color="primary">
+                                        Send Feedback
+                                    </Reactstrap.Button>
+                                </Reactstrap.Col>
+                            </Reactstrap.FormGroup> 
+* Analysis:
+   ** https://stackoverflow.com/questions/43488000/how-to-show-red-border-around-the-invalid-fields-in-react-semantic-forms
+      *** Nếu Reactstrap.Input mà invalid thì border màu đỏ
+   ** https://stackoverflow.com/questions/57815720/reactstrap-formfeedback-not-displaying
+      *** <Input placeholder="Email" type="email" name="emailAddress" invalid /> 
+      *** The FormFeedback block must be in the same parent as the Input block in order to work.  it would be a better practice to flag it that it should be shown when the input is invalid by adding attribute "invalid" to it
+      *** <Reactstrap.FormFeedback valid>   sẽ thông báo green khi vừa load trang và lúc Chuoi_input là valid
 
+* Cách khác sẽ không cá nhân hóa input      
+if( this.state.firstname==='' || this.state.lastname==='' || this.state.telnum===''  ){
+            // Creating a dummy object using spread operator
+            let on_Submit_err_warning = { ...this.state.on_Submit_err_warning } 
+            //gán cho dummy object
+            if(this.state.firstname===''){
+                on_Submit_err_warning.fName_error="Please fill out the field first name!"
+            }
+            if(this.state.lastname==='' ){
+                on_Submit_err_warning.Lname_error="Please fill out the field last name!"
+            }
+            if(this.state.telnum==='' ){
+                on_Submit_err_warning.tel_error="Please fill out the field Telephone number!"
+            }
+            if(this.state.email==='' ){
+                on_Submit_err_warning.email_error="Please fill out the field Email address!"
+            }
             
+            this.setState({
+                //trong đây không dùng this
+                //on_Submit_err_warning.fName_error="xin nhập",  là sai
+                on_Submit_err_warning
+            })
+            //alert(`Done`);
+        }else{ //  this.state.firstname!=='' && this.state.lastname!=='' 
+
+            // Creating a dummy object using spread operator
+            let on_Submit_err_warning = { ...this.state.on_Submit_err_warning } 
+            //update the fName_error
+            if(this.state.firstname!==''){
+                on_Submit_err_warning.fName_error="Thank you"
+            }
+            
+            on_Submit_err_warning.Lname_error="Thank you"
+            on_Submit_err_warning.tel_error="Thank you"
+            this.setState({
+                //trong đây không dùng this
+                //on_Submit_err_warning.fName_error="xin nhập",  là sai
+                on_Submit_err_warning
+            })
+        }
