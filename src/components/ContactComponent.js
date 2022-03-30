@@ -207,10 +207,20 @@ class Contact extends React.Component { //Create a react component by extending 
         //console.log(Nam_sinh) //2022
         let Nam_hien_tai=new Date().getFullYear(); 
         console.log(Nam_hien_tai);//"2022-03-30T13:47:10.809Z"  The specified value "Wed Mar 30 2022 20:48:08 GMT+0700 (GMT+07:00)" does not conform to the required format, "yyyy-MM-dd".
-        console.log(this.formatDate(new Date()));//2022-03-30  //ReferenceError: formatDate is not defined  . LÝ do là hàm formatDate() phía trên không có thuộc/bind vào class nào
-        //if(this.state.touched.ngaythang && Nam_sinh>=Nam_hien_tai){
-            //errors.ngaythang=`Year of Birthday is supposed to be smaller than this year ${this.formatDate(new Date())}`;
-        //}
+        console.log(this.formatDate(new Date()));//2022-03-30  //ReferenceError: formatDate is not defined  . Nếu hàm formatDate() phía trên không có thuộc/bind vào class nào
+        //console.log(this.formatDate(new Date()).getFullYear())  //is not a function
+        //console.log(this.formatDate(new Date().getFullYear())) //still wrong
+        
+
+
+        //Solution: https://stackoverflow.com/questions/28575924/how-to-get-year-in-formate-dd-mm-yyyy-in-javascript ; https://www.delftstack.com/howto/javascript/javascript-first-character-of-string/
+        console.log(this.formatDate(new Date()).slice(0,4)) //2022-03-30   --> 2022
+        let namsinh=ngaythang.slice(0,4)
+        console.log(namsinh) //2021-03-09  -->  2021
+
+        if(this.state.touched.ngaythang && namsinh>=Nam_hien_tai){
+            errors.ngaythang="Year of Birthday is supposed to be smaller than this year";
+        }
         return errors
     }
 
