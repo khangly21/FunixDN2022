@@ -8,11 +8,12 @@ class Contact extends React.Component { //Create a react component by extending 
 
         //Component takes fomr's current value through props
         this.state={
-            //key là các thuộc tính tên (name) của thẻ input
+            //key là các thuộc tính tên (name) của thẻ input, VD thẻ input type="date" thì có name="ngaythang"
             firstname:'',
             lastname:'',
             telnum:'',
             email:'',
+            ngaythang:this.formatDate(new Date()),  //tên key mà sai thì UI ô input date không cho thay đổi, chỉ read-only vì onChange không được setState
             agree:false,
             contactType:'Tel.',
             message:'',
@@ -25,6 +26,7 @@ class Contact extends React.Component { //Create a react component by extending 
                 lastname:false,
                 telnum:false,
                 email:false,
+                ngaythang:false,
             },
 
             //Nested object : https://www.geeksforgeeks.org/how-to-update-nested-state-properties-in-reactjs/s
@@ -32,9 +34,11 @@ class Contact extends React.Component { //Create a react component by extending 
                 fName_error:"",
                 Lname_error:"",
                 tel_error:"",
-                email_error:""
+                email_error:"",
+                ngaythang_error:""
             }
         }
+        console.log(this.state.ngaythang);//2022-03-30
         this.handleInputChange=this.handleInputChange.bind(this);
         this.handleSubmit=this.handleSubmit.bind(this); //this contains a reference to React DOM Contact
         //https://codegrepr.com/question/jquery-checkbox-event-handling/
@@ -42,6 +46,10 @@ class Contact extends React.Component { //Create a react component by extending 
         //HTML "onBlur" event is very common to trigger validation as soon as the user leaves the input field (not focus, loose focus)
         this.handleBlur=this.handleBlur.bind(this); //vế phải handleBlur là functional component nên không cần bind vào class
         this.validate=this.validate.bind(this);
+        //format date
+        this.padTo2Digits=this.padTo2Digits.bind(this);
+        this.formatDate=this.formatDate.bind(this);
+
     }
 
     //Unlike the uncontrolled component, the input form element in the controlled component is handled by the component rather than the DOM. It takes its current value through props. The changes are notified through callbacks.
@@ -54,13 +62,26 @@ class Contact extends React.Component { //Create a react component by extending 
         //[event.target.name] là giá trị của tên của input DOM  nói cách khác là <input name="giá trị"
         const target_DOM_element=event.target;//event is already set to / contains reference to the input's DOM element
         //DOM input thì có type hoặc checkbox hoặc text
-        const value_of_input_DOM= target_DOM_element.type === 'checkbox' ? target_DOM_element.checked : target_DOM_element.value; // <input checked={}
+        //https://stackoverflow.com/questions/23971870/how-can-i-get-the-value-of-a-date-input-field
+        //https://stackoverflow.com/questions/54261678/how-to-get-the-value-of-the-date-input-in-reactjs
+        let value_of_input_DOM=''; //không để const vì báo lỗi value_of_input_DOM is read-only
+        if(target_DOM_element.type === 'checkbox'){
+            value_of_input_DOM=target_DOM_element.checked 
+        }else if(target_DOM_element.type === 'date'){
+            value_of_input_DOM=target_DOM_element.value  //đúng
+            console.log(value_of_input_DOM); // OK , nhận được thay đổi
+            console.log(event.target.value);//ok
+        }else{
+            value_of_input_DOM=target_DOM_element.value 
+        }
+        //const value_of_input_DOM= target_DOM_element.type === 'checkbox' ? target_DOM_element.checked : target_DOM_element.value; // <input checked={}
         const name = target_DOM_element.name;
         //https://stackoverflow.com/questions/38899884/how-to-use-square-brackets-in-react-setstate
         /// thay vì ghi target.name : value trong setState thì dynamically   [name]:value vì input's name có thể là một trong các state instance property trong this.state 
         this.setState({
           [name]: value_of_input_DOM
         });
+        console.log(this.state.ngaythang) //2022-03-30  chưa được cập nhật  name="ngaythang" vì URL là http://127.0.0.1:5501/?firstname=Khang&lastname=L%C3%BDs&telnum=0932698045&email=vietkhang92%40gmail.com&ngaythang=2022-03-30&contactType=Tel.&message=#/contactus
     }
 
     handleSubmit(event) { //nếu submit mà không điền form thì cần báo lỗi
@@ -68,7 +89,7 @@ class Contact extends React.Component { //Create a react component by extending 
         //alert('Current state is : '+JSON.stringify(this.state));
         
         //alert("The form was submitted");
-        if( this.state.firstname==='' || this.state.lastname==='' || this.state.telnum==='' || this.state.email===''  ){
+        if( this.state.firstname==='' || this.state.lastname==='' || this.state.telnum==='' || this.state.email==='' || this.state.ngaythang===this.formatDate(new Date()) ){
             // Creating a dummy object using spread operator
             let on_Submit_err_warning = { ...this.state.on_Submit_err_warning } 
             //gán cho dummy object
@@ -92,6 +113,11 @@ class Contact extends React.Component { //Create a react component by extending 
             }else{
                 on_Submit_err_warning.email_error="Thank you"
             }
+            if(this.state.ngaythang===this.formatDate(new Date())){
+                on_Submit_err_warning.ngaythang_error="Please fill out the field Birthday!"
+            }else{
+                on_Submit_err_warning.ngaythang_error="Thank you"
+            }
             
             this.setState({
                 //trong đây không dùng this
@@ -102,7 +128,7 @@ class Contact extends React.Component { //Create a react component by extending 
        
 
         
-            event.preventDefault();
+            event.preventDefault(); //nhằm ngăn gửi tham_so=du_lieu lên URL  http://127.0.0.1:5501/?firstname=Khang&lastname=L%C3%BDs&telnum=0932698045&email=vietkhang92%40gmail.com&ngaythang=2022-03-10&contactType=Tel.&message=#/contactus
     }}
 
     //khi input field nào đó bị loosed focus (nghĩa là mang con trỏ ra ngoài)
@@ -120,10 +146,22 @@ class Contact extends React.Component { //Create a react component by extending 
         console.log(this.state.touched.lastname);
         console.log(this.state.touched.telnum);
         console.log(this.state.touched.email);
-
+        console.log(this.state.touched.ngaythang);
     }
 
-    validate(firstname,lastname,telnum,email){ //WHY ??để gán dữ liệu cho đối tượng errors
+    padTo2Digits(num) {
+        return num.toString().padStart(2, '0');
+      }
+      
+    formatDate(date) {
+        return [
+          date.getFullYear(),
+          this.padTo2Digits(date.getMonth() + 1),
+          this.padTo2Digits(date.getDate()),
+        ].join('-');
+    }
+
+    validate(firstname,lastname,telnum,email,ngaythang){ //WHY ??để gán dữ liệu cho đối tượng errors
           //Cho errors lên state, để onSubmit còn dùng được
         const errors={
             //chú ý nếu bỏ các if else phía sau đây thì các params bị tối màu
@@ -131,7 +169,9 @@ class Contact extends React.Component { //Create a react component by extending 
             firstname:'',
             lastname:'',
             telnum:'',
-            email:''
+            email:'',
+            ngaythang:'' //ngaythang:new Date() rất dễ gặp báo lỗi:  Error: Objects are not valid as a React child (found: Wed Mar 30 2022 20:45:40 GMT+0700 (GMT+07:00)). If you meant to render a collection of children, use an array instead.
+
         } //nếu giữa nguyên được các giá trị '' thì hoàn toàn valid (vì 4 input fields trên không có lỗi nào)
         
         //if(this.state.touched.firstname)  nghĩa là if(this.state.touched.firstname==true) 
@@ -159,6 +199,18 @@ class Contact extends React.Component { //Create a react component by extending 
             //https://www.w3schools.com/jsref/jsref_split.asp
             errors.email = 'Email should contain a @';
 
+        //https://stackoverflow.com/questions/4929382/javascript-getfullyear-is-not-a-function
+        //https://bobbyhadz.com/blog/javascript-typeerror-getfullyear-is-not-a-function
+        //https://youtu.be/ezfi_65ew7E
+          /// Làm sao validate cho Date phải khớp với input calendar?? https://bobbyhadz.com/blog/javascript-format-date-yyyy-mm-dd
+        //let Nam_sinh=ngaythang.getFullYear(); //calling the getFullYear() method on an object that's not a valid Date.??
+        //console.log(Nam_sinh) //2022
+        let Nam_hien_tai=new Date().getFullYear(); 
+        console.log(Nam_hien_tai);//"2022-03-30T13:47:10.809Z"  The specified value "Wed Mar 30 2022 20:48:08 GMT+0700 (GMT+07:00)" does not conform to the required format, "yyyy-MM-dd".
+        console.log(this.formatDate(new Date()));//2022-03-30  //ReferenceError: formatDate is not defined  . LÝ do là hàm formatDate() phía trên không có thuộc/bind vào class nào
+        //if(this.state.touched.ngaythang && Nam_sinh>=Nam_hien_tai){
+            //errors.ngaythang=`Year of Birthday is supposed to be smaller than this year ${this.formatDate(new Date())}`;
+        //}
         return errors
     }
 
@@ -168,7 +220,7 @@ class Contact extends React.Component { //Create a react component by extending 
     render() {
 
         //Tạo đối tượng errors which binds the component's state
-        const errors=this.validate(this.state.firstname, this.state.lastname, this.state.telnum, this.state.email);
+        const errors=this.validate(this.state.firstname, this.state.lastname, this.state.telnum, this.state.email,this.state.ngaythang);
 
 
         return(
@@ -260,6 +312,23 @@ class Contact extends React.Component { //Create a react component by extending 
                                     <Reactstrap.FormFeedback>{errors.email}</Reactstrap.FormFeedback>
                                     <Reactstrap.FormFeedback valid><b>Yay, this green field is successfully ready!</b></Reactstrap.FormFeedback>
                                     <Reactstrap.FormFeedback valid><b>{this.state.on_Submit_err_warning.email_error}</b></Reactstrap.FormFeedback>        
+                                </Reactstrap.Col>
+                            </Reactstrap.FormGroup>
+
+                            <Reactstrap.FormGroup row>
+                                <Reactstrap.Label htmlFor="ngaythang" md={2}>Ngày sinh</Reactstrap.Label>
+                                <Reactstrap.Col md={10}>
+                                    <Reactstrap.Input type="date" id="ngaythang" name="ngaythang"
+                                        
+                                        placeholder="Ngày sinh"
+                                        value={this.state.ngaythang}
+                                        valid={errors.ngaythang === ''}
+                                        invalid={errors.ngaythang !== ''}
+                                        onBlur={this.handleBlur('ngaythang')}
+                                        onChange={this.handleInputChange} />
+                                     <Reactstrap.FormFeedback>{errors.ngaythang}</Reactstrap.FormFeedback>
+                                    <Reactstrap.FormFeedback valid><b>Yay, this green field is successfully ready!</b></Reactstrap.FormFeedback>
+                                    <Reactstrap.FormFeedback valid><b>{this.state.on_Submit_err_warning.ngaythang_error}</b></Reactstrap.FormFeedback>        
                                 </Reactstrap.Col>
                             </Reactstrap.FormGroup>
 
