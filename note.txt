@@ -1,4 +1,5 @@
-GIT  (Tên thư mục: RJS101x_Assignment3_khanglvfx15073@funix.edu.vn)
+﻿GIT  
+  ** (Tên thư mục: RJS101x_Assignment3_khanglvfx15073@funix.edu.vn)
 - git init 
 - tạo file note.txt 
 - git add note.txt 
@@ -10,7 +11,34 @@ GIT  (Tên thư mục: RJS101x_Assignment3_khanglvfx15073@funix.edu.vn)
 - git ls-files
 - git remote add RJS_assignment3_label https://github.com/khangly21/FunixDN2022.git
 - git push RJS_assignment3_label RJS101x_Assignment3_khanglvfx15073@funix.edu.vn
+
+
 - Cập nhật
   ** git add .
   ** git commit -m "modified project 3"
   ** git push RJS_assignment3_label RJS101x_Assignment3_khanglvfx15073@funix.edu.vn
+
+
+_ CÁCH SỬ DỤNG PHẦN MỀM:
+         **** tính năng "THÊM NHÂN VIÊN": 
+            ***** Trang chủ >> Nhân viên >> Thêm nhân viên >> Khi modal hiện ra thì Điền form
+            ***** Nếu không muốn "Submit and Check out", thì nhấn "x" đóng modal đi
+            ***** Sau khi nhấn "Submit and Check out", phải nhấn thêm nút "Đồng ý thêm nhân viên" thì kích hoạt hàm Agree_to_add_new_employee(total_employee_array)
+                  alert "Bạn vừa đồng ý thêm nhân viên ?" (thực ra là hỏi có muốn thêm vào UI đối tượng hiện lưu ở localStorage không)
+            ***** OK thì MH danh sách NV có 1 NV mới
+            ***** Click hình NV bất kỳ sẽ tới chi tiết nhân viên theo URL /:id
+            ***** Muốn trở về Danh sách Nhân viên thì có 2 cách:
+               ****** Cách 1:  click "The cake company" >> Mở menu màu vàng >> Nhân viên
+               ****** Cách 2: click các menu khác (Phòng ban, Bảng lương) , sau đó là menu Nhân viên
+
+         **** tính năng "TÌM KIẾM NHÂN VIÊN"
+            ***** nhập ký tự có trong Tên nhân viên vào Khung tìm kiếm
+            ***** click Kính lúp sẽ load ra danh sách tương ứng
+
+         **** tính năng "XÁC THỰC DỮ LIỆU FORM"
+            https://stackoverflow.com/questions/21581282/php-form-and-action-in-the-same-page
+            ***** case 1: không điền gì hết, nhấn nút màu xanh dương "Validate" để check 3 input đầu tiên có dữ liệu chưa
+            ***** case 2: onBlur 3 input fields đầu tiên , từng input sẽ báo lỗi
+            ***** case 3: input Tên, ngày sinh (phải nhập ngày ngoài mặc định và phải có năm sinh < năm hiện tại), ngày vào làm (phải nhập ngày ngoài mặc định và phải namvaolam>=Nam_hien_tai)
+            ***** Sau đó nhấn nút xanh "Save và Close"
+            ***** Sau đó, nhấn nút vàng "Đồng ý thêm nhân viên" thì trên UI sẽ xuất hiện 
