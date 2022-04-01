@@ -19,3 +19,23 @@ GIT
   ** git commit -m "modified lab07_1"
   ** git push LAB07_1_label LAB07_1 
 
+- Redux CDN link lấy từ https://www.cdnpkg.com/redux  --> không tác dụng
+  ** https://unpkg.com/redux@5.0.0-alpha.0/dist/redux.js 
+  ** https://unpkg.com/react-redux@8.0.0-beta.2/dist/react-redux.js
+
+- Redux CDN link từ Stakeoverflow: 
+  => https://stackoverflow.com/questions/51758156/react-redux-with-cdn-links-without-es6-or-webpack
+  => https://stackoverflow.com/questions/44738342/referenceerror-reactredux-is-not-defined
+
+  => https://cdnjs.com/libraries/redux
+  ** https://reactjs.org/docs/cdn-links.html
+  ** https://gist.github.com/wvengen/bd7fb12c2afd9c251eb166f1bd042f51
+  ** <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/3.5.2/redux.js"></script>  cũng được nhưng phiên bản cũ 
+  
+
+                            <ul>
+                                <li><ReactRouterDOM.Link to='/'>Home</ReactRouterDOM.Link></li>
+                                <li><ReactRouterDOM.Link to='/aboutus'>About Us</ReactRouterDOM.Link></li>
+                                <li><ReactRouterDOM.Link to='/menu'>Menu</ReactRouterDOM.Link></li>
+                                <li><ReactRouterDOM.Link to='/contactus'>Contact Us</ReactRouterDOM.Link></li>
+                            </ul>
