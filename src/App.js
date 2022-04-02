@@ -12,12 +12,13 @@ class App extends React.Component {
         // thầy ẤN: the Provider component allows me to configure the React app so that the Redux tool become available to all components in React application
           /// Provider takes 1 attribute : store
           /// Ctrl+Click vào biến store vế phải sẽ trỏ tới const store bên trên đầu trang (cho thấy sự liên kết giữa các tên biến giống nhau), tương tự CtrlClick ConfigureStore() đầu trang 
+          /// không có <ReactRouterDOM.BrowserRouter> sẽ không hiện trang web
           <ReactRedux.Provider store={store}> 
-            <ReactRouterDOM.BrowserRouter>
+            <ReactRouterDOM.HashRouter>
                <div>
                   <ConnectedMainComponent/>
                </div>
-            </ReactRouterDOM.BrowserRouter>
+            </ReactRouterDOM.HashRouter>
           </ReactRedux.Provider>
         // đã có BrowserRouter do đó trong Main không cần tới nữa
         //tiếp theo, connect() để kết nối React application to Redux store , tới trang MainComponent

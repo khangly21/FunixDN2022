@@ -71,12 +71,12 @@ class Header extends React.Component {
                                       <ReactRouterDOM.Link className="nav-link" to='/aboutus'><span className="fa fa-info fa-lg"></span> About Us</ReactRouterDOM.Link>
                                   </Reactstrap.NavItem>
                                   <Reactstrap.NavItem>
-                                      <ReactRouterDOM.Link className="nav-link"  to='/menu'><span className="fa fa-list fa-lg"></span> Menu</ReactRouterDOM.Link>
+                                        <Reactstrap.NavLink className="nav-link"  href='/#menu'><span className="fa fa-list fa-lg"></span> Menu</Reactstrap.NavLink>
                                   </Reactstrap.NavItem>
                                   <Reactstrap.NavItem>
                                       <ReactRouterDOM.Link className="nav-link" to='/contactus'><span className="fa fa-address-card fa-lg"></span> Contact Us</ReactRouterDOM.Link>
                                   </Reactstrap.NavItem>
-
+                           
 
 
                                   <Reactstrap.NavItem>
@@ -86,9 +86,6 @@ class Header extends React.Component {
                                       </Reactstrap.Button>
                                   </Reactstrap.NavItem>
 
-
-
-                                  
                             </Reactstrap.Nav>
 
                         </Reactstrap.Collapse>

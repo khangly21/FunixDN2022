@@ -39,9 +39,10 @@ class Main extends React.Component {
     
     render(){
         
-        console.log(this.props.dishes); //undefined
-        console.log(this.props.promotions); //undefined
-        console.log(this.props.leaders); //undefined
+        console.log(this.props.dishes); //ok
+        console.log(this.props.promotions); //ok
+        console.log(this.props.leaders); //ok
+        console.log(this.props.comments);//ok
         
         let dishArray=this.props.dishes;
         let filterDish=dishArray.filter((dish) => dish.featured)[0];
@@ -90,24 +91,30 @@ class Main extends React.Component {
        
         return(
                //mặc định khi chạy index.html thì sẽ tới /
-               // <Header/> component có chứa các ReactRouterDOM.Link to
-               // note: redirect ko hiệu quả
+               // <Header/> component có chứa các ReactRouterDOM.Link to , nhưng không bao lấy các Route
+               // note: redirect có hiệu quả, vì các link lạ như http://127.0.0.1:5500/#/aaaaaa đều dẫn về home
+               //Không cần HashRouter bao quanh Header vì ở App.js đã có HashRouter bao quanh Main rồi
+               //nếu để <ReactRouterDOM.Switch> bao quanh Routes thì sẽ không tới được /menu/:dishId ; nếu để Switch bao quanh Header và các Routes và Footer thì component không hiện nội dung
                 <div>
-                        <Header/>
-                        <div>
+                       
+                            <Header/>
+                                
+                                <div>
+                                        
+                                        
+                                            <ReactRouterDOM.Route exact path='/' component={HomePage3} /> 
+                                            <ReactRouterDOM.Route exact path='/aboutus' component={() => <AboutUs leaders={this.props.leaders} />} />
+                                            <ReactRouterDOM.Route path='/menu' component={() => <DishNoId dishes={this.props.dishes} />} />
+                                            <ReactRouterDOM.Route exact path='/menu/:dishId' component={DishWithId} />
+                                            <ReactRouterDOM.Route exact path='/contactus' component={Contact} />
+                                            <ReactRouterDOM.Redirect to="/" />
+                                       
+                                </div>
+                        
+                            <Footer/>
+                      
                             
-                            
-                            <ReactRouterDOM.Switch>
-                                <ReactRouterDOM.Route exact path='/' component={HomePage3} /> 
-                                <ReactRouterDOM.Route exact path='/aboutus' component={() => <AboutUs leaders={this.props.leaders} />} />
-                                <ReactRouterDOM.Route path='/menu' component={() => <DishNoId dishes={this.props.dishes} />} />
-                                <ReactRouterDOM.Route exact path='/menu/:dishId' component={DishWithId} />
-                                <ReactRouterDOM.Route exact path='/contactus' component={Contact} />
-                                <ReactRouterDOM.Redirect to="/" />
-                            </ReactRouterDOM.Switch>
 
-                        </div>
-                        <Footer/>
                 </div>
             
         )
