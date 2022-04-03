@@ -2,11 +2,11 @@ class App extends React.Component {
     //dùng Reference tới Main
     render(){
       return (
-        <ReactRouterDOM.BrowserRouter>
+        <ReactRouterDOM.HashRouter>
            <div className="App">
               <Main />
            </div>
-        </ReactRouterDOM.BrowserRouter>
+        </ReactRouterDOM.HashRouter>
       )
     }
 }

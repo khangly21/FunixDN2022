@@ -8,26 +8,38 @@ const  DishDetails = (props) => { //nhận dữ liệu props.dish từ Main là 
     //cấu trúc tương tự MenuComponent.js
 
     return(
-        //<Link to="/menu">Menu</Link> được class cha Main đọc được và Main như 1 bộ hỗn hợp Router-Switch để điều hướng dựa trên Link, component như cổng ra , và return của component là Chuoi_JSX
-        //VD  Link to="/menu" nghĩa là được Main điều hướng tới component Menu và trả Chuoi_JSX tương ứng
-        //Mối liên quan giữa Breadcrumb và Link: "Breadcrumb" lets us navigate to different pages by providing the "Link" tags for the navigation hierarchy.
-        <div className="container">
-            <div className="row">
-            <Reactstrap.Breadcrumb>
-                <Reactstrap.BreadcrumbItem>
-                    <ReactRouterDOM.Link to="/menu">Menu</ReactRouterDOM.Link>
-                </Reactstrap.BreadcrumbItem>
+        //xem chuẩn về Breadscrumb ở đây: https://www.geeksforgeeks.org/reactjs-reactstrap-breadcrumb-component/
+        //chú ý : 'Link to ' hỗ trợ Single Page Application, còn  a href không hỗ trợ
+            /// do đó muốn dùng a cũng được nhưng phải có # trong href ý nói đi tới cùng một trang, chứ không load trang mới
+            /// So sánh 'Link to' và a href="#"   xem a có làm trang load toàn bộ không
 
-                <Reactstrap.BreadcrumbItem active>{props.dish.name}</Reactstrap.BreadcrumbItem>
-            </Reactstrap.Breadcrumb>
+        //nội dung Dish details cần trình bày đẹp hơn: chia 2 cột và có đường thẳng đứng ngăn 2 cột : https://www.youtube.com/watch?v=mUhMR4DPZ8k
+ 
+        <div className="container">
+            <div className="row" style={{marginLeft:'5vw'}}> 
+                <Reactstrap.Breadcrumb>
+                    <Reactstrap.BreadcrumbItem>
+                        <ReactRouterDOM.Link to="/">Welcome page</ReactRouterDOM.Link>
+                    </Reactstrap.BreadcrumbItem>
+    
+                    <Reactstrap.BreadcrumbItem>
+                        <a href="#/home">Home page</a>
+                    </Reactstrap.BreadcrumbItem>
+                    
+                    <Reactstrap.BreadcrumbItem>
+                        <ReactRouterDOM.Link to="/menu">Menu</ReactRouterDOM.Link>
+                    </Reactstrap.BreadcrumbItem>
+    
+                    <Reactstrap.BreadcrumbItem active><b style={{color:'gray'}}>{props.dish.name}</b></Reactstrap.BreadcrumbItem>
+                </Reactstrap.Breadcrumb>
             </div>
 
             <div className="row">
-                <div className="col-12 col-md-5 m-1">
+                <div className="col-6">
                     <RenderDish dish={props.dish}/>
                 </div>
     
-                <div className="col-12 col-md-5 m-1">
+                <div className="col-6">
                     <RenderCommentItem comments={props.comments}/>
                 </div>   
             </div>
@@ -40,10 +52,10 @@ const  DishDetails = (props) => { //nhận dữ liệu props.dish từ Main là 
 function RenderDish({dish}) { //là cách khác thay vì viết props
     //các children được trả về bởi callback của map() phải có key
     return(
-        <div key={dish.id} className="col-12 col-md-5 m-1">
+        <div key={dish.id} >
             <Reactstrap.Card  body>
                 <Reactstrap.CardImg src={dish.image} alt={dish.name}/>
-                <Reactstrap.CardTitle>{dish.name}</Reactstrap.CardTitle>
+                <Reactstrap.CardTitle><b style={{color:'orangered'}}>{dish.name}</b></Reactstrap.CardTitle>
                 <Reactstrap.CardText>{dish.description}</Reactstrap.CardText>
             </Reactstrap.Card>
         </div>
@@ -72,7 +84,7 @@ function RenderCommentItem({comments}) {
     const JSX_li__comment_child=comments.map((comment)=>{
         return(
             <div key={comment.id}>
-                <p>{comment.id}/ {comment.comment}</p>
+                <b style={{color:"blue"}}>{comment.id}/ {comment.comment}</b>
                 <p>--on {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comment.date)))} --</p>
                 <p>-- By {comment.author} --</p>
             </div>

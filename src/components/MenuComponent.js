@@ -42,13 +42,12 @@ const Menu = (props) =>{
 
 function RenderMenuItem ({dish}) { //Nhận 2 biến thuộc tính từ Menu là {dish} và {onClick};  hàm onClick này được gọi với tham số dish.id khi Card được click vào
     //<Card/> is not defined, vì nó phải thuộc về một đối tượng nào
+    //Không dùng </Reactstrap.CardImgOverlay> vì  bị "noise" làm khó thấy chữ
     return (
         <Reactstrap.Card>
             <ReactRouterDOM.Link to={`/menu/${dish.id}`}>
                 <Reactstrap.CardImg width="100%" src={dish.image} alt={dish.name} />
-                <Reactstrap.CardImgOverlay>
-                    <Reactstrap.CardTitle>{dish.name}</Reactstrap.CardTitle>
-                </Reactstrap.CardImgOverlay>
+                <Reactstrap.CardTitle>{dish.name}</Reactstrap.CardTitle>
             </ReactRouterDOM.Link>
         </Reactstrap.Card>
     );

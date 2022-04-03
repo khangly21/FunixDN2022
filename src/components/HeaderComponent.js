@@ -55,7 +55,7 @@ class Header extends React.Component {
             <div>
                 <Reactstrap.Navbar dark="true" expand="md">
                     <div className="container">
-                        <Reactstrap.NavbarToggler className="fa fa-arrows-v" style={{backgroundColor:'yellow'}} onClick={this.toggleNav}><i class="fa fa-arrows-v"></i></Reactstrap.NavbarToggler>
+                        <Reactstrap.NavbarToggler className="fa fa-arrows-v" style={{backgroundColor:'yellow',color:"blue"}} onClick={this.toggleNav}>Open menu<i class="fa fa-arrows-v"></i></Reactstrap.NavbarToggler>
             
                         <Reactstrap.NavbarBrand className="mr-auto" href="/">
                             <img src='../../public/assets/images/logo.png' height="30" width="41" alt='Ristorante Con Fusion' />

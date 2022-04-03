@@ -104,31 +104,20 @@ class Main extends React.Component {
         }
         
         return(
-                //<Menu/> referencer không còn được Main gọi mặc định nữa, mà phải thông qua 1 path
-                //exact or exact={true} As the name suggests, it is ： Precise matching => SOLVE problem: https://codedamn.com/learn/reactjs/routing-introduction/exact-route-match.5b9VpWg_Ps
-                // thử cho exact xuống path /menu, không phải path /  thì sau khi có chữ Home, nhấn /aboutus sẽ xuất hiện chữ About us ngay sau Home mà Home không biến mất
-                //<Reactstrap.Navbar dark color="primary"> => react_devtools_backend.js:3973 Warning: Received `true` for a non-boolean attribute `dark`. 
-                    ///If you want to write it to the DOM, pass a string instead: dark="true" or dark={value.toString()}.
-                    /// cũng như Breadcrumb, chỉ ghi 1 chữ exact là mặc định true
-                // nếu <ReactRouterDOM.Route  path='/menu' component={<h3>Xin hãy truyền tham số dishId</h3>}/>  sẽ báo lỗi Warning: React.createElement: type is object <h3/> which is invalid 
-                //HashRouter được honeygain dùng
+                //khi trang chủ "/" thì chỉ có Header và Footer 
+                //khi click Home thì tới "/home" thì có view của component HomepPage3 nằm giữa Footer và Header
+                //exact  path='/menu' sẽ giúp khi path='/menu/:dishId' thì sẽ không có component={DishNoId} tham gia tạo View trước View của component={DishWithId} , để đảm bảo khán giả chỉ nhìn thấy a dish's details thôi chứ không thấy Menu bên trên
+                
                 <div>
                     <Header/>
-                    <ReactRouterDOM.HashRouter>
-                        <ul>
-                            <li><ReactRouterDOM.Link to='/home'>Home</ReactRouterDOM.Link></li>
-                            <li><ReactRouterDOM.Link to='/aboutus'>About Us</ReactRouterDOM.Link></li>
-                            <li><ReactRouterDOM.Link to='/menu'>Menu</ReactRouterDOM.Link></li>
-                            <li><ReactRouterDOM.Link to='/contactus'>Contact Us</ReactRouterDOM.Link></li>
-                        </ul>
-
-
+                   
+                        
                         <ReactRouterDOM.Route exact={true} path='/home' component={HomePage3}/>
                         <ReactRouterDOM.Route exact={true} path='/aboutus' component={aboutus}/>
                         <ReactRouterDOM.Route exact={true}  path='/contactus' component={Contact}/>
-                        <ReactRouterDOM.Route  path='/menu' component={DishNoId}/>
+                        <ReactRouterDOM.Route exact  path='/menu' component={DishNoId}/>
                         <ReactRouterDOM.Route exact  path='/menu/:dishId' component={DishWithId}/>
-                    </ReactRouterDOM.HashRouter>
+                   
                     <Footer/>
                 </div>
             
