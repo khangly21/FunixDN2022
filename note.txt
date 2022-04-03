@@ -19,6 +19,19 @@
   ** git commit -m "modified LAB06_3_react_redux_form"   
   ** git push LAB06_3_RRF_label LAB06_3_react_redux_form   
 
+FALAL ERROR:
+  ** Tránh tạo thư mục LAB06_3_react_redux_form sau đó copy toàn bộ bên trong  Lab06_3 vào LAB06_3_react_redux_form
+     => vì sẽ copy luôn local git của Lab06_3, lúc đó nếu git branch sẽ ra kết quả
+        ** Lab06_3
+           master
+  ** thì việc chỉnh sửa sau đó như xóa Lab06_3 và cập nhật note.txt ... sẽ xóa sạch các file trong LAB06_3_react_redux_form
+
+  => Cách làm đúng: 
+  ** Bước 1: tạo thư mục LAB06_3_react_redux_form
+  ** Bước 2: tạo thư mục note.txt
+  ** Bước 3: New terminal >> git init 
+
+
 
 CÁCH CÀI ĐẶT react-redux-form:
   ** phải có các link tiên quyết sau:
