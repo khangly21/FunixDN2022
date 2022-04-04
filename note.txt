@@ -1,0 +1,19 @@
+﻿GIT COMMANDS
+  ** (Tên thư mục: RJS101x_Assignment3_khanglvfx15073@funix.edu.vn_NC)
+- git init 
+- tạo file note.txt 
+- git add note.txt 
+- git commit -m "first commit to make master branch"
+- git branch 
+   * master
+- git checkout -b RJS101x_Assignment3_khanglvfx15073@funix.edu.vn_NC
+- git branch 
+- git ls-files
+- git remote add RJS_assignment3NC_label https://github.com/khangly21/FunixDN2022.git
+- git push RJS_assignment3NC_label RJS101x_Assignment3_khanglvfx15073@funix.edu.vn_NC
+
+
+- Cập nhật
+  ** git add .
+  ** git commit -m "advanced project 3"
+  ** git push RJS_assignment3NC_label RJS101x_Assignment3_khanglvfx15073@funix.edu.vn_NC
