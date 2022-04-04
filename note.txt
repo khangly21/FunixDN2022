@@ -33,12 +33,17 @@ _ CÁCH SỬ DỤNG PHẦN MỀM:
 
          **** tính năng "TÌM KIẾM NHÂN VIÊN"
             ***** nhập ký tự có trong Tên nhân viên vào Khung tìm kiếm
-            ***** click Kính lúp sẽ load ra danh sách tương ứng
+            ***** click Kính lúp (hoặc nhấn Enter) sẽ load ra danh sách tương ứng 
 
          **** tính năng "XÁC THỰC DỮ LIỆU FORM"
             https://stackoverflow.com/questions/21581282/php-form-and-action-in-the-same-page
-            ***** case 1: không điền gì hết, nhấn nút màu xanh dương "Validate" để check 3 input đầu tiên có dữ liệu chưa
-            ***** case 2: onBlur 3 input fields đầu tiên , từng input sẽ báo lỗi
-            ***** case 3: input Tên, ngày sinh (phải nhập ngày ngoài mặc định và phải có năm sinh < năm hiện tại), ngày vào làm (phải nhập ngày ngoài mặc định và phải namvaolam>=Nam_hien_tai)
-            ***** Sau đó nhấn nút xanh "Save và Close"
-            ***** Sau đó, nhấn nút vàng "Đồng ý thêm nhân viên" thì trên UI sẽ xuất hiện 
+            ***** case 1: không điền gì hết, thì nút Save Close sẽ không được enabled
+            ***** case 2: onBlur 3 empty input fields đầu tiên , từng input sẽ báo lỗi
+            ***** case 3: input Tên, ngày sinh (phải nhập ngày ngoài mặc định và phải có năm sinh < năm hiện tại), ngày vào làm (có thể chọn ngày mặc định và có 3 trường hợp ràng buộc)
+            ***** Sau đó nhấn nút xanh "Save và Close" để đóng Modal đồng thời lưu dữ liệu vào localStorage
+            ***** Sau đó,trên trang Nhan_vien, nhấn nút vàng "Đồng ý thêm nhân viên" thì trên UI sẽ xuất hiện 
+
+- REMOTE GIT
+   ** Link của Github: https://github.com/khangly21/FunixDN2022.git
+   ** Assignment 3:
+   ** Nâng cao:

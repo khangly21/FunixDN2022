@@ -11,10 +11,22 @@ class WebBody_of_Employees extends React.Component{
        console.log(typeof props.data);
  
         this.state={ 
+            
+
+            //Nhóm đứng đầu state dùng object destructuring để on (khi length > 0) or off onSubmit button
+            Myname:'',
+            payroll:'',
+            ngaynghiconlai:'',
+            ngaylamthem:'',
+            combobox_dropdown:'', 
+            ////////////////////
+            send_to_server:false, //button ở form Modal
+            Dong_y_them_nhan_vien:false, //button ở trang Nhan_vien
+
             isModalOpen:false,
             formSubmitdata:0, 
-    
-            Myname:'',
+
+            //default values for date
             birthday:this.formatDate(new Date()),
             entering_day:this.formatDate(new Date()),
 
@@ -31,10 +43,8 @@ class WebBody_of_Employees extends React.Component{
             },
 
             //###########################################################
-            combobox_dropdown:'it', 
-            payroll:'',
-            ngaynghiconlai:'',
-            ngaylamthem:'',
+            
+            
             //staffs và departments
             cai_dat_danh_sach_nhan_vien:this.props.staffs,
             cai_dat_danh_sach_phong_ban:this.props.departments,
@@ -80,6 +90,14 @@ class WebBody_of_Employees extends React.Component{
    }
 
       storeDataTo_localStorage=()=>{
+       
+         this.setState(
+            {
+                Dong_y_them_nhan_vien:true
+            }
+         )
+         console.log(this.state.Dong_y_them_nhan_vien); //khong ra do setState=({   })
+         
          //2 đối số phải là string hết
          localStorage.setItem("Ho_ten",this.state.Myname);
          localStorage.setItem("Ngay_sinh",this.state.birthday);
@@ -284,42 +302,59 @@ class WebBody_of_Employees extends React.Component{
 
    }
 
-      validate(name,birthday,enterDay){ 
+   validate(name,birthday,enterDay){ 
             
-          const errors={
-          
-              name:'',
-              birthday:'',
-              enterDay:'' 
+      const errors={
       
-          } 
-        
-          if (this.state.touched.Myname && name.length < 3)
-              errors.name = 'Name should be >= 3 characters';
-          else if (this.state.touched.Myname && name.length > 10)
-              errors.name = 'Name should be <= 10 characters';
+          name:'',
+          birthday:'',
+          enterDay:'' 
+  
+      } 
+    
+      if (this.state.touched.Myname && name.length < 3)
+          errors.name = 'Name should be >= 3 characters';
+      else if (this.state.touched.Myname && name.length > 10)
+          errors.name = 'Name should be <= 10 characters';
 
-          let Nam_hien_tai=new Date().getFullYear(); 
-          console.log(Nam_hien_tai);
-          console.log(this.formatDate(new Date()));
-      
-      
-          console.log(this.formatDate(new Date()).slice(0,4)) 
-          let namsinh=birthday.slice(0,4)
-          let namvaolam=enterDay.slice(0,4)
-          console.log(namsinh) 
-          console.log(namvaolam) 
-      
-          if(this.state.touched.birthday && namsinh>=Nam_hien_tai){
-              errors.birthday="Year of Birthday is supposed to be smaller than this year";
-          }
+      let Nam_hien_tai=new Date().getFullYear(); 
+      let Thang_hien_tai=new Date().getMonth()+1;
+      let Ngay_hien_tai=new Date().getDate();
+      console.log(Nam_hien_tai); //ok
+      console.log(Thang_hien_tai); //ok
+      console.log(Ngay_hien_tai); //ok
 
-          if(this.state.touched.entering_day && namvaolam>=Nam_hien_tai){
-              errors.entering_day="Year of Company_Entering must be equal or smaller than this year";
-          }
+      console.log(this.formatDate(new Date()));
+  
+  
+      console.log(this.formatDate(new Date()).slice(0,4)) //https://www.w3schools.com/jsref/jsref_slice_string.asp
+      let namsinh=parseInt(birthday.slice(0,4))  //upto position 4 , but not including
+      let namvaolam=parseInt(enterDay.slice(0,4))
+      console.log(namsinh) 
+      console.log(namvaolam) 
+      console.log(namsinh-namvaolam)
+      console.log(namvaolam-namsinh)
+      
 
-          return errors
+     //Tháng
+        ///let x=parseInt("04");  --> x=4
+     let thangsinh=parseInt(birthday.slice(5,7));
+     let thangvaolam = parseInt(enterDay.slice(5,7));
+
+     //Ngày
+     let ngaysinh= parseInt(birthday.slice(8,10));
+     let ngayvaolam=parseInt(enterDay.slice(8,10));
+  
+      if(this.state.touched.birthday && namsinh>=Nam_hien_tai){
+          errors.birthday="Year of Birthday is supposed to be smaller than this year";
       }
+
+      if(this.state.touched.entering_day && ((namvaolam>Nam_hien_tai) || (namvaolam===Nam_hien_tai && thangvaolam>Thang_hien_tai) || (namvaolam===Nam_hien_tai && thangvaolam===Thang_hien_tai && ngayvaolam>Ngay_hien_tai)) ){
+          errors.entering_day="The entering time must be smaller or the same today";
+      }
+
+      return errors
+  }
 
       handleBlur=(field)=>(event)=>{
         
@@ -364,9 +399,15 @@ class WebBody_of_Employees extends React.Component{
       }
 
    render(){
-  
+      //https://stackoverflow.com/questions/30187781/how-to-disable-a-button-when-an-input-is-empty
+      const { Myname, payroll, ngaynghiconlai,ngaylamthem, combobox_dropdown} = this.state; //destructuring vào 4 biến cùng tên
+      const enabled = Myname.length > 0 && payroll.length > 0 && ngaynghiconlai.length > 0 && ngaylamthem.length > 0 && combobox_dropdown.length>0 ;
+      const transfer_to_server=this.state.send_to_server;
+      console.log(enabled);
+
+      //đối tượng errors
       const errors=this.validate(this.state.Myname,this.state.birthday,this.state.entering_day);
-  
+      
       const FontAwesome_search= `<i className="fa fa-search"></i>`
       var currentDate_DDMMYYYY=new Date().toLocaleDateString('en-GB', {month: '2-digit',day: '2-digit',year: 'numeric'})
      
@@ -388,7 +429,7 @@ class WebBody_of_Employees extends React.Component{
                               <div id="col1" className="col">
                                  <button type="button" id="MybtnPreventHTML" className="btn btn-primary" data-target="#MymodalPreventHTML" data-toggle="modal" data-backdrop="static" data-keyboard="false">Thêm nhân viên</button>
     	                           
-                                 <button onClick={()=>{this.Agree_to_add_new_employee(this.state.cai_dat_danh_sach_nhan_vien,this.state.cai_dat_danh_sach_phong_ban)}} style={{margin:"2vw"}} type="button" className="btn btn-warning">Đồng ý thêm nhân viên</button>
+                                 <button disabled={!this.state.Dong_y_them_nhan_vien} onClick={()=>{this.Agree_to_add_new_employee(this.state.cai_dat_danh_sach_nhan_vien,this.state.cai_dat_danh_sach_phong_ban)}} style={{margin:"2vw"}} type="button" className="btn btn-warning">Đồng ý thêm nhân viên</button>
                                	<div className="modal" id="MymodalPreventHTML">
                                		<div className="modal-dialog modal-dialog-scrollable">
                                			<div className="modal-content">
@@ -467,11 +508,12 @@ class WebBody_of_Employees extends React.Component{
                                                    <Reactstrap.FormGroup row>
                                                       <Reactstrap.Label htmlFor="phongban" md={2}>Phòng ban:</Reactstrap.Label>
                                                       <Reactstrap.Col md={10}>
-                                                         <select value={this.state.combobox_dropdown} onChange={this.handleInputChange}  defaultValue="IT" name = "combobox_dropdown" id="phongban">
-                                                            <option value = "Sale">Sale</option>
-                                                            <option value = "HR">HR</option>
-                                                            <option value = "Marketing">Marketing</option>
+                                                         <select required value={this.state.combobox_dropdown} onChange={this.handleInputChange}  name = "combobox_dropdown" id="phongban">
+                                                            <option value = "">None</option>
                                                             <option value = "IT">IT</option>
+                                                            <option value = "Sale">Sale</option>
+                                                            <option value = "HR" >HR</option>
+                                                            <option value = "Marketing">Marketing</option>
                                                             <option value = "Finance">Finance</option>
                                                          </select>
                                                       </Reactstrap.Col>
@@ -500,15 +542,15 @@ class WebBody_of_Employees extends React.Component{
                                                    <br/>
                                                    <Reactstrap.FormGroup row>
                                                        <Reactstrap.Col md={{size: 10, offset: 2}}>
-                                                           <Reactstrap.Button type="submit" color="primary">
-                                                               Important: Click here to validate the first 3 inputs before "Save Close"
+                                                           <Reactstrap.Button disabled={!transfer_to_server} type="submit" color="primary">
+                                                               Send to server
                                                            </Reactstrap.Button>
                                                        </Reactstrap.Col>
                                                    </Reactstrap.FormGroup>
                                                </Reactstrap.Form>
                                				</div>   
                                				<div className="modal-footer">
-                               					<button onClick={this.storeDataTo_localStorage} type="button" className="btn btn-success" data-dismiss="modal">SAVE CLOSE</button> 
+                               					<button disabled={!enabled} onClick={this.storeDataTo_localStorage} type="button" className="btn btn-success" data-dismiss="modal">SAVE to client, CLOSE</button> 
                                				</div>
                                			</div>                                                                       
                                		</div>                                          

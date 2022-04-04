@@ -5,11 +5,17 @@ function Footer_ResponsiveGrid_CSSBootstrap5(props){
                 <div className="row justify-content-center">
                 
                     <div className="col-sm-12 col-md-6 col-lg-4" style={{textAlign:'center'}}>
-                        <h5>Links</h5>
+                        <h5>Apps</h5>
                         <ul className="list-unstyled">
-                            <li><a href="#">Nhân viên</a></li>
-                            <li><a href="#">Phòng ban</a></li>
-                            <li><a href="#">Bảng lương</a></li>
+                            <li>
+                                <a href="#">
+                                   <i class="fa fa-apple" aria-hidden="true"> iOS</i>
+                                </a>
+                            </li>
+                            <li><a href="#"><i class="fa fa-android" aria-hidden="true"> Android</i></a></li>
+                            <li><a href="#"><i class="fa fa-android" aria-hidden="true"> Download APK </i></a></li>
+                            <li><a href="#"><i class="fas fa-diamond"> HarmonyOS</i></a></li>
+                            
                             
                         </ul>
                     </div>
@@ -66,10 +72,6 @@ function Footer_ResponsiveGrid_CSSBootstrap5(props){
                         <p> &copy; Copyright 2022 by Ly Viet Khang</p>
                     </div>
                 </div>
-
-                
-                    
-            
             </div>
     )
 }
