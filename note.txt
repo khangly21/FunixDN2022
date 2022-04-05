@@ -45,5 +45,5 @@ _ CÁCH SỬ DỤNG PHẦN MỀM:
 
 - REMOTE GIT
    ** Link của Github: https://github.com/khangly21/FunixDN2022.git
-   ** Assignment 3:
+   ** Assignment 3: https://github.com/khangly21/FunixDN2022/tree/RJS101x_Assignment3_khanglvfx15073%40funix.edu.vn
    ** Nâng cao:

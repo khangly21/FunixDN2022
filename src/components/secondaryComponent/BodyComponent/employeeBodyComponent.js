@@ -19,16 +19,18 @@ class WebBody_of_Employees extends React.Component{
             ngaynghiconlai:'',
             ngaylamthem:'',
             combobox_dropdown:'', 
+            birthday:this.formatDate(new Date()),//default values for date
             ////////////////////
+
+            entering_day:this.formatDate(new Date()),
+
             send_to_server:false, //button ở form Modal
             Dong_y_them_nhan_vien:false, //button ở trang Nhan_vien
 
             isModalOpen:false,
             formSubmitdata:0, 
 
-            //default values for date
-            birthday:this.formatDate(new Date()),
-            entering_day:this.formatDate(new Date()),
+            
 
             touched:{
                Myname:false,
@@ -400,8 +402,8 @@ class WebBody_of_Employees extends React.Component{
 
    render(){
       //https://stackoverflow.com/questions/30187781/how-to-disable-a-button-when-an-input-is-empty
-      const { Myname, payroll, ngaynghiconlai,ngaylamthem, combobox_dropdown} = this.state; //destructuring vào 4 biến cùng tên
-      const enabled = Myname.length > 0 && payroll.length > 0 && ngaynghiconlai.length > 0 && ngaylamthem.length > 0 && combobox_dropdown.length>0 ;
+      const { Myname, payroll, ngaynghiconlai,ngaylamthem, combobox_dropdown,birthday} = this.state; //destructuring vào 4 biến cùng tên
+      const enabled = Myname.length > 0 && payroll.length > 0 && ngaynghiconlai.length > 0 && ngaylamthem.length > 0 && combobox_dropdown.length>0 && birthday !== this.formatDate(new Date()) ;
       const transfer_to_server=this.state.send_to_server;
       console.log(enabled);
 
