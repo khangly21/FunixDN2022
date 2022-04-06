@@ -8,6 +8,14 @@
 // What is Javascript term "truthy value" stored in a variable ??
    /// https://developer.mozilla.org/en-US/docs/Glossary/Truthy
    /// https://developer.mozilla.org/en-US/docs/Glossary/Falsy
+//stackoverflow tương tự:
+   /// https://stackoverflow.com/questions/65299603/react-redux-form-password-and-confirm-password-validation
+   /// http://davidkpiano.github.io/react-redux-form/docs/guides/validation.html
+// So sánh với Redux-form:
+   /// https://appdividend.com/2017/11/05/redux-form-validation-tutorial-example/
+// trang tác giả:
+   /// https://davidkpiano.gitbooks.io/react-redux-form/content/field_component.html
+ 
 function checking(a="dog",b=true){
     //return true && a
     return b && a; //cơ chế : If the first object is truthy, the logical AND operator returns the second operand
@@ -31,10 +39,27 @@ let a='';
 console.log(a.length); //0
    /// An item of type undefined (and it is a type) has no length property - only items of type string and array do. Therefore, as @redneb notes, extend your condition to check for a non-falsy value before checking length.
    /// Trong form input context, thì không điền gì mà submit thì xem như biến val chứa Chuỗi rỗng và chuỗi rỗng có length 0, ngoài ra nơi lưu trữ chuỗi là biến val cũng có thể undefined => cả 2 tình huống trên đều là falsy. Dùng && để check falsy trước tiên , để ràng buộc không cho Chuỗi rỗng và biến undefined
-const required = (val) => val && val.length; //return is in Boolean context , đọc là "đối với val thì có ràng buộc là tồn tại biến val và biến val không chứa chuỗi rỗng"
+//const required = (val) => val && val.length; //return is in Boolean context , đọc là "đối với val thì có ràng buộc là tồn tại biến val và biến val không chứa chuỗi rỗng", nếu gặp chuỗi rỗng thì val.length trả về false
    // giải thích : 
        /// if(val) trả về false nếu a  undefined , mặc dù cũng trả false nếu a là chuỗi rỗng , 0 ...  Nhưng tần số cao là dùng undefined để kiểm sự tồn tại 
        /// if(val.length) sẽ trả về true nếu chuỗi có độ dài khác 0, nghĩa là không phải ''
+       /// ngược với if(val) là if(!val) nghĩa là chưa có val
+       const required = (val) => val && val.length; //không ghi  val==true && val.length==true vì sẽ thu hẹp các trường hợp
+       //tuy nhiên biến bình thường val không thể đứng đơn độc trong if() vì sẽ báo lỗi nên val phải là một biến thuộc tính của đối tượng input
+       //https://www.spritely.net/how-to-get-target-value-in-javascript/#1
+       // thực hành: không điền fields nào mà Send Feedback luôn thì tất cả đều message, hoặc onBlur 1 field nào đó thì field đó có message  . Lúc này val không tồn tại nên undefined, dĩ nhiên if(Boolean(val.length)) cũng không hoạt động, required là false
+            /// Khi có điền vào vài ký tự đầu tiên thì được "validate theo thời gian thực", có val nghĩa là có tồn tại biến val.length
+       /*
+          //trong redux-form sẽ là:
+          const validate = values => {
+          const errors = {}
+          if (!values.firstName) {
+              errors.firstName = 'Required'
+          } else if (values.firstName.length < 2) {
+              errors.firstName = 'Minimum be 2 characters or more'
+          }
+       */
+//sẽ không ra kết quả nào, do chưa có liên kết react-redux-form
 //tiếp, arrow function of arrow functions
    /// https://iztuts.com/bai-3-cac-cong-logic-and-or-nand-xor-not/
    ///https://stackoverflow.com/questions/13952423/what-does-if-variable-name-mean-in-c-language
@@ -50,6 +75,23 @@ const required = (val) => val && val.length; //return is in Boolean context , đ
    }
    //console.log(myNiceVar.length <= 15); // ContactComponent.js:41 Uncaught TypeError: Cannot read properties of undefined (reading 'length')
  
+
+   if(myNiceVar && myNiceVar.length){
+       console.log("true!!!") 
+   }else{
+       console.log("false");  //FALSE here! chứng tỏ máy đọc tới myNiceVar thấy false là không đọc tới length, vì nếu đọc tới là báo lỗi
+   }
+
+   /*
+   if(myNiceVar.length){  //Uncaught TypeError: Cannot read properties of undefined (reading 'length')
+       console.log("true")
+   }else{
+       console.log("false")
+   }
+   */
+
+
+
    /*
    //báo lỗi do myNiceVar là undefine nên không đọc thuộc tính length được
    if(myNiceVar.length){
@@ -66,6 +108,7 @@ const maxLength=(len)=>(val)=>!(val) || (val.length <= len)  //hover lên maxLen
    /// nếu val là các empty string values như '',"",`` thì là các falsy value. Do đó !(val) là true. Thì cả !(val) || (val.length <= len) là true
    /// nếu val có giá trị (defined) và khác rỗng (tức là val.length > 0 ), thì !(val) là false. Do bên trái false thì cả biểu thức !(val) || (val.length <= len) có giá trị trùng với bên phải là (val.length <= len)
 
+//minLength thì có biểu thức trong return ngược với của masLength
 const minLength=(len)=>(val)=>(val) && (val.length >= len) //val phải khác undefined thì mới tính tới length, ngoài ra (val) && còn giúp tránh các Chuỗi rỗng
 
 //check whatever it is , is there a number?
@@ -131,12 +174,24 @@ class Contact extends React.Component { //Create a react component by extending 
     constructor(props){
         super(props);
         this.handleSubmit=this.handleSubmit.bind(this); 
+        this.Check=this.Check.bind(this);
       
     }
 
     handleSubmit(values) {
         console.log('Current state is: ' + JSON.stringify(values));
         alert('Current state is : '+JSON.stringify(values));
+    }
+
+    Check(val){ //val là những ký tự người dùng nhập, chứ không phải value mặc định của input field
+        //https://stackoverflow.com/questions/2281633/javascript-isset-equivalent to PHP
+        if(typeof val !== 'undefined'){
+            if(typeof val.length > 0){ //if(val.length)  //nghĩa là middle name exist (theo tài liệu tác giả react-redux-form)
+                return true;
+            } 
+        }else{
+            return false; //nghĩa là Boolean(typeof val !== 'undefined') trả ra false thì hàm Check trả về false
+        }
     }
 
     render() {
@@ -158,10 +213,11 @@ class Contact extends React.Component { //Create a react component by extending 
                                 <Reactstrap.Col md={10}>
                                     <ReactReduxForm.Control.text model=".firstname" id="firstname" name="firstname"
                                         //xem các child components của Control tại tác giả: https://davidkpiano.github.io/react-redux-form/docs/api/Control.html
-                                        placeholder="First Name"
+                                        //placeholder="First Name"
+                                        value="Khang"
                                         className="form-control"
                                         validators={{
-                                            required,
+                                            required:(val) => val && val.length, //val chính là giá trị yêu cầu người dùng gõ vào, chứ không phải value của input field
                                             minLength:minLength(3),
                                             maxLength:maxLength(15)
                                             //we allow from 3 to 15 characters, "must be greater than 3 and less than 15"
@@ -191,13 +247,81 @@ class Contact extends React.Component { //Create a react component by extending 
                             </Reactstrap.Row>
 
                             <Reactstrap.Row className="form-group">
-                                <Reactstrap.Label htmlFor="lastname" md={2}>Last Name</Reactstrap.Label>
+                                <Reactstrap.Label htmlFor="middlename" md={2}>Middle Name</Reactstrap.Label>
                                 <Reactstrap.Col md={10}>
-                                    <ReactReduxForm.Control.text model=".lastname" id="lastname" name="lastname"
-                                        placeholder="Last Name"
+                                    <ReactReduxForm.Control.text model=".middlename" id="middlename" name="middlename"
+                                        value="my middle name"
+                                        placeholder="Middle Name"
+                                        className="form-control"
+                                        validators={{
+                                            required:this.Check, //lúc nào cũng thông báo 
+                                            minLength:minLength(3),
+                                            maxLength:maxLength(15)
+                                            //we allow from 3 to 15 characters, "must be greater than 3 and less than 15"
+                                        }}
+                                    />
+                                    <ReactReduxForm.Errors
+                                            className="text-danger" //bootstrap renders danger as red color
+                                            
+                                            model=".middlename"    
+                                            //tương tự onBlur trong react và html
+                                            show="touched" 
+                                            //these messages is showed only after the item is touched
+                                            //If not touched at all, these messages will NOT be shown/displayed:
+                                            messages={{
+                                                //if required is evaluated to true
+                                                required:'Required field. ',
+                                                //if minLength is true
+                                                minLength: ' Must be greater than 2 characters',
+                                                //if maxLength is true
+                                                maxLength: 'Must be 15 characters or less',
+                                            }}
+                                    />
+                                </Reactstrap.Col>
+                            </Reactstrap.Row>
+                            
+                            <Reactstrap.Row className="form-group">
+                                <Reactstrap.Label htmlFor="nickname" md={2}>Nick Name</Reactstrap.Label>
+                                <Reactstrap.Col md={10}>
+                                    <ReactReduxForm.Control.text model=".nickname" id="nickname" name="nickname"
+                                       
+                                        placeholder="nick Name"
                                         className="form-control"
                                         validators={{
                                             required,
+                                            minLength:minLength(3),
+                                            maxLength:maxLength(15)
+                                            //we allow from 3 to 15 characters, "must be greater than 3 and less than 15"
+                                        }}
+                                    />
+                                    <ReactReduxForm.Errors
+                                            className="text-danger" //bootstrap renders danger as red color
+                                            model=".nickname"    
+                                            //tương tự onBlur trong react và html
+                                            show="touched" 
+                                            //these messages is showed only after the item is touched
+                                            //If not touched at all, these messages will NOT be shown/displayed:
+                                            messages={{
+                                                //if required is evaluated to true
+                                                required:'Required ',
+                                                //if minLength is true
+                                                minLength: ' Must be greater than 2 characters',
+                                                //if maxLength is true
+                                                maxLength: 'Must be 15 characters or less',
+                                            }}
+                                    />
+                                </Reactstrap.Col>
+                            </Reactstrap.Row>
+
+                            <Reactstrap.Row className="form-group">
+                                <Reactstrap.Label htmlFor="lastname" md={2}>Last Name</Reactstrap.Label>
+                                <Reactstrap.Col md={10}>
+                                    <ReactReduxForm.Control.text model=".lastname" id="lastname" name="lastname"
+                                        value="Ly Viet"
+                                        placeholder="Last Name"
+                                        className="form-control"
+                                        validators={{
+                                            required:false, //lúc nào cũng thông báo 
                                             minLength:minLength(3),
                                             maxLength:maxLength(15)
                                             //we allow from 3 to 15 characters, "must be greater than 3 and less than 15"
@@ -235,7 +359,7 @@ class Contact extends React.Component { //Create a react component by extending 
                                             className="form-control"
                                             //kế thừa và bổ sung validators as firstname and lastname
                                             validators={{
-                                                required,
+                                                required:(val) => val && val.length,
                                                 minLength:minLength(3),
                                                 maxLength:maxLength(15),
                                                 //we allow this string from 3 to 15 characters, "must be greater than 3 and less than 15"
@@ -275,7 +399,7 @@ class Contact extends React.Component { //Create a react component by extending 
                                         placeholder="Email"
                                         className="form-control"
                                         validators={{
-                                            required,
+                                            required:(val) => val && val.length,
                                             validEmail
                                         }}
                                         //khanglvFX15073@funix.edu.vn  vì sao báo lỗi "Invalid email address , do quy định sau @ chỉ có 1 . ??" , trong khi ab@cd.ef thì ok, ab@cd.ereee sẽ báo lỗi. Do sau . có quy định từ 2-4 characters
@@ -289,7 +413,7 @@ class Contact extends React.Component { //Create a react component by extending 
                                                 ///model=".firstname"
 
                                             model=".email"    
-                                            //tương tự onBlur trong react và html
+                                            //tương tự onBlur trong react và html, chỉ show Errors message sau khi onBlur
                                             show="touched" 
                                             //these messages is showed only after the item is touched
                                             //If not touched at all, these messages will NOT be shown/displayed:
@@ -348,10 +472,74 @@ class Contact extends React.Component { //Create a react component by extending 
         )
         
 
-         
-        
-                
+        //Test:
+            ///Không điền field nào, bấm "Send Feedback" thì tất cả các fields sẽ ra message
+        //Kết luận:
+            /// val chính là built-in user input của react-redux-form, chứ không phải giá trị value mặc định của form control input
+            /// Khi không nhập gì mà Submit hay onBlur event, thì val có giá trị undefined nên có kiểu undefined, từ đó thuộc tính val.length cũng sẽ undefined 
+            /// Các hàm sau sẽ ứng với các hành vi người dùng:
+                //// const required=(val)=>val && val.length;
+                //// const maxLength = (len) = (val) => !val || val.length;
+                //// const minLength = (len) = (val) => val && val.length ;
+        ///Hướng tiếp theo:
+            /// https://stackoverflow.com/questions/65299603/react-redux-form-password-and-confirm-password-validation
+              
         
         
     }
 }
+if(0){
+    console.log("Boolean của 0 là true")
+}else{
+    console.log("Boolean của 0 là false")
+}
+
+if(Boolean(-0)){
+    console.log("Boolean của -0 là true")
+}else{
+    console.log("Boolean của -0 là false")
+}
+
+if(Boolean(undefined)){
+    console.log("Boolean của undefined là true")
+}else{
+    console.log("Boolean của undefined là false")
+}
+
+//SỰ TỒN TẠI CỦA BIẾN TRONG MỘT ĐỐI TƯỢNG
+const error={}
+//let error2;  Uncaught TypeError: Cannot read properties of undefined (reading 'cryptoniter') trong if(error2.cryptoniter)
+if(error.cryptoniter){ //see if error.cryptoniter VALUE exists inside an object
+    console.log("Boolean của undefined variable (không phải undefined variable bình thường mà là undefined variable bên trong 1 đối tượng đã được defined) là true")
+}else{
+    console.log("Boolean của undefined variable là false")
+}
+
+// SỰ TỒN TẠI CỦA BIẾN TỰ DO
+/*
+if(trophy){ //Uncaught ReferenceError: trophy is not defined
+    console.log("Boolean của undefined variable  là true")
+}else{
+    console.log("Boolean của undefined variable là false")
+}
+*/
+
+const array=[];
+if(array.length){
+    console.log("Mảng có chứa phần tử");
+}else{
+    console.log("Mảng rỗng")
+}
+if(Boolean(array.length)){
+    console.log("Boolean của Mảng có chứa phần tử được đánh giá  true");
+}else{
+    console.log("Boolean của Mảng rỗng được đánh giá  false")
+}
+
+let Chuoi=''
+if(Boolean(Chuoi.length)){
+    console.log("Boolean của Chuoi có chứa ký tự được đánh giá  true");
+}else{
+    console.log("Boolean của Chuỗi rỗng được đánh giá  false")
+}
+
