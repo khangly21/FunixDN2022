@@ -200,6 +200,8 @@ class Contact extends React.Component { //Create a react component by extending 
         // https://davidkpiano.github.io/react-redux-form/docs/api/Control.html  tác giả davidkpiano và các ReactReduxForm.Control
         
         //thử gọi hàm alert(required(""))
+
+        //chú ý các Input không đặt giá trị value="xsass" vì không có onChange, nên sẽ không sửa đươc
         return(
             <div className="row row-content">
                 <div className="col-12">
@@ -214,7 +216,7 @@ class Contact extends React.Component { //Create a react component by extending 
                                     <ReactReduxForm.Control.text model=".firstname" id="firstname" name="firstname"
                                         //xem các child components của Control tại tác giả: https://davidkpiano.github.io/react-redux-form/docs/api/Control.html
                                         //placeholder="First Name"
-                                        value="Khang"
+                                        
                                         className="form-control"
                                         validators={{
                                             required:(val) => val && val.length, //val chính là giá trị yêu cầu người dùng gõ vào, chứ không phải value của input field
@@ -250,7 +252,7 @@ class Contact extends React.Component { //Create a react component by extending 
                                 <Reactstrap.Label htmlFor="middlename" md={2}>Middle Name</Reactstrap.Label>
                                 <Reactstrap.Col md={10}>
                                     <ReactReduxForm.Control.text model=".middlename" id="middlename" name="middlename"
-                                        value="my middle name"
+                                      
                                         placeholder="Middle Name"
                                         className="form-control"
                                         validators={{
@@ -284,11 +286,9 @@ class Contact extends React.Component { //Create a react component by extending 
                                 <Reactstrap.Label htmlFor="nickname" md={2}>Nick Name</Reactstrap.Label>
                                 <Reactstrap.Col md={10}>
                                     <ReactReduxForm.Control.text model=".nickname" id="nickname" name="nickname"
-                                       
-                                        placeholder="nick Name"
                                         className="form-control"
                                         validators={{
-                                            required,
+                                            required, //video của thầy Ấn Độ
                                             minLength:minLength(3),
                                             maxLength:maxLength(15)
                                             //we allow from 3 to 15 characters, "must be greater than 3 and less than 15"
@@ -317,7 +317,7 @@ class Contact extends React.Component { //Create a react component by extending 
                                 <Reactstrap.Label htmlFor="lastname" md={2}>Last Name</Reactstrap.Label>
                                 <Reactstrap.Col md={10}>
                                     <ReactReduxForm.Control.text model=".lastname" id="lastname" name="lastname"
-                                        value="Ly Viet"
+                                       
                                         placeholder="Last Name"
                                         className="form-control"
                                         validators={{
@@ -483,9 +483,10 @@ class Contact extends React.Component { //Create a react component by extending 
                 //// const minLength = (len) = (val) => val && val.length ;
         ///Hướng tiếp theo:
             /// https://stackoverflow.com/questions/65299603/react-redux-form-password-and-confirm-password-validation
-              
-        
-        
+            /// https://github.com/davidkpiano/react-redux-form/blob/master/docs/guides/validation.md  
+            /// https://github.com/davidkpiano/react-redux-form
+            /// https://stackoverflow.com/questions/47593345/how-to-implement-validation-restriction-in-react-datepicker
+            /// https://www.thegreatcodeadventure.com/form-validation-in-react-with-redux-middleware/
     }
 }
 if(0){
