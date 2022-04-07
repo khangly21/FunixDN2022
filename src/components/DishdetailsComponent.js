@@ -41,6 +41,7 @@ const  DishDetails = (props) => { //nhận dữ liệu props.dish từ Main là 
     
                 <div className="col-6">
                     <RenderCommentItem comments={props.comments}/>
+                    <CommentForm/>
                 </div>   
             </div>
         </div>
