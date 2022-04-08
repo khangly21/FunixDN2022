@@ -12,9 +12,81 @@
     
 - git ls-files
 - git remote add LAB08_2_label https://github.com/khangly21/FunixDN2022.git  
-- git push LAB08_2_label LAB08_2    //phải cùng tên với local branch LAB09_1
+- git push LAB08_2_label LAB08_2    //phải cùng tên với local branch LAB08_2
   
 - Cập nhật
   ** git add .
   ** git commit -m "modified lab08_2"
   ** git push LAB08_2_label LAB08_2
+
+- Step by Step towards Redux Actions:
+  ** https://www.coursera.org/learn/front-end-react/peer/qp3A0/react-forms-and-redux
+  ** In this assignment you will be updating the React application with a react-redux-form based local form and do the form validation in code.
+
+Step-By-Step Assignment Instructions
+less 
+Assignment Overview
+
+In this assignment you will update the DishdetailComponent.js to include a form and do the form validation in code. At the end of this assignment, you should have completed the following tasks to update the page:
+
+Added a new class component named CommentForm to DishdetailComponent.js.
+
+Provide a form to enable users to submit their comments
+
+Validate the information entered by the users in the form
+
+Assignment Requirements
+
+Task 1:
+
+In this task you will add a new class component named CommentForm. You need to complete the following:
+
+Add a new class component named CommentForm that will add a button to the view as shown in the image below.
+
+When the button is clicked, it toggles a modal that will display the comment form.
+
+The CommentForm component is used by the RenderComments function to display the button for toggling the modal.
+
+Task 2:
+
+In this task you will construct the form for users to submit their comments as shown in the image below. You need to complete the following:
+
+Set up the form as a local form using the react-redux-form with the three fields: author, rating and comment.
+
+The rating field in the comment form is implemented using a select, the author is implemented using a text field, while the comment uses a textarea with six rows.
+
+Task 3:
+
+In this task, you will enable form validation as shown in the images below. You need to complete the following:
+
+The author field should at least be three characters long.
+
+The author field should be less than or equal to 15 characters.
+
+The user should be alerted by showing the invalid message displayed at the bottom of the field.
+
+
+why REDUX ACTION for Redux store?
+   ** You have just created the comment form before
+   ** Now create the first Action, whereby the comment you submit will be taken and added to the list of comments in React application
+      => we need to change the state in application   
+      => need to have an Action that enables us to change the state in Redux store 
+   ** STEP 1:
+      *** create an action type 
+         redux >> ActionType.js  
+         the  define various action types using String Constants 
+         => Now this is the standard approach to implement in Redux actions and action creators   
+         => with this simple app, not need this elaborate arrangement, but you should follow this standardized pattern (kiểu thiết kế, lối tư duy) to create various files that will be useful for even large scale application 
+
+* Lập trình:
+   ** redux 
+      *** ActionCreator.js
+         **** hàm addComment
+      *** ActionType.js
+         **** 'ADD_COMMENT'
+      *** configureStore.js 
+         **** hàm ConfigureStore 
+      *** 4 hàm reducers con của Root Reducer
+         **** comments.js 
+            ***** Comments(state=COMMENTS,action)
+             
