@@ -1,0 +1,23 @@
+﻿GIT  
+- git init 
+- tạo file note.txt 
+- git add note.txt  (hay git add .)
+- git commit -m "first commit to make master branch"
+- git branch 
+   * master
+- git checkout -b LAB08_2_reactreduxjsord   
+  //tạo và chuyển tới local branch LAB08_2_reactreduxjsord
+
+- git branch 
+   *LAB08_2_reactreduxjsord  
+    master
+    
+- git ls-files
+- git remote add LAB08_2_reactreduxorg_label https://github.com/khangly21/FunixDN2022.git  
+- git push LAB08_2_reactreduxorg_label LAB08_2_reactreduxjsord      
+  //phải cùng tên với local branch LAB08_2_reactreduxjsord  
+  
+- Cập nhật
+  ** git add .
+  ** git commit -m "modified lab08_2 of Muppala"
+  ** git push LAB08_2_reactreduxorg_label LAB08_2_reactreduxjsord    
