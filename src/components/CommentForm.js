@@ -28,52 +28,67 @@ class CommentForm extends React.Component{
     }
     render(){
         //https://www.w3schools.com/tags/att_input_type_range.asp
-        return(
 
+        //trong Modal, sử dụng Uncontrolled form, trong khi bài Tran Tien Dat dung React-redux-form
+        return(
+             
             <div>
                 <b style={{marginLeft:"3vw"}}>Add your comment! </b>
                 <Reactstrap.Button outline onClick={this.toggleModal}>
-                                        <span className="fa fa-sign-in fa-lg">Comment</span>
-                                        
+                    <span className="fa fa-sign-in fa-lg">Comment</span>
                 </Reactstrap.Button>  
 
                  <Reactstrap.Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
                          <Reactstrap.ModalHeader>Submit Comment</Reactstrap.ModalHeader>
                  
                          <Reactstrap.ModalBody>
-                 
-                             <Reactstrap.Form onSubmit={this.handleComment}>
-                 
-                                 <Reactstrap.FormGroup>
-                                     <Reactstrap.Label htmlFor="username">Username</Reactstrap.Label>
-                                     <Reactstrap.Input type="text" id="username" name="username"
-                                         innerRef={(input) => this.username = input} />
-                                 </Reactstrap.FormGroup>
-                 
-                                 <
+                         <ReactReduxForm.LocalForm onSubmit={this.handleComment}>
+                               <Reactstrap.Row className="control-group">
+                                 <Reactstrap.Label htmlFor="rating" md={10}>
+                                   Rating
+                                 </Reactstrap.Label>
+                                 <ReactReduxForm.Control.select
+                                   model=".rating"
+                                   className="form-control m-2"
+                                   id="rating"
+                                   name="rating"
+                                   defaultValue="1"
+                                 >
+                                   <option>1</option>
+                                   <option>2</option>
+                                   <option>3</option>
+                                   <option>4</option>
+                                   <option>5</option>
+                                 </ReactReduxForm.Control.select>
+                               </Reactstrap.Row>
 
-                                 Reactstrap.FormGroup>
-                                     <Reactstrap.Label htmlFor="rating">Rating (between 1 and 5)</Reactstrap.Label>
-                                     <Reactstrap.Input type="number" min="1" max="5" id="rating" name="rating"
-                                         innerRef={(input) => this.rating = input}  />
-                                 </Reactstrap.FormGroup>
-
-                                 <Reactstrap.FormGroup>
-                                     <Reactstrap.Label htmlFor="comment"> Comment </Reactstrap.Label>
-                                     <Reactstrap.Input type="textarea" id="comment" name="comment" rows="4"
-                                         innerRef={(input) => this.comment = input}  />
-                                 </Reactstrap.FormGroup>
-                 
-                                 <Reactstrap.FormGroup check>
-                                     <Reactstrap.Label check>
-                                         <Reactstrap.Input  type="checkbox" name="remember"
-                                         innerRef={(input) => this.remember = input}  />
-                                         Remember me
-                                     </Reactstrap.Label>
-                                 </Reactstrap.FormGroup>
-                 
-                                 <Reactstrap.Button type="submit" value="submit" color="primary">Login</Reactstrap.Button>
-                             </Reactstrap.Form>
+                               <Reactstrap.Row>
+                                 <Reactstrap.Label htmlFor="author" md={10}>
+                                   Your Name
+                                 </Reactstrap.Label>
+                                 <ReactReduxForm.Control.text
+                                   model=".author"
+                                   className="form-control m-2"
+                                   id="author"
+                                   name="author"
+                                   placeholder="Your Name"
+                                 ></ReactReduxForm.Control.text>
+                               </Reactstrap.Row>
+                               <Reactstrap.Row className="control-group">
+                                 <Reactstrap.Label htmlFor="comment" md={10}>
+                                   Comments
+                                 </Reactstrap.Label>
+                                 <ReactReduxForm.Control.textarea
+                                   model=".comment"
+                                   className="form-control m-2"
+                                   id="comment"
+                                   name="comment"
+                                   rows="10"
+                                 ></ReactReduxForm.Control.textarea>
+                                 <Reactstrap.Button color="primary">Submit</Reactstrap.Button>
+                               </Reactstrap.Row>
+                             </ReactReduxForm.LocalForm>
+                           
                  
                          </Reactstrap.ModalBody>
                      </Reactstrap.Modal>

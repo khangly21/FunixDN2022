@@ -11,7 +11,7 @@ const  DishDetails = (props) => { //nhận dữ liệu props.dish từ Main là 
     console.log(addComment) //ok, dòng này sẽ hiện ra sau khi chọn món thì được Route tới http://127.0.0.1:5500/#/menu/0
     
     var comments_array_of_selectedDish=props.comments; //nếu ghi var comments_array_of_selectedDish=selectedDish.comments; thì Uncaught TypeError: Cannot read properties of undefined (reading 'comments')
-    console.log(comments_array_of_selectedDish);
+    console.log(comments_array_of_selectedDish); //có chứa author là thông tin cần để render
     
     //cấu trúc tương tự MenuComponent.js
 
@@ -40,11 +40,13 @@ const  DishDetails = (props) => { //nhận dữ liệu props.dish từ Main là 
                         comments={props.comments}
                         addComments={props.addComment}
                         dishId={props.dish.id}
+                        author={props.comments.author} //có thể không cần, chỉ cần comments map ra các comment sau đó dùng comment.author
                     />
                     
                 </div>   
             </div>
         </div>
+        //chú ý addComments={props.addComment} , bên dưới nếu extract từ props addComment là ReferenceError
         //trong bài giảng thầy Muppala thì <RenderComments comments={props.comments}/> , và The CommentForm component is used by the RenderComments function to display the button for toggling the modal.
         //sau đó thêm 2 attributes vào là addComment được supplied từ ConnectedMainComponent và dishId 
         // tại sao cần tham số dishId ?? vì 'the comments itself does not know the Id of the dish for which the comment item is being rendered, so I will pass the dishId as props'
@@ -85,7 +87,7 @@ function RenderDish2(props) {
 //nhận props từ Parent là DishDetails
 //Cách 1 ('destructuring the props' aka 'extracting from the props' so that it will be available for this component): function RenderCommentItem({comments,addComment,dishId}){//truy cập không props, chỉ có comments , nếu ghi props.comments là undefined props}
 //Cách 2: function RenderCommentItem(props){ // truy cập bằng cách truyền thống let comments=props.comments;}  
-function RenderCommentItem({comments,addComment,dishId}) {//chú ý param thứ 2 là 1 function object khi được gọi phía CommentForm sẽ cần 4 tham số (dishId,rating,author,comment)
+function RenderCommentItem({comments,addComments,dishId,author}) {//chú ý param thứ 2 là 1 function object khi được gọi phía CommentForm sẽ cần 4 tham số (dishId,rating,author,comment)
     //console.log("Cách lý thuyết, comments nhận từ Parent component DishDetails là: ",props.comments);
     console.log("cách ghi khác: ",comments);
     //What do we do with 2 params: addComment and dishId ?? just paste them directly TO THE COMMENT FORM, vì vậy, 
@@ -101,7 +103,8 @@ function RenderCommentItem({comments,addComment,dishId}) {//chú ý param thứ 
         )
     })
     */
-
+    
+    //Note: nên bỏ param thứ 4 là "author", vì nếu ghi By {author} là UI undefined
     return(
         //<ul className="list-unstyled"> sẽ không gây thụt đầu dòng các li
         //CtrlClick comments sẽ dẫn tới tham số
@@ -120,7 +123,7 @@ function RenderCommentItem({comments,addComment,dishId}) {//chú ý param thứ 
                    )
                })}
             </ul>
-            <CommentForm dishId={dishId} addComment={addComment}/>
+            <CommentForm dishId={dishId} addComment={addComments}/>
         </div>
         //tuy nhiên sau khi submit comment form, thì dữ liệu được truyền với method GET tới trang chủ với URL như: 
            /// http://127.0.0.1:5500/?username=lyvietkhang&rating=1&comment=TEST&remember=on#/

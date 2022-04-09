@@ -18,3 +18,107 @@
   ** git add .
   ** git commit -m "modified lab08_2_muppala"
   ** git push LAB08_2_MPL_label LAB08_2_Muppala     
+
+
+- CommentForm.js  : nằm giữa ModalBody --> Uncontrolled form vs react-redux-form  ?
+   ** Uncontrolled form --> innerRef
+         handleComment(event) {
+             this.toggleModal();
+             alert("Username: " + this.username.value + " Password: " + this.password.value
+                 + " Remember: " + this.remember.checked);
+             event.preventDefault();
+     
+         }
+
+        <Reactstrap.Form onSubmit={this.handleComment}>
+                 
+                                 <Reactstrap.FormGroup>
+                                     <Reactstrap.Label htmlFor="username">Username</Reactstrap.Label>
+                                     <Reactstrap.Input type="text" id="username" name="username"
+                                         innerRef={(input) => this.username = input} />
+                                 </Reactstrap.FormGroup>
+                 
+                                 <Reactstrap.FormGroup>
+                                     <Reactstrap.Label htmlFor="rating">Rating (between 1 and 5)</Reactstrap.Label>
+                                     <Reactstrap.Input type="number" min="1" max="5" id="rating" name="rating"
+                                         innerRef={(input) => this.rating = input}  />
+                                 </Reactstrap.FormGroup>
+
+                                 <Reactstrap.FormGroup>
+                                     <Reactstrap.Label htmlFor="comment"> Comment </Reactstrap.Label>
+                                     <Reactstrap.Input type="textarea" id="comment" name="comment" rows="4"
+                                         innerRef={(input) => this.comment = input}  />
+                                 </Reactstrap.FormGroup>
+                 
+                                 <Reactstrap.FormGroup check>
+                                     <Reactstrap.Label check>
+                                         <Reactstrap.Input  type="checkbox" name="remember"
+                                         innerRef={(input) => this.remember = input}  />
+                                         Remember me
+                                     </Reactstrap.Label>
+                                 </Reactstrap.FormGroup>
+                 
+                                 <Reactstrap.Button type="submit" value="submit" color="primary">Comment</Reactstrap.Button>
+                             </Reactstrap.Form>
+
+   ** react-redux-form (Lab08_2 Tran Tien Dat) --> { Control và LocalForm } và onSubmit={this.handleSubmit}
+         handleSubmit(value) {
+            this.toggleModal();
+            this.props.addComment(
+              this.props.dishId,
+              value.rating,
+              value.author,
+              value.comment
+            );
+         }
+
+        <LocalForm onSubmit={this.handleSubmit}>
+
+              <Row className="control-group">
+                <Label htmlFor="rating" md={10}>
+                  Rating
+                </Label>
+                <Control.select
+                  model=".rating"
+                  className="form-control m-2"
+                  id="rating"
+                  name="rating"
+                  defaultValue="1"
+                >
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                </Control.select>
+              </Row>
+
+              <Row>
+                <Label htmlFor="author" md={10}>
+                  Your Name
+                </Label>
+                <Control.text
+                  model=".author"
+                  className="form-control m-2"
+                  id="author"
+                  name="author"
+                  placeholder="Your Name"
+                ></Control.text>
+              </Row>
+
+
+              <Row className="control-group">
+                <Label htmlFor="comment" md={10}>
+                  Comments
+                </Label>
+                <Control.textarea
+                  model=".comment"
+                  className="form-control m-2"
+                  id="comment"
+                  name="comment"
+                  rows="10"
+                ></Control.textarea>
+                <Button color="primary">Submit</Button>
+              </Row>
+
+            </LocalForm>
