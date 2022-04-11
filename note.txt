@@ -18,3 +18,167 @@
   ** git add .
   ** git commit -m "modified lab09_1"
   ** git push LAB09_1_label LAB09_1
+
+- Nội dung video :
+   ** We have learnt Redux Middleware and Redux Thunk
+   ** Lab09_1 employs Redux Middleware, cụ thể là a logger Middleware
+     => Mục tiêu:  
+         *** log all the changes we caused to Redux store to out console log
+         *** use Redux Thunk to return a function (instead of an action object) and see how we can make use it to carry out actions 
+   ** install Redux Thunk and Redux Logger into the project  
+   ** update the React Redux app to apply the Redux Middleware 
+   ** configureStore to apply Redux Thunk và Redux Logger 
+      *** import {applyMiddleware} from 'redux' 
+      *** import thunk from 'redux-thunk'
+      *** import logger from 'redux-logger'  
+      => we have 2 middlewares available to us 
+   ** introduce 3 types of action for 3 different intentions
+   ** then in ActionCreator.js, there is the First Thunk here
+   ** trong dishes.js, bỏ đi import {DISHES} from '../shared/dishes' vì không cần thiết nữa, vì tôi sẽ giao nhiệm vụ cho ActionCreator để supply thông tin dishes cho my dishes reducer
+      Ngược lại, trong ActionCreator.js, thêm vào import {DISHES} from '../shared/dishes' để cung cấp thông tin dishes cho dishes reducer
+   ** trong ActionCreator, giới thiệu vài functions khác:
+      *** fetchDishes()
+   ** (22:17) đã hoàn tất thay đổi cho Dishes reducer , nhưng thuộc về Redux. Vậy React application cần làm gì cho sự thay đổi này?
+      *** tạo một LoadingComponent.js
+      *** tới ActionCreator.js tại fetchDishes which is a Thunk, sẽ được gọi khi có sự cố gắng fetch dữ liệu với isLoading:true 
+      *** tới MainComponent.js, import {fetchDishes} from '../redux/ActionCreator'
+         **** I will map the fetchDishes into my props: trong mapDispatchToProps I am gonna create a new property called "fetchDishes"
+         **** in MainComponent, I need to fetch the dishes, but where do I fetch the dishes??
+            ***** (line 42) this is when I can take the help of "Component Life Cycle" method componentDidMount 
+            ***** Ý nghĩa của componentDidMount:
+               ****** (Muppala): whatever we include into this component life cycle method will be called, will be executed to fetch any data I required for my app, JUST AFTER this component gets mounted into the view of my application, and then load data to the Redux's store, then it becomes available for my application
+
+   ** (28:00) console.log(this.props.fetchDishes); //ok, đã thành công map dispatch từ store qua Main component
+      *** tới <HomePage/> để thay đổi các thuộc tính
+         **** recall tại Main:
+            ***** mapStateToProps có specifies rằng dishes: state.dishes,   //state.dishes (from Dishes reducer) is mapped to dishes  (in MainComponent)
+                  => sau đó Main có thể sử dụng : console.log(this.props.dishes); //ok
+         **** không còn các dòng sau (trong Lab08_2) nữa:
+               let dishArray=this.props.dishes; //Trong Lab08_2_Muppala thì đây là map State từ Dishes reducer to props của MainComponent. Lúc này Dishes reducer đang lưu state về các dishes và không phụ thuộc action nào: state=DISHES
+                                                //Trong Lab09_1 thì trong ActionCreator.js có xuất hiện middleware Thunk fetchDishes , và Thunk này sẽ lấy dữ liệu trực tiếp từ mảng DISHES , còn Dishes reducer chỉ lưu initialState=[] sau đó tùy hành động mà bổ sung cho initialState 
+                                                //quy tắc không đổi là Component không phải nhận mapDispatchToProps từ Thunk, mà từ Store, tương tự cho mapStateToProps
+                                           
+               let filterDish=dishArray.filter((dish) => dish.featured)[0];
+               dish={filterDish}
+         **** Thay bằng:
+               dish={this.props.dishes.dishes.filter((dish) => dish.featured)[0]}
+               dishesLoading={this.props.dishes.isLoading}
+               dishesErrorMessage={this.props.dishes.errMess}//Dishes fetching could be failed
+
+      *** Tương tự, tới <DishDetails/> thuộc DishWithId thuộc MainComponent để thay đổi các thuộc tính
+         **** không còn các dòng sau (trong Lab08_2) nữa:
+               dish={this.props.dishes.filter((dish) => dish.id === parseInt(match.params.dishId,10))[0]} 
+               comments={this.props.comments.filter((comment) => comment.dishId === parseInt(match.params.dishId,10))}
+               addComment= {(dishId,rating,author,comment)=>store.dispatch(addComment(dishId,rating,author,comment))}
+         **** thay bằng:
+               dish={this.props.dishes.dishes.filter((dish) => dish.id === parseInt(match.params.dishId,10))[0]} 
+               isLoading={this.props.dishes.isLoading}
+               ErrMessage={this.props.dishes.errMess}
+         
+      *** Tới DishDetails thuộc DishdetailsComponent.js
+         **** do props.dish có thể null nên không biểu diễn theo kiểu Thunk như 2 examples trên
+         **** Solution: import {Loading} from './LoadingComponent' 
+              because we will use Loading here
+              if(props.isLoading===true){
+                  //remember how we parsed isLoading from Main to isLoading in DishDetail component thuộc hàm DishWithId: 
+                    /// <DishDetail  isLoading={this.props.dishes.isLoading}
+                  //now we do conditional rendering, conditioned on certain properties here
+
+              }
+         **** Look at the code structure, many other places where I display the details about the dish here
+         *** PROBLEM: Totally different places where I will have to access to dish detail component
+                     **** DishDetails component 
+                     **** Menu component
+                     **** HomePage component
+                     => I have to rely on information about the dishes
+             SOLUTION: the next thing to fix is the HomePage component (37:09), go to HomePage component trong HomePageComponent.js 
+         *** HomePage component:
+            **** đoạn code A cần sửa của Muppala:
+                  function RenderCard(item){
+                     return(
+                        <Reactstrap.Card>
+                           <Reactstrap.CardImg src={item.image} alt={item.name}></Reactstrap.CardImg>
+                           <Reactstrap.Card body>
+                             <Reactstrap.CardTitle>{item.name} </Reactstrap.CardTitle>
+                                {item.designation?<Reactstrap.CardSubtitle>{item.designation}</Reactstrap.CardSubtitle>:null}
+                             <Reactstrap.CardText>{item.description}</Reactstrap.CardText>
+                           </Reactstrap.Card>
+                        </Reactstrap.Card>
+                     )
+                  }
+
+            **** đoạn code B cần sửa của Muppala:
+                  <RenderCard item={props.dish}/>
+            **** code B được replaced by:
+                  <RenderCard item={props.dish}
+                              isLoading={props.dishesLoading}
+                              errMess={props.dishesErrorMessage}
+                  />
+
+            **** A is replaced by:
+                  function RenderCard({item,isLoading,errMess}){
+                     //tham số được truyền bằng cách destructure to extract from props
+                     return(
+                        <Reactstrap.Card>
+                           <Reactstrap.CardImg src={item.image} alt={item.name}></Reactstrap.CardImg>
+                           <Reactstrap.Card body>
+                             <Reactstrap.CardTitle>{item.name} </Reactstrap.CardTitle>
+                                {item.designation?<Reactstrap.CardSubtitle>{item.designation}</Reactstrap.CardSubtitle>:null}
+                             <Reactstrap.CardText>{item.description}</Reactstrap.CardText>
+                           </Reactstrap.Card>
+                        </Reactstrap.Card>
+                     )
+                  }
+  
+
+            (38:42) 
+
+         *** MenuComponent (41:16) needs to be fixed
+            **** đầu tiên, vào MainComponent để xem các props truyền cho MenuComponent
+            const DishNoId=()=>{
+                return(
+                    <MenuClassComponent
+                        message={<b style={{color:'orange'}}>thêm param 0,1,2,3 trên URL để xem chi tiết món ăn</b>}
+                        dishes={this.props.dishes}
+                    />
+                )
+            }    
+
+            <ReactRouterDOM.Route exact path='/menu' component={() => <DishNoId dishes={this.props.dishes} />} />
+            //cho thấy toàn bộ dishes object đã được passed vào DishNoId
+
+            **** I will fix MenuComponent up
+               ***** import {Loading} from './LoadingComponent'
+               ***** Chỗ cần sửa: const menu=props.dishes.map()
+ 
+                      => Sửa thành: const menu=props.dishes.dishes.map()
+
+
+         *** Now, we have fixed all components to enable us to have dish loading will take some time
+         *** Save and look at our application in the browser
+
+HomepageComponent.js
+function RenderCard({item,isLoading,errMess}){ //ĐƯỢC GỌI BỞI HomePage
+    //tham số được truyền bằng cách destructure to extract from props
+    if(isLoading){
+      return(
+        <Loading/>
+      )
+    }
+    else if(errMess){
+      return(
+        <h4>{errMess}</h4>
+      );
+    }
+    else
+      return(
+        <Reactstrap.Card>
+           <Reactstrap.CardImg src={item.image} alt={item.name}></Reactstrap.CardImg>
+           <Reactstrap.Card body>
+             <Reactstrap.CardTitle>{item.name} </Reactstrap.CardTitle>
+                {item.designation?<Reactstrap.CardSubtitle>{item.designation}</Reactstrap.CardSubtitle>:null}
+             <Reactstrap.CardText>{item.description}</Reactstrap.CardText>
+           </Reactstrap.Card>
+        </Reactstrap.Card>
+      )
+}
