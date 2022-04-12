@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+//React 18 không hỗ trợ ReactDOM, phải dùng 17
 ReactDOM.render(
   <React.StrictMode>
     <App />
