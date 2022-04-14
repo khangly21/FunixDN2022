@@ -1,5 +1,6 @@
 import * as ActionTypes from './ActionType';
-import { DISHES } from '../shared/dishes';
+import { DISHES } from '../shared/dishes'; //không dùng nữa
+import {baseUrl} from '../shared/baseUrl'; //now we have fetched or include the baseUrl
 //nhận tất cả Action Type từ ActionType.js
 //a function that creates an action object, and this function is invoked by Component UI
 //arrow function nhận 4 parameters và return an action object { ... }
@@ -30,28 +31,48 @@ export const addComment=(dishId,rating,author,comment)=>({
 // Async code is unpredictable because completion is not known ahead of time and multiple requests complicate things
     ///the problem at hand lies in the fact Redux has no way of knowing when both async operations finish, while in case of many endpoints , we need many async operations and a way to know when all are done!
     /// a dispatched action này có thể được setTimeOut để chạy sau dispatched action khác
+    let url = "http://jsonplaceholder.typicode.com/posts/6";
 
+    let iterator = fetch(url);
+    
+    iterator
+      .then(response => {
+          return {
+              data: response.json(),  //câu hỏi là data là Promise object hay chỉ là standard object which you can access property
+              status: response.status
+          }
+      })
+      //post là đối tượng kết quả từ return bên trên, hover xem kết quả
+      .then(post => console.log(post.data.title)); //post.data có prototype là Promise object và không truy cập được giá trị, VD post.data.title
+    ; //Why does response.json return a promise? 
 
+    let iterator2 = fetch(url);
+
+    iterator2
+      .then(response => response.json()) //CHÚ Ý: json() luôn trả về Promise object , cho dù có keyword "return" hay không
+      //Why do I get the value post.title if I return the promise from the then handler? Because that's how promises work. The ability to return promises from the callback and get them adopted is their most relevant feature, it makes them chainable without nesting.
+      .then(post => console.log(post.title));//post là đối tượng lấy từ API , là standard object và truy cập được dữ liệu về title: dolorem eum magni eos aperiam quia
+    ;
+    //https://stackoverflow.com/questions/37555031/why-does-json-return-a-promise
+  
+    
+//fetch dữ liệu dishes + addDishes + dishesLoading + dishesFailed
 export const fetchDishes=()=>(dispatch)=>{
     //vừa gọi dispatch vừa gọi hàm tạo hành động với mục đích loading chạy cùng lúc
     dispatch(dishesLoading(true)); //lát sẽ biết dishesLoading sẽ làm gì
 
-    setTimeout(()=>{
-        //delay this dispatched action for 2 sec
-        dispatch(addDishes(DISHES)); //to push dishes into state in out store
-    },2000)
-
-    //Tóm lại, the thunk fetchDishes trả về 1 hàm which calls dispatches
-    //TẠI SAO THUNK LẠI XẾP NGANG HÀNG CÁC HÀM TẠO HÀNH ĐỘNG trong ActionCreator.js ? Vì Thunk cũng là hàm tạo hành động và sẽ được chạy chung với dispatch trong MainComponent.js
-    // trong MainComponent.js, hàm tạo hành động cũng là thunk fetchDishes sẽ phối hợp với LoadingComponent để cho người dùng biết khi nào mình sẽ hoàn thành, bằng cách dùng loading spinner
-    //nếu xem ActionCreator là 1 đối tượng, thì khi import các hàm trong đối tượng này vào MainComponent
-       /// sẽ dùng kiểu quen thuộc là Object destructuring với việc gán hàm vào biến mới cùng tên
-          //// import { addComment , fetchDishes as otherName } from '../redux/ActionCreator';
-
-    //cả 3 actioncreators sau sẽ trả về 3 action objects
-    //cả 3 hành động đều ảnh hưởng tới state trong Dishes reducer, do đó tới dishes.js ngay bây giờ
+    return fetch(baseUrl + 'dishes') //hover sẽ thấy fetch trả về Promise object là response
+    //các arrow function nằm trong then() đều là các hàm callback
+    .then(response => response.json()) //hover sẽ thấy fetch trả về Promise object là dishes
+    .then(dishes => dispatch(addDishes(dishes))); //hover sẽ thấy json() trả về Promise object là dishes
+    //khi obtain được dishes object, thì dùng hàm dispatch của store để chuyển action object tới store 
 
 }
+
+export const addDishes = (dishes) => ({
+    type: ActionTypes.ADD_DISHES,
+    payload: dishes   //Lab10_2 sau này khi fetch thành công dữ liệu về là 1 mảng dishes, sẽ gọi hàm addDishes(mảng)
+});
 
 export const dishesLoading = () => ({ // nếu cho 3 hàm này vào trong fetchDishes thì Syntax error: 'import' and 'export' may only appear at the top level (53:0)
     type: ActionTypes.DISHES_LOADING
@@ -63,7 +84,46 @@ export const dishesFailed = (errmess) => ({
     //errmess là string nhưng không nói rõ ở đây
 });
     
-export const addDishes = (dishes) => ({
-    type: ActionTypes.ADD_DISHES,
-    payload: dishes
-    });
+//fetch dữ liệu comments + commentsFailed + addComments
+export const fetchComments = () => (dispatch) => {    
+    //comments sẽ được load ngay khi HomePage loaded, nên không dùng commentsLoading
+    return fetch(baseUrl + 'comments')
+    .then(response => response.json())
+    .then(comments => dispatch(addComments(comments)));   //phân biệt hàm tạo hành động addComment() bên trên
+};
+
+export const commentsFailed = (errmess) => ({
+    type: ActionTypes.COMMENTS_FAILED,
+    payload: errmess
+});
+
+export const addComments = (comments) => ({ //khác component addComment
+    type: ActionTypes.ADD_COMMENTS,
+    payload: comments
+});
+
+
+
+//fetch dữ liệu Promotions + promosLoading + promosFailed + addPromos
+export const fetchPromos = () => (dispatch) => {
+    
+    dispatch(promosLoading(true));
+
+    return fetch(baseUrl + 'promotions')
+    .then(response => response.json())
+    .then(promos => dispatch(addPromos(promos)));
+}
+
+export const promosLoading = () => ({
+    type: ActionTypes.PROMOS_LOADING
+});
+
+export const promosFailed = (errmess) => ({
+    type: ActionTypes.PROMOS_FAILED,
+    payload: errmess
+});
+
+export const addPromos = (promos) => ({
+    type: ActionTypes.ADD_PROMOS,
+    payload: promos
+});

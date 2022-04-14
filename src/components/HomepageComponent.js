@@ -1,6 +1,7 @@
 import React from 'react'; 
 import {Card,CardImg,CardBody,CardTitle,CardSubtitle,CardText } from 'reactstrap';
 import { Loading } from './LoadingComponent';
+import { baseUrl } from '../shared/baseUrl';
 
 //dùng destructuring gán cho biến mới cùng tên
 //Khi MainComponent gửi props qua HomepageComponent thì props có chứa 3 thuộc tính : dish,dishesLoading,dishesErrMess sẽ được gán cho 3 biến cùng tên
@@ -20,7 +21,7 @@ export function RenderCard({ item,isLoading,errMess}){
   else 
     return(
       <Card>
-        <CardImg src={item.image} alt={item.name}></CardImg>
+        <CardImg src={baseUrl + item.image} alt={item.name}></CardImg>
         <CardBody>
           <CardTitle>{item.name} </CardTitle>
              {item.designation?<CardSubtitle>{item.designation}</CardSubtitle>:null}
@@ -52,7 +53,7 @@ export function RenderCard({ item,isLoading,errMess}){
                 <RenderCard item={props.dish} isLoading={props.dishesLoading} errMess={props.dishesErrMess}/>
             </div> 
             <div className="col-12 col-md m-1">
-                <RenderCard item={props.promotion}/>
+                <RenderCard item={props.promotion} isLoading={props.promoLoading} errMess={props.promoErrMess} />
             </div>
             <div className="col-12 col-md m-1">
                 <RenderCard item={props.leader}/>

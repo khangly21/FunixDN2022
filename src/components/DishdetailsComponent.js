@@ -5,6 +5,7 @@ import { Control, LocalForm } from "react-redux-form";
 import { addComment } from "../redux/ActionCreator";
 import CommentForm from "./CommentForm";
 import { Loading } from './LoadingComponent';
+import { baseUrl } from '../shared/baseUrl';
 
 
 //FUNCTIONAL COMPONENT
@@ -83,7 +84,7 @@ export function RenderDish({dish}) { //là cách khác thay vì viết props, c�
     return(
         <div key={dish.id} className="col-12 col-md-5 m-1">
             <Card>
-                <CardImg width="100%" src={dish.image} alt={dish.name}/>
+                <CardImg width="100%" src={baseUrl + dish.image} alt={dish.name}/>
                 <CardBody>
                     <CardTitle>{dish.name}</CardTitle>
                     <CardText>{dish.description}</CardText>

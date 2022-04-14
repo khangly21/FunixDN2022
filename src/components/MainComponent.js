@@ -17,7 +17,7 @@
   
    import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
    import { connect } from 'react-redux';
-   import { addComment,fetchDishes } from '../redux/ActionCreator'; //nếu dẫn sai là Module not found: Error: Can't resolve '../redux/ActionCreators' do sai tên thư mục
+   import { addComment,fetchDishes, fetchComments, fetchPromos } from '../redux/ActionCreator'; //nếu dẫn sai là Module not found: Error: Can't resolve '../redux/ActionCreators' do sai tên thư mục
 
    import { actions } from 'react-redux-form';
 //hàm này không nằm trong class Main, nếu nằm trong thì sẽ bind(this)
@@ -56,11 +56,12 @@ const mapDispatchToProps=(dispatch)=>({
     //now where I will fetch the dishes? componentdidmount giúp fetch sau khi đối tượng Main đi vào DOM , trong life cycle của Main
 
     //thêm 1 dispatch cho việc reset form Contact, truy cập dispatch này bằng this.props
-    resetFeedbackForm: () => { dispatch(actions.reset('feedback'))} //actions.reset là built-in , vậy "feetback là gì". The form will be named/labelled as "feedback", hover thấy công thức tham số là model, vì form là 1 đối tượng trong state nên gọi form là model. 
+    resetFeedbackForm: () => { dispatch(actions.reset('feedback'))}, //actions.reset là built-in , vậy "feetback là gì". The form will be named/labelled as "feedback", hover thấy công thức tham số là model, vì form là 1 đối tượng trong state nên gọi form là model. 
     //Như vậy Main có thể truyền dispatch này cho Contact thông qua props
     //Tại Contact, gắn nhãn cho form là <Form model="feedback" và onSubmit sẽ kích hoạt hàm dispatch làm reset form : this.props.resetFeedbackForm();
     //tại sao lại phải cho dispatch(actions.reset('feedback')) nằm trong 1 arrow function rồi truyền tới Contact??  vì nếu để theo kiểu gọi ham() thì hàm sẽ chạy ngay trong Main, trong khi yêu cầu hàm chỉ chạy khi submit form trong Child component là Contact
-
+    fetchComments: () => dispatch(fetchComments()),
+    fetchPromos: () => dispatch(fetchPromos())
 })
 
 
@@ -85,6 +86,8 @@ class Main extends Component {
     componentDidMount() {
         //call/execute/invoke , this is very good time to fetch any data required for my application
         this.props.fetchDishes(); //vì trước đó dispatch đã đưa hàm tạo hành động fetchDishes vào trong props fetchDishes, nên biến mới này thành hàm và được call bằng ()
+        this.props.fetchComments();
+        this.props.fetchPromos();
     }
 
     
@@ -105,7 +108,9 @@ class Main extends Component {
                     dish={this.props.dishes.dishes.filter((dish) => dish.featured)[0]}
                     dishesLoading={this.props.dishes.isLoading}
                     dishesErrMess={this.props.dishes.errMess}
-                    promotion={this.props.promotions.filter((promo) => promo.featured)[0]}
+                    promotion={this.props.promotions.promotions.filter((promo) => promo.featured)[0]}
+                    promoLoading={this.props.promotions.isLoading}
+                    promoErrMess={this.props.promotions.errMess}
                     leader={this.props.leaders.filter((leader) => leader.featured)[0]}
                 />
             );      
@@ -120,7 +125,8 @@ class Main extends Component {
                     dish={this.props.dishes.dishes.filter((dish) => dish.id === parseInt(match.params.dishId,10))[0]} 
                     isLoading={this.props.dishes.isLoading}
                     errMess={this.props.dishes.errMess}
-                    comments={this.props.comments.filter((comment) => comment.dishId === parseInt(match.params.dishId,10))}
+                    comments={this.props.comments.comments.filter((comment) => comment.dishId === parseInt(match.params.dishId,10))}
+                    commentsErrMess={this.props.comments.errMess}
                     addComment={this.props.addComment}
                     //addComment= {(dishId,rating,author,comment)=>store.dispatch(addComment(dishId,rating,author,comment))}
                 />

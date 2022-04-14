@@ -2,6 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import {Card,CardImg,CardImgOverlay,CardBody,CardTitle,CardSubtitle,CardText,Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Loading } from "./LoadingComponent";
+import {baseUrl} from '../shared/baseUrl';
 
 class MenuClassComponent extends React.Component {
     constructor(props) { //props là mảng dishes nhận từ Main ở Route, gửi cả một đối tượng this.props.dishes   :  component={() => <Menu dishes={this.props.dishes} />
@@ -20,7 +21,7 @@ class MenuClassComponent extends React.Component {
                     //onClick={() => this.props.onClick(dish.id)}
                 >
                     <Link to={`/menu/${dish.id}`}>
-                         <CardImg width="100%" src={dish.image} alt={dish.name}/>
+                         <CardImg width="100%" src={baseUrl + dish.image} alt={dish.name}/>
                          <CardImgOverlay>
                              <CardTitle>{dish.name}</CardTitle>
                          </CardImgOverlay>
