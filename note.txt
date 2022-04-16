@@ -12,7 +12,7 @@
 - git push RJS_assignment4_label RJS101x_Assignment4_khanglvfx15073@funix.edu.vn
 
 
-- Cập nhật
+- Cập nhật (chú ý: nếu filename too long in node_modules và git báo lỗi => https://stackoverflow.com/questions/22575662/filename-too-long-in-git-for-windows)
   ** git add .
   ** git commit -m "modified project 4"
   ** git push RJS_assignment4_label RJS101x_Assignment4_khanglvfx15073@funix.edu.vn

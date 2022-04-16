@@ -9,14 +9,35 @@ import WebBody_of_Salaries from './secondaryComponent/BodyComponent/salaryBodyCo
 import WebBody_of_EmployeeDetail from './secondaryComponent/BodyComponent/oneEmployeeDetailBodyComponent';
 import WebBody_of_InputEmployeeName from './secondaryComponent/BodyComponent/inputEmployeeNameBodyComponent';
 
-
-
 import Chi_tiet_nhan_vien from './secondaryComponent/employeeDetails';
 
 import {STAFFS} from '../../src/shared/company.jsx';
 import {DEPARTMENTS} from '../../src/shared/company.jsx';
-import { Switch, Route, Redirect } from "react-router-dom";
-export default class Main extends Component {
+import { Switch, Route, Redirect ,withRouter } from "react-router-dom";
+import { connect } from 'react-redux';
+import {fetchStaffs} from '../redux/Action_Creators/asynchronous/staff_Thunk';
+
+
+export const mapStateToProps = state => {//Hàm  mapStateToProps được gọi mỗi khi state trong store thay đổi, đầu vào là global state của store?
+    //trả về đối tượng props chứa 3 thuộc tính, VD this.props.staffs
+    return{
+        staffs:state.staffs_Reducer, //làm sao có reference từ state.staffs_Reducer tới Store.js?
+        departments:state.departments_Reducer,
+        staffsWage:state.staffsSalary_Reducer
+    }
+}
+
+export const mapDispatchToProps=(dispatch)=>(//HÀM nhận dispatch 
+    //và trả về đối tượng props chứa hàm fetchStaffs , VD this.props.fetchStaffs() được kích hoạt khi đối tượng Main được tải vào DOM's node componentDidMount()
+    {
+        fetchStaffs: () => {
+            dispatch(fetchStaffs());
+        },
+    }   
+)
+
+
+class Main extends Component { //không export default class Main, mà phải export default withRouter cho connectedMain
     constructor(props) {
         super(props);
         this.state={
@@ -45,6 +66,12 @@ export default class Main extends Component {
         
         this.onReceive_JSX_EmployeeSearchByName_from_HeaderClassComponent=this.onReceive_JSX_EmployeeSearchByName_from_HeaderClassComponent.bind(this);
     }
+
+    //sau khi mapDispatchToProps thì Main có thể gọi hàm componentDidMount để lấy dữ liệu về cùng lúc fetchStaffs()
+    componentDidMount(){
+        this.props.fetchStaffs();
+    }
+
 
     onReceive_JSX_EmployeeSearchByName_from_HeaderClassComponent(Chuoi_JSX) {
         this.setState({
@@ -160,3 +187,6 @@ export default class Main extends Component {
                
     } 
 }
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main)); //đầu ra là 1 connectMain như 1 InferableComponentEnhancerWithProps
+//https://newbedev.com/what-is-withrouter-for-in-react-router-dom  , ở đây không có <Router/>
