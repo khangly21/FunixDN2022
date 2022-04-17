@@ -15,8 +15,10 @@ import {STAFFS} from '../../src/shared/company.jsx';
 import {DEPARTMENTS} from '../../src/shared/company.jsx';
 import { Switch, Route, Redirect ,withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
+//define xong thì Main sẽ gọi fetchStaffs() async với componentDidMount() sẽ tăng tốc
 import {fetchStaffs} from '../redux/Action_Creators/asynchronous/staff_Thunk';
-
+import {fetchDepartments} from '../redux/Action_Creators/asynchronous/department_Thunk';
+import {fetchStaffsWage} from '../redux/Action_Creators/asynchronous/staffWage_Thunk';
 
 export const mapStateToProps = state => {//Hàm  mapStateToProps được gọi mỗi khi state trong store thay đổi, đầu vào là global state của store?
     //trả về đối tượng props chứa 3 thuộc tính, VD this.props.staffs
@@ -30,14 +32,22 @@ export const mapStateToProps = state => {//Hàm  mapStateToProps được gọi 
 export const mapDispatchToProps=(dispatch)=>(//HÀM nhận dispatch 
     //và trả về đối tượng props chứa hàm fetchStaffs , VD this.props.fetchStaffs() được kích hoạt khi đối tượng Main được tải vào DOM's node componentDidMount()
     {
+        //không có hàm này thì Erro commitLifeCycel, fetchStaffs is not a function
         fetchStaffs: () => {
             dispatch(fetchStaffs());
+            dispatch(fetchStaffsWage());
         },
+
+        //fetchDepartments() is not a function vì nó tạo ra 1 action object
+        fetchDepartments:()=>{
+            dispatch(fetchDepartments());
+        }
     }   
 )
 
 
 class Main extends Component { //không export default class Main, mà phải export default withRouter cho connectedMain
+    
     constructor(props) {
         super(props);
         this.state={
@@ -66,12 +76,15 @@ class Main extends Component { //không export default class Main, mà phải ex
         
         this.onReceive_JSX_EmployeeSearchByName_from_HeaderClassComponent=this.onReceive_JSX_EmployeeSearchByName_from_HeaderClassComponent.bind(this);
     }
+    
 
     //sau khi mapDispatchToProps thì Main có thể gọi hàm componentDidMount để lấy dữ liệu về cùng lúc fetchStaffs()
     componentDidMount(){
-        this.props.fetchStaffs();
+        //constructor đối tượng, Mount đối tượng, gọi 3 hàm Thunk 
+        //https://stackoverflow.com/questions/53301726/react-componentdidmount-fetch-api
+        this.props.fetchStaffs(); //gọi cùng lúc với ngay khi componentDidMount chạy
+        this.props.fetchDepartments(); //Error commitLifeCycle, fetchDepartments is not a function , maybe caused by mis-using the props
     }
-
 
     onReceive_JSX_EmployeeSearchByName_from_HeaderClassComponent(Chuoi_JSX) {
         this.setState({
