@@ -4,7 +4,7 @@ const WebBody_of_Salaries=(props) => {
         month: '2-digit',day: '2-digit',year: 'numeric'})
     var Introduction=`Danh sách Bảng lương của công ty, ngày <b>${currentDate_DDMMYYYY}</b>`;
     
-    var Chuoi_JSX_danh_sach_Bang_luong=props.data;
+    var Chuoi_JSX_danh_sach_Bang_luong=props.data; //nhận data từ Main
     if(Chuoi_JSX_danh_sach_Bang_luong != "") 
     {
       return(  

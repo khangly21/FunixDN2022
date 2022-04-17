@@ -4,6 +4,7 @@ import HeaderClassComponent from './secondaryComponent/headerComponent';
 import Footer_ResponsiveGrid_CSSBootstrap5 from './secondaryComponent/footerComponent';
 
 import WebBody_of_Employees from './secondaryComponent/BodyComponent/employeeBodyComponent';
+
 import WebBody_of_Departments from './secondaryComponent/BodyComponent/departmentBodyComponent';
 import WebBody_of_Salaries from './secondaryComponent/BodyComponent/salaryBodyComponent';
 import WebBody_of_EmployeeDetail from './secondaryComponent/BodyComponent/oneEmployeeDetailBodyComponent';
@@ -47,12 +48,13 @@ export const mapDispatchToProps=(dispatch)=>(//HÀM nhận dispatch
 
 
 class Main extends Component { //không export default class Main, mà phải export default withRouter cho connectedMain
-    
+    //ban đầu Main phải lưu state riêng trong đó có 2 mảng STAFFS và DEPARTMENTS để truyền tới Header sản xuất Chuoi_JSX
+    //now, Main truy cập STAFFS và DEPARTMENTS từ store
     constructor(props) {
         super(props);
         this.state={
-            staffs:STAFFS,
-            departments:DEPARTMENTS,
+            //staffs:STAFFS,   <== không dùng nữa
+            //departments:DEPARTMENTS,  <== không dùng nữa
 
             Chuoi_JSX_tat_ca_Nhan_vien:"",
             Chuoi_JSX_tat_ca_Phong_ban:"",
@@ -85,6 +87,8 @@ class Main extends Component { //không export default class Main, mà phải ex
         this.props.fetchStaffs(); //gọi cùng lúc với ngay khi componentDidMount chạy
         this.props.fetchDepartments(); //Error commitLifeCycle, fetchDepartments is not a function , maybe caused by mis-using the props
     }
+
+    
 
     onReceive_JSX_EmployeeSearchByName_from_HeaderClassComponent(Chuoi_JSX) {
         this.setState({
@@ -161,8 +165,16 @@ class Main extends Component { //không export default class Main, mà phải ex
  
     render(){
         console.log("Chuoi_JSX_sau_khi_click_menuNhan_vien_o_HeaderClassComponent: ",this.state.Chuoi_JSX_tat_ca_Nhan_vien);
-        console.log(this.state.staffs.filter((staff) => staff.id === this.state.Ma_so_nhan_vien_duoc_chon)[0]);  
-
+       
+        //Trong render, test dữ liệu thu được từ store:
+            /// map state :  staffs,  departments,    staffsWage
+            console.log(this.props.staffs);//ok, chú ý là object
+            console.log(this.props.staffs.staffs); //ok
+            //muốn lấy mảng thì this.props.staffs.staffs để truyền mảng nhân viên tới HeaderComponent
+            console.log(this.props.departments);//ok, truy cập mảng với this.props.departments.departments
+            console.log(this.props.staffsWage);//ok, truy cập mảng với this.props.staffsWage.staffsWage
+             
+            /// map dispatch :  đã dùng trong componentDidMount()
             return(
 
                 //làm sao không có báo lỗi <Route path="/nhan_vien" component={<WebBody_of_Employees departments={this.state.departments} staffs={this.state.staffs}  data={this.state.Chuoi_JSX_tat_ca_Nhan_vien} />} />
@@ -170,10 +182,14 @@ class Main extends Component { //không export default class Main, mà phải ex
                     ///https://codesandbox.io/s/asm3-msqopy?file=/src/components/MainComponent.js:404-463
                 <div>
                     <HeaderClassComponent 
-                        departments={this.state.departments} 
-                        staffs={this.state.staffs} 
-                        inputValue={this.state.inputEmployeeName}
 
+                        //dữ liệu 3 mảng lấy từ store
+                        departments={this.props.departments.departments} 
+                        staffs={this.props.staffs.staffs} 
+                        staffsWage={this.props.staffsWage.staffsWage}
+
+                        //others
+                        inputValue={this.state.inputEmployeeName}
                         onClickonLiEmployee={(Chuoi_JSX)=>this.onReceive_JSX_Nhanvien_from_HeaderClassComponent(Chuoi_JSX)} 
                         onClickonLiDepartment={(Chuoi_JSX)=>this.onReceive_JSX_Phongban_from_HeaderClassComponent(Chuoi_JSX)} 
                         onClickonLiSalary={(Chuoi_JSX)=>this.onReceive_JSX_BangLuong_from_HeaderClassComponent(Chuoi_JSX)} 
@@ -184,16 +200,29 @@ class Main extends Component { //không export default class Main, mà phải ex
                         Button_event_handler_lay_chi_tiet_nhan_vien={(Chuoi_JSX)=>this.receiveEmployeeDetails(Chuoi_JSX)}
                         
                     />
-                    <WebBody_of_Employees departments={this.state.departments} staffs={this.state.staffs}  data={this.state.Chuoi_JSX_tat_ca_Nhan_vien} />
+
+                    <WebBody_of_Employees 
+                        //dữ liệu mảng lấy từ store, nhưng chưa lấy được department.name
+                        phong_ban_gui_EmpBody={this.props.departments.departments} 
+                        nhan_vien_gui_EmpBody={this.props.staffs.staffs} 
+                        //others, Chuoi_JSX do HeaderComponent sản xuất gửi về MainComponent rồi truyền tiếp cho WebBody_of_Employees
+                        data={this.state.Chuoi_JSX_tat_ca_Nhan_vien} //không bỏ được
+                     />
                     <WebBody_of_Departments data={this.state.Chuoi_JSX_tat_ca_Phong_ban}/>
                     <WebBody_of_Salaries data={this.state.Chuoi_JSX_tat_ca_Bang_luong}/>
+
+
                     <WebBody_of_EmployeeDetail data={this.state.Chuoi_JSX_chi_tiet_Hinh_text_nhan_vien}/>
-                    <WebBody_of_InputEmployeeName staffs={this.state.staffs}  Chuoi_tim_kiem={this.state.inputEmployeeName}/>
+                    <WebBody_of_InputEmployeeName 
+                        //dữ liệu mảng lấy từ store
+                        staffs={this.props.staffs.staffs} 
+                        //others
+                        Chuoi_tim_kiem={this.state.inputEmployeeName}/>
                     
                     <Chi_tiet_nhan_vien chitietnhanvien={this.state.Chuoi_JSX_chi_tiet_Nhan_vien}/>
                     <Footer_ResponsiveGrid_CSSBootstrap5/>
 
-                    <Redirect to='/'/>
+                    
                    
                 </div>
             )    

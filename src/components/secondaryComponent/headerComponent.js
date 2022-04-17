@@ -31,13 +31,16 @@ export default class HeaderClassComponent extends Component {
  
 
     render(){
-        
+        //nhận dữ liệu từ MainComponent
         const mang_cac_doi_tuong_nhan_vien=this.props.staffs;
         const mang_cac_doi_tuong_phong_ban=this.props.departments;
+        const mang_cac_doi_tuong_luong_nhan_vien=this.props.staffsWage;
+     
+        //test NHÂN VIÊN và PHÒNG BAN:
+        console.log("Mảng các nhân viên",mang_cac_doi_tuong_nhan_vien); // ok
+        console.log("Mảng các phòng ban",mang_cac_doi_tuong_phong_ban); // ok, sẽ giúp tạo Chuoi_JSX đầu vào của departmentBodyComponent.js
+        console.log("Mảng các bảng lương Nhân viên",mang_cac_doi_tuong_luong_nhan_vien); //ok
 
-        //NHÂN VIÊN:
-        console.log("Mảng các nhân viên",mang_cac_doi_tuong_nhan_vien);
-       
         const input_field=(
            
             <div>
@@ -64,13 +67,15 @@ export default class HeaderClassComponent extends Component {
 
                 let enterCompanyDate=enterDate.toLocaleDateString('en-GB', {month: '2-digit',day: '2-digit',year: 'numeric'})
 
-              
+               //tạm chưa xác định Phòng ban: <em>{nhan_vien.department.departmentId}</em> <br/>
                 const Chuoi_JSX_employee_details=(
                     <span key={nhan_vien.id} style={{backgroundColor:'yellow'}}>
                         Họ và tên: <em>{nhan_vien.name}</em> <br/>
                         Ngày sinh: <em>{dateForma_dd_mm_yyyy}</em> <br/>
                         Ngày vào công ty: <em>{enterCompanyDate}</em>  <br/>
-                        Phòng ban: <em>{nhan_vien.department.name}</em> <br/> 
+                         
+
+
                         Số ngày nghỉ còn lại: <em>{nhan_vien.annualLeave}</em> <br/>
                         Số ngày đã làm thêm: <em>{nhan_vien.overTime}</em>
                     </span>
@@ -78,6 +83,8 @@ export default class HeaderClassComponent extends Component {
                 
                 )
 
+
+                //tạm chưa xác định Phòng ban: <em>{nhan_vien.department.name}</em> <br/> 
                 const Chuoi_JSX_employee_Hinh_and_details=(
                    
                     <div className="container">
@@ -99,7 +106,9 @@ export default class HeaderClassComponent extends Component {
                                 Họ và tên: <em>{nhan_vien.name}</em> <br/>
                                 Ngày sinh: <em>{dateForma_dd_mm_yyyy}</em> <br/>
                                 Ngày vào công ty: <em>{enterCompanyDate}</em>  <br/>
-                                Phòng ban: <em>{nhan_vien.department.name}</em> <br/> 
+                                
+
+
                                 Số ngày nghỉ còn lại: <em>{nhan_vien.annualLeave}</em> <br/>
                                 Số ngày đã làm thêm: <em>{nhan_vien.overTime}</em>                             
                             </div>
@@ -118,10 +127,7 @@ export default class HeaderClassComponent extends Component {
                                 <Media  style={{width:"14vw"}} object src={nhan_vien.image} alt={nhan_vien.name}/>
                             </NavLink> 
                         </NavItem>    
-                            
 
-                       
-                        
                         <button key={nhan_vien.id} onClick={()=>this.props.Button_event_handler_lay_chi_tiet_nhan_vien(Chuoi_JSX_employee_details)} id="nut_nhan_vien">{nhan_vien.name}</button>
                     </div>
                     
@@ -132,7 +138,9 @@ export default class HeaderClassComponent extends Component {
        
 
         //PHÒNG BAN
+           ///chỉ sử dụng máy chủ /departments 
         console.log("Mảng các Phòng ban",mang_cac_doi_tuong_phong_ban);
+
         const Mang_thong_tin_ve_phong_ban=mang_cac_doi_tuong_phong_ban.map(
             (phong_ban)=>{
                 //trích thông tin
@@ -154,13 +162,14 @@ export default class HeaderClassComponent extends Component {
         )
 
         //BẢNG LƯƠNG
-        const Mang_thong_tin_ve_bang_luong=mang_cac_doi_tuong_nhan_vien.map(
-            (nhan_vien)=>{
+            //////chỉ sử dụng máy chủ /staffsSalary bởi mang_cac_doi_tuong_luong_nhan_vien, chứ không dùng mang_cac_doi_tuong_nhan_vien như thông thường
+        const Mang_thong_tin_ve_bang_luong=mang_cac_doi_tuong_luong_nhan_vien.map(
+            (sheet)=>{
                 
-                var Ten_Nhan_vien=nhan_vien.name;
-                var Ma_so_Nhan_vien=nhan_vien.id;
-                var He_so_luong_Nhan_vien=nhan_vien.salaryScale;
-                var So_ngay_lam_them=nhan_vien.overTime/8;
+                var Ten_Nhan_vien=sheet.name;
+                var Ma_so_Nhan_vien=sheet.id;
+                var He_so_luong_Nhan_vien=sheet.salaryScale;
+                var So_ngay_lam_them=sheet.overTime/8;
                 var Luong_lam_tron=Math.floor(He_so_luong_Nhan_vien*3000000+So_ngay_lam_them*200000);
              
                 return(

@@ -5,7 +5,7 @@ export const StaffsSalaryReducer = (
     state = {
       isLoading: false,
       errMess: null,
-      staffs: []
+      staffsWage: []
     },
     action
   ) => {
@@ -18,7 +18,7 @@ export const StaffsSalaryReducer = (
         return {
           ...state,
           isLoading: false,
-          staffs: action.payload
+          staffsWage: action.payload
         };
   
       case STAFFSwage_FETCHING_FAILED:

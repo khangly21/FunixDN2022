@@ -5,20 +5,14 @@ import array_Searching_for_Name from '../../../Function_library/search_by_name';
 import generate_employee_image_and_button from '../../../Function_library/generate_image_button_of_an_employee' ;
 
 //CLASS-BASED COMPONENT
-export default class WebBody_of_Employees extends Component{
+export default class WebBody_of_Employees extends React.Component{
    
     constructor(props){ 
-       super(props);
-      
-       console.log(this.props.staffs); 
-       console.log(this.props.departments);
-
-       console.log(this.props.data); 
-       console.log(typeof props.data);
- 
-        this.state={ 
-            
-
+      super(props);
+      //Chú ý:React giới hạn chỉ được setState 15 lần
+      let nv=this.props.nhan_vien_gui_EmpBody; 
+      let pb=this.props.phong_ban_gui_EmpBody;
+      this.state={ 
             //Nhóm đứng đầu state dùng object destructuring để on (khi length > 0) or off onSubmit button
             Myname:'',
             payroll:'',
@@ -27,17 +21,11 @@ export default class WebBody_of_Employees extends Component{
             combobox_dropdown:'', 
             birthday:this.formatDate(new Date()),//default values for date
             ////////////////////
-
             entering_day:this.formatDate(new Date()),
-
             send_to_server:false, //button ở form Modal
             Dong_y_them_nhan_vien:false, //button ở trang Nhan_vien
-
             isModalOpen:false,
-            formSubmitdata:0, 
-
-            
-
+            formSubmitdata:0,  //khi đã submit dù chuỗi rỗng thì formSubmitdata sẽ là kiểu chuỗi
             touched:{
                Myname:false,
                birthday:false,
@@ -51,17 +39,15 @@ export default class WebBody_of_Employees extends Component{
             },
 
             //###########################################################
-            
-            
             //staffs và departments
-            cai_dat_danh_sach_nhan_vien:this.props.staffs,
-            cai_dat_danh_sach_phong_ban:this.props.departments,
-            
-            STT_lon_nhat_trong_mang:this.props.staffs.length-1,
-            Nhan_vien_moi:{name:""}  
-       }
 
-       console.log(typeof this.state.formSubmitdata); //undefined
+            
+            cai_dat_danh_sach_nhan_vien:nv,   //không nhận được  có lẽ do không được ghi this.props. Xem cách thêm props vào state: https://codesandbox.io/s/35wLR4nA?file=/OverlayView.js
+            cai_dat_danh_sach_phong_ban:pb,  //không nhận được  có lẽ do không được ghi this.props
+            
+            STT_lon_nhat_trong_mang:props.nhan_vien_gui_EmpBody.length-1,
+            Nhan_vien_moi:{name:""}  
+      }
 
        //format date and inputchange
        this.padTo2Digits=this.padTo2Digits.bind(this);
@@ -407,9 +393,19 @@ export default class WebBody_of_Employees extends Component{
       }
 
    render(){
+      //Nhận 2 mảng từ Main, nên để trong render, không để trong constructor vì đợi tạo đt
+      console.log(this.props.nhan_vien_gui_EmpBody); //ok
+      console.log(this.props.phong_ban_gui_EmpBody);  //ok
+      //Nhận chuỗi JSX từ Main
+      console.log(this.props.data); //ok
+      //test state
+      console.log(this.state.cai_dat_danh_sach_nhan_vien,this.state.cai_dat_danh_sach_phong_ban);
+       //https://www.geeksforgeeks.org/reactjs-unsafe_componentwillreceiveprops-method/
+      
       //https://stackoverflow.com/questions/30187781/how-to-disable-a-button-when-an-input-is-empty
       const { Myname, payroll, ngaynghiconlai,ngaylamthem, combobox_dropdown,birthday} = this.state; //destructuring vào 4 biến cùng tên
       const enabled = Myname.length > 0 && payroll.length > 0 && ngaynghiconlai.length > 0 && ngaylamthem.length > 0 && combobox_dropdown.length>0 && birthday !== this.formatDate(new Date()) ;
+      
       const transfer_to_server=this.state.send_to_server;
       console.log(enabled);
 
@@ -422,8 +418,9 @@ export default class WebBody_of_Employees extends Component{
       var Introduction=`Danh sách nhân viên của công ty, ngày <b>${currentDate_DDMMYYYY}</b>`;
       var Chuoi_JSX_danh_sach_nhan_vien=this.props.data;
 
-
+      //Không submit form để gửi Chuoi_Tim_kiem
       if(typeof(this.state.formSubmitdata)==="number"){ 
+         
          if(Chuoi_JSX_danh_sach_nhan_vien != "") 
          {
 
@@ -587,12 +584,12 @@ export default class WebBody_of_Employees extends Component{
                        </div>
   
                        
-                       <Advanced_emp_list_generating mang_nhan_vien={this.state.cai_dat_danh_sach_nhan_vien}/>
+                       <Advanced_emp_list_generating mang_nhan_vien={this.props.nhan_vien_gui_EmpBody}/>
                  
                  
                  </div>
-             
-           )
+               
+           ) 
          }else{
               return(
                 <div></div>

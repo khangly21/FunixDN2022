@@ -3,7 +3,7 @@ import { BrowserRouter, Link, HashRouter,Switch,Route} from 'react-router-dom';
 import {Media,NavLink} from 'reactstrap';
 
 
-const Advanced_emp_list_generating=(props)=>{//Warning: The tag <advanced_emp_list_generating> is unrecognized in this browser. If you meant to render a React component, start its name with an uppercase letter.
+export const Advanced_emp_list_generating=(props)=>{//Warning: The tag <advanced_emp_list_generating> is unrecognized in this browser. If you meant to render a React component, start its name with an uppercase letter.
     const [EmployeeId,setEmployeeId]=React.useState("");
     let mang_nhan_vien=props.mang_nhan_vien //nhận từ employeeBodyComponent.js
     console.log(mang_nhan_vien); //OK. mảng 16 nhân viên
@@ -50,7 +50,7 @@ const Advanced_emp_list_generating=(props)=>{//Warning: The tag <advanced_emp_li
             // nếu truy xuất <p>Phòng ban: {nhan_vien_duoc_chon.department}</p> sẽ báo lỗi do department là 1 mảng 
             //Uncaught Error: Objects are not valid as a React child (found: object with keys {id, name, numberOfStaff}). If you meant to render a collection of children, use an array instead.
 
-            //Lưu ý : trong company.jsx có 15 nhân viên, tới nhân viên thứ 16 được lưu trong localStorage khi hiện chi tiết sẽ có department.name là không xác định
+            //Lưu ý : trong company.jsx có 15 nhân viên, tới nhân viên thứ 16 được lưu trong localStorage khi hiện chi tiết sẽ có department.name là không xác định  <p>Phòng ban: {nhan_vien_duoc_chon.department.name}</p>
             <div className="container">
                 <div className="row">
                     <div className="col">
@@ -58,7 +58,7 @@ const Advanced_emp_list_generating=(props)=>{//Warning: The tag <advanced_emp_li
                         <p>Ngày sinh: {DOB_dd_mm_yyyy}</p>
                         <p>Ngày vào làm: {enterDate_dd_mm_yyyy}</p>
                         <p>Hệ số lương: {nhan_vien_duoc_chon.salaryScale}</p>
-                        <p>Phòng ban: {nhan_vien_duoc_chon.department.name}</p>
+                       
                         <p>Số ngày annualLeave: {nhan_vien_duoc_chon.annualLeave}</p>
                         <p>Số ngày overtime: {nhan_vien_duoc_chon.overTime} </p>
                     </div>

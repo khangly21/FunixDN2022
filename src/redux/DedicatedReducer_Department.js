@@ -5,7 +5,7 @@ export const DepartmentsReducer = (
     state = {
       isLoading: false,
       errMess: null,
-      staffs: []
+      departments: []
     },
     action
   ) => {
@@ -18,7 +18,7 @@ export const DepartmentsReducer = (
         return {
           ...state,
           isLoading: false,
-          staffs: action.payload
+          departments: action.payload
         };
   
       case DEPARTMENTS_FETCHING_FAILED:

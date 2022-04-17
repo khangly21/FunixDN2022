@@ -16,3 +16,15 @@
   ** git add .
   ** git commit -m "modified project 4"
   ** git push RJS_assignment4_label RJS101x_Assignment4_khanglvfx15073@funix.edu.vn
+
+
+- Note: 
+  ** company.jsx chỉ cần mảng STAFFS và mảng DEPARTMENTS là viết được 3 menus 
+  ** Tương tự, chỉ cần 2 url là Main truyền 2 mảng cho HeaderComponent
+     *** https://rjs101xbackend.herokuapp.com/staffs  => Yêu cầu case 1 + case 3
+     *** https://rjs101xbackend.herokuapp.com/departments => case 2
+
+   ** Yêu cầu đề:
+     *** máy chủ /staffs --> Danh sách nhân viên
+     *** máy chủ /departments --> Danh sách phòng ban 
+     *** máy chủ /staffsWage --> Danh sách bảng lương 
