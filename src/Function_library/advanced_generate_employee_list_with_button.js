@@ -1,43 +1,35 @@
 import React, { Component } from 'react'; //cần vì hàm Advanced_emp_list_generating sẽ trả về JSX.Element
 import { BrowserRouter, Link, HashRouter,Switch,Route} from 'react-router-dom';
-import {Media,NavLink} from 'reactstrap';
+import {Media,NavLink,Breadcrumb,BreadcrumbItem} from 'reactstrap';
 
 
 export const Advanced_emp_list_generating=(props)=>{//Warning: The tag <advanced_emp_list_generating> is unrecognized in this browser. If you meant to render a React component, start its name with an uppercase letter.
-    const [EmployeeId,setEmployeeId]=React.useState("");
+    const [Id_nhan_vien_duoc_chon,setEmployeeId]=React.useState(""); //useState() returns a stateful value EmplueeId="" and a function to update it
     let mang_nhan_vien=props.mang_nhan_vien //nhận từ employeeBodyComponent.js
     console.log(mang_nhan_vien); //OK. mảng 16 nhân viên
     let mang_Nut_va_Hinh_nhan_vien;
-
-    if(EmployeeId == ""){
+    //Có 2 nhánh, đi nhánh nào là tùy Id_nhan_vien_duoc_chon, khi không chọn hình nào thì đi nhánh if có Id_nhan_vien_duoc_chon == "", còn chọn hình thì state thay đổi thì đối tượng tự render lại view theo nhánh else 
+       /// vậy là gửi nhận dữ liệu trong cùng một trang
+    if(Id_nhan_vien_duoc_chon == ""){
         mang_Nut_va_Hinh_nhan_vien=mang_nhan_vien.map(
             (nhan_vien)=>{
                
                     return(
                         //note: Nếu cho Link vào BrowserRouter sẽ bị báo lỗi: Router chỉ có 1 CHild component thôi, do đó phải cho Link vào Switch
                         <div style={{textAlign:"center"}}>
-                            
-                                
-                        
- 
-                             
-                                    <NavLink style={{fontSize:"8px",color:"black"}} className="navitem_css" to={{pathname:`/nhan_vien/${nhan_vien.id}`}} >
-                                        <Media onClick={() => setEmployeeId(`${nhan_vien.id}`)}  style={{width:"14vw"}} object src={nhan_vien.image} alt={nhan_vien.name}  />
-                                    </NavLink> 
-                                    
-                        
-                          
-                      
-                            
+                            <NavLink to={{pathname:`/nhan_vien/${nhan_vien.id}`}} style={{fontSize:"8px",color:"black"}} className="navitem_css"  >
+                                <Media onClick={() => setEmployeeId(`${nhan_vien.id}`)}  style={{width:"14vw"}} object src={nhan_vien.image} alt={nhan_vien.name}  />
+                            </NavLink> 
                             <button key={nhan_vien.id} id="nut_nhan_vien">{nhan_vien.name}</button>
                         </div>     
                     ) 
-                //this.props.Button_event_handler_lay_chi_tiet_nhan_vien() tới từ mainComponent.js
+                //Sau khi click Media thì cập nhật stateful Id_nhan_vien_duoc_chon bằng hàm setEmployeeId(), khi đó Id_nhan_vien_duoc_chon != "" và component Advanced_emp_list_generating sẽ re-render
             }
         )
-    }else{// đang THỰC HIỆN ROUTING KHÔNG CẦN SWITCH ROUTER
+    }else{//Id_nhan_vien_duoc_chon != ""
         //https://youtu.be/eGaaw1Py2aY
-        let nhan_vien_duoc_chon=mang_nhan_vien[EmployeeId];
+        let nhan_vien_duoc_chon=mang_nhan_vien[Id_nhan_vien_duoc_chon];//tình cờ STT index của từng đối tượng Nhân viên trong mảng trùng với id của Nhân viên
+
         var DOB = new Date(nhan_vien_duoc_chon.doB);  //object  
         var enterDate=new Date(nhan_vien_duoc_chon.startDate);
         let DOB_dd_mm_yyyy=DOB.toLocaleDateString('en-GB', {
@@ -53,8 +45,21 @@ export const Advanced_emp_list_generating=(props)=>{//Warning: The tag <advanced
             //Lưu ý : trong company.jsx có 15 nhân viên, tới nhân viên thứ 16 được lưu trong localStorage khi hiện chi tiết sẽ có department.name là không xác định  <p>Phòng ban: {nhan_vien_duoc_chon.department.name}</p>
             <div className="container">
                 <div className="row">
+                    <Breadcrumb>  
+                        <BreadcrumbItem >  
+                            <Link to="/">Cake Company</Link> 
+                        </BreadcrumbItem>   
+                        <BreadcrumbItem >  
+                            <Link to="/nhan_vien">Nhân viên</Link> 
+                        </BreadcrumbItem>    
+                        <BreadcrumbItem active>  
+                            {nhan_vien_duoc_chon.name}
+                        </BreadcrumbItem>  
+                    </Breadcrumb>
+                </div>
+                <div className="row">
                     <div className="col">
-                        <b>Chi tiết nhân viên có <br/>  STT {EmployeeId}</b>
+                        <b>Chi tiết nhân viên có <br/>  STT {Id_nhan_vien_duoc_chon}</b>
                         <p>Ngày sinh: {DOB_dd_mm_yyyy}</p>
                         <p>Ngày vào làm: {enterDate_dd_mm_yyyy}</p>
                         <p>Hệ số lương: {nhan_vien_duoc_chon.salaryScale}</p>

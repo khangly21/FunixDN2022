@@ -15,7 +15,7 @@ export const fetchDepartments = () => (dispatch) => {
 };
 
 
-
+//sẽ không có reference nếu <fetchDEPTsFailed/> vào fetchDepartments (xem Function_library/advanced_generate_department...)
 export const fetchDEPTsFailed = (ErrorMessage) => ({
   type: DEPARTMENTS_FETCHING_FAILED,
   payload: ErrorMessage  //là kiểu dữ liệu gì cũng được

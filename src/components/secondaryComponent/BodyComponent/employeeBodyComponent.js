@@ -421,7 +421,7 @@ export default class WebBody_of_Employees extends React.Component{
       //Không submit form để gửi Chuoi_Tim_kiem
       if(typeof(this.state.formSubmitdata)==="number"){ 
          
-         if(Chuoi_JSX_danh_sach_nhan_vien != "") 
+         if(Chuoi_JSX_danh_sach_nhan_vien != "")  //Chuoi_JSX_danh_sach_nhan_vien bị dừng ở đây
          {
 
             return( 
@@ -597,11 +597,11 @@ export default class WebBody_of_Employees extends React.Component{
          }
       }else{
          //CHUỖI TÌM KIẾM
-         
+         let mang_Nut_va_Hinh_nhan_vien=[];
          let Chuoi_tim_kiem=this.state.formSubmitdata;
-         let Mang_ten_nhan_vien_theo_Chuoi_tim_kiem=array_Searching_for_Name(this.state.cai_dat_danh_sach_nhan_vien,Chuoi_tim_kiem);
-         console.log("Mảng theo Chuỗi tra cứu: ",Mang_ten_nhan_vien_theo_Chuoi_tim_kiem);
-         let mang_Nut_va_Hinh_nhan_vien=generate_employee_image_and_button(Mang_ten_nhan_vien_theo_Chuoi_tim_kiem);
+         //let Mang_ten_nhan_vien_theo_Chuoi_tim_kiem=array_Searching_for_Name(this.state.cai_dat_danh_sach_nhan_vien,Chuoi_tim_kiem);
+         //console.log("Mảng theo Chuỗi tra cứu: ",Mang_ten_nhan_vien_theo_Chuoi_tim_kiem);
+         //mang_Nut_va_Hinh_nhan_vien=generate_employee_image_and_button(Mang_ten_nhan_vien_theo_Chuoi_tim_kiem);
 
          return(
             

@@ -23,11 +23,11 @@ export default class App extends Component {
           /// Ctrl+Click vào biến store vế phải sẽ trỏ tới const store bên trên đầu trang (cho thấy sự liên kết giữa các tên biến giống nhau), tương tự CtrlClick ConfigureStore() đầu trang 
           /// không có <ReactRouterDOM.BrowserRouter> sẽ không hiện trang web
           <Provider store={store}>
-            <HashRouter>
+            <BrowserRouter>
               <div>
                 <Main/>
               </div>
-            </HashRouter>
+            </BrowserRouter>
           </Provider>
             
       

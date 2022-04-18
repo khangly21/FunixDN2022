@@ -12,8 +12,8 @@ import WebBody_of_InputEmployeeName from './secondaryComponent/BodyComponent/inp
 
 import Chi_tiet_nhan_vien from './secondaryComponent/employeeDetails';
 
-import {STAFFS} from '../../src/shared/company.jsx';
-import {DEPARTMENTS} from '../../src/shared/company.jsx';
+//import {STAFFS} from '../../src/shared/company.jsx';
+//import {DEPARTMENTS} from '../../src/shared/company.jsx';
 import { Switch, Route, Redirect ,withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
 //define xong thì Main sẽ gọi fetchStaffs() async với componentDidMount() sẽ tăng tốc
@@ -71,10 +71,10 @@ class Main extends Component { //không export default class Main, mà phải ex
         this.onReceive_JSX_Phongban_from_HeaderClassComponent=this.onReceive_JSX_Phongban_from_HeaderClassComponent.bind(this);
         this.onReceive_JSX_BangLuong_from_HeaderClassComponent=this.onReceive_JSX_BangLuong_from_HeaderClassComponent.bind(this);
         
-        this.receiveEmployeeDetails=this.receiveEmployeeDetails.bind(this);
+        //this.receiveEmployeeDetails=this.receiveEmployeeDetails.bind(this);
         
         this.onReceive_JSX_CakeCompany_from_HeaderClassComponent=this.onReceive_JSX_CakeCompany_from_HeaderClassComponent.bind(this);
-        this.onReceiveJSX_nhanvien_Hinh_va_text_from_HeaderClassComponent=this.onReceiveJSX_nhanvien_Hinh_va_text_from_HeaderClassComponent.bind(this);
+        //this.onReceiveJSX_nhanvien_Hinh_va_text_from_HeaderClassComponent=this.onReceiveJSX_nhanvien_Hinh_va_text_from_HeaderClassComponent.bind(this);
         
         this.onReceive_JSX_EmployeeSearchByName_from_HeaderClassComponent=this.onReceive_JSX_EmployeeSearchByName_from_HeaderClassComponent.bind(this);
     }
@@ -146,6 +146,7 @@ class Main extends Component { //không export default class Main, mà phải ex
         });
     }
 
+    /*
     onReceiveJSX_nhanvien_Hinh_va_text_from_HeaderClassComponent(Chuoi_JSX){
         this.setState({
             Chuoi_JSX_tat_ca_Nhan_vien:"",
@@ -155,12 +156,14 @@ class Main extends Component { //không export default class Main, mà phải ex
             Chuoi_JSX_chi_tiet_Hinh_text_nhan_vien:Chuoi_JSX,
         })
     }
+    */
 
-
+    /*  
     receiveEmployeeDetails(Chuoi_JSX) {
         this.setState({Chuoi_JSX_chi_tiet_Nhan_vien:Chuoi_JSX});
         console.log("this.state.Chuoi_JSX_chi_tiet_Nhan_vien sau khi click button Ten nhan vien ở HeaderClassComponent: ",this.state.Chuoi_JSX);
     }
+    */
 
  
     render(){
@@ -197,22 +200,33 @@ class Main extends Component { //không export default class Main, mà phải ex
                         onClick_to_image_of_employee_to_get_more_facts={(Chuoi_JSX)=>this.onReceiveJSX_nhanvien_Hinh_va_text_from_HeaderClassComponent(Chuoi_JSX)}
                         onChangeInValueInput={(Chuoi_JSX)=>this.onReceive_JSX_EmployeeSearchByName_from_HeaderClassComponent(Chuoi_JSX)}
 
-                        Button_event_handler_lay_chi_tiet_nhan_vien={(Chuoi_JSX)=>this.receiveEmployeeDetails(Chuoi_JSX)}
+                        //Button_event_handler_lay_chi_tiet_nhan_vien={(Chuoi_JSX)=>this.receiveEmployeeDetails(Chuoi_JSX)}
                         
+                        //Header chứa các NavLink của reactstrap nên không có tác dụng do đó phải dùng onClick bên Header (kết hợp inactive cursor bên CSS nếu không là dấu trỏ text), chỉ có NavLink của react-router-dom
                     />
 
-                    <WebBody_of_Employees 
-                        //dữ liệu mảng lấy từ store, nhưng chưa lấy được department.name
-                        phong_ban_gui_EmpBody={this.props.departments.departments} 
-                        nhan_vien_gui_EmpBody={this.props.staffs.staffs} 
-                        //others, Chuoi_JSX do HeaderComponent sản xuất gửi về MainComponent rồi truyền tiếp cho WebBody_of_Employees
-                        data={this.state.Chuoi_JSX_tat_ca_Nhan_vien} //không bỏ được
-                     />
-                    <WebBody_of_Departments data={this.state.Chuoi_JSX_tat_ca_Phong_ban}/>
+                  
+                       
+                                <WebBody_of_Employees 
+                                    //dữ liệu mảng lấy từ store, nhưng chưa lấy được department.name
+                                    phong_ban_gui_EmpBody={this.props.departments.departments} 
+                                    nhan_vien_gui_EmpBody={this.props.staffs.staffs} 
+                                    //others, Chuoi_JSX do HeaderComponent sản xuất gửi về MainComponent rồi truyền tiếp cho WebBody_of_Employees
+                                    data={this.state.Chuoi_JSX_tat_ca_Nhan_vien} //không bỏ được nếu không Nhấn nút Nhân viên không hiện ra gì hết
+                                    
+                                />
+                         
+                    
+
+
+                    
+                    <WebBody_of_Departments 
+                        data={this.state.Chuoi_JSX_tat_ca_Phong_ban}
+                        phong_ban_gui_DeptBody={this.props.departments.departments} 
+                        nhan_vien_gui_DeptBody={this.props.staffs.staffs} 
+                    />
                     <WebBody_of_Salaries data={this.state.Chuoi_JSX_tat_ca_Bang_luong}/>
 
-
-                    <WebBody_of_EmployeeDetail data={this.state.Chuoi_JSX_chi_tiet_Hinh_text_nhan_vien}/>
                     <WebBody_of_InputEmployeeName 
                         //dữ liệu mảng lấy từ store
                         staffs={this.props.staffs.staffs} 
@@ -226,7 +240,9 @@ class Main extends Component { //không export default class Main, mà phải ex
                    
                 </div>
             )    
-               
+            //NOTE:
+               //Không cần HeaderComponent tạo Chuoi_JSX có nút bấm tới chi tiết nhân viên, vì sẽ có trong Functional_library/advanced_generate_employee
+               //<WebBody_of_EmployeeDetail data={this.state.Chuoi_JSX_chi_tiet_Hinh_text_nhan_vien}/>
     } 
 }
 

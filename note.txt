@@ -28,3 +28,7 @@
      *** máy chủ /staffs --> Danh sách nhân viên
      *** máy chủ /departments --> Danh sách phòng ban 
      *** máy chủ /staffsWage --> Danh sách bảng lương 
+
+  ** cách đưa thuộc tính vào component của Route  
+     *** https://dev.to/paramharrison/how-to-pass-props-to-the-route-component-in-react-router-4o49
+     
