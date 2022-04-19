@@ -23,6 +23,29 @@
    import {TransitionGroup,CSSTransition} from 'react-transition-group';
 
 
+//cho các functional component ra ngoài render để thử xem có animation không
+/*  //Cách khác, Route component={HomePage3}  
+export const HomePage3 = (props) => {
+   
+    return(
+        
+        <HomePage  //nhập khẩu từ file HomepageComponent.js
+            //dishes
+            dish={props.DISHES}
+            dishesLoading={props.DISHLOADING}
+            dishesErrMess={props.DISHERRORMESSAGE}
+
+            //promotion
+            promotion={props.PROMOTION}
+            promoLoading={props.PROMOLOADING}
+            promoErrMess={props.PROMOERRORMESSAGE}
+
+            //Sau khi fetch dữ liệu từ server thì sửa lại là this.props.leaders.leaders.filter((leader)
+            leader={props.LEADERS}
+        />
+    );      
+}
+*/
 
 //hàm này không nằm trong class Main, nếu nằm trong thì sẽ bind(this)
 const mapStateToProps = state => { //tham số state là lấy từ Redux store, xem combineReducers trả về đối tượng state chứa 4 anh nào: dishes, comments, promotions, leaders
@@ -70,22 +93,9 @@ const mapDispatchToProps=(dispatch)=>({
 })
 
 
-//hàm Main này trước kia dùng local state object  để lưu trữ application's state 
-// Bây giờ Main không lưu local state nữa mà sẽ pull and obtain state từ Redux's store
-// to do that, I need to connect Main to Redux store 
-//Before do that, I define mapStateToProps function which obtain the state as parameter here
 class Main extends Component {
-    constructor(props) { //props để truy cập các biến trong Redux store's state
-
-        //không có super() thì Uncaught ReferenceError: this hasn't been initialised - super() hasn't been called
-        //không có super(props) thì undefined this.props
-        //We will learn how to use withRouter() to inject params provided by React Router into connected components deep in the tree without passing them down all the way down as props.
-           /// https://egghead.io/lessons/javascript-redux-using-withrouter-to-inject-the-params-into-connected-components
-           /// https://stackoverflow.com/questions/53539314/what-is-withrouter-for-in-react-router-dom
-        
-        super(props); //call superclass constructor
-            //thiếu this.state.dishes thì Uncaught TypeError: Cannot read properties of null (reading 'dishes')
-            //Với redux thì không lưu trữ dữ liệu vào local state của component nữa
+    constructor(props) { 
+        super(props); 
     }
 
     componentDidMount() {
@@ -95,39 +105,13 @@ class Main extends Component {
         this.props.fetchPromos();
     }
 
-    
     render(){
-        //TEST DỮ LIỆU MAIN nhận được từ store
-        //Các props sau đã available sau khi connect Main to mapStateToProps. Tuy nhiên mỗi khi state thay đổi thì hàm  mapStateToProps được gọi lại (vì UI đã subscribes để nhận các thay đổi từ state trong store)
-        console.log(this.props.dishes); //ok. Khi ở HomePage thì {isLoading: true, errMess: null, dishes: Array(0)} . Xem tiếp cùng câu lệnh này tại MenuClassComponent sẽ nhận mảng 4 dishes
+       
+        console.log(this.props.dishes); //ok. Khi ở HomePage thì object này là {isLoading: true, errMess: null, dishes: Array(0)} . Xem tiếp cùng câu lệnh này tại MenuClassComponent sẽ nhận mảng 4 dishes
         console.log(this.props.promotions); //ok
         console.log(this.props.leaders); //ok
         console.log(this.props.comments);//ok
         console.log(this.props.addComment); //ok!
-        
-        //Đặt tên component này là HomePage3 là để phân biệt với HomePage component trong file HomepageComponent.js, which is composable inside HomePage3
-        const HomePage3 = () => {
-           
-            return(
-                //file HomepageComponent.js
-                <HomePage 
-                    //dishes
-                    dish={this.props.dishes.dishes.filter((dish) => dish.featured)[0]}
-                    dishesLoading={this.props.dishes.isLoading}
-                    dishesErrMess={this.props.dishes.errMess}
-
-                    //promotion
-                    promotion={this.props.promotions.promotions.filter((promo) => promo.featured)[0]}
-                    promoLoading={this.props.promotions.isLoading}
-                    promoErrMess={this.props.promotions.errMess}
-
-                    //Sau khi fetch dữ liệu từ server thì sửa lại là this.props.leaders.leaders.filter((leader)
-                    leader={this.props.leaders.filter((leader) => leader.featured)[0]}
-                />
-            );      
-        }
-
-       
         
         const DishWithId = ({match}) => { 
             //thuộc tính thứ ba là addComment sẽ giúp component DishDetails gián tiếp gửi được thông tin user has submitted tới Store thông qua Action Creator và Action
@@ -139,54 +123,39 @@ class Main extends Component {
                     comments={this.props.comments.comments.filter((comment) => comment.dishId === parseInt(match.params.dishId,10))}
                     commentsErrMess={this.props.comments.errMess}
                     addComment={this.props.addComment}
-                    //addComment= {(dishId,rating,author,comment)=>store.dispatch(addComment(dishId,rating,author,comment))}
+                
                 />
             );
         };
 
-        const DishNoId=()=>{
-            return(
-                <MenuClassComponent
-                    message={<b style={{color:'orange'}}>thêm param 0,1,2,3 trên URL, hoặc click hình món ăn để xem chi tiết món ăn</b>}
-                    dishes={this.props.dishes.dishes} //mảng
-                />
-            )
-            //NOTE: 
-                /// 1. do path='/menu' không có thuộc tính exact="true" nên nhánh con  path='/menu/:dishId' sẽ thừa hưởng view của "/menu"
-                /// 2. Nếu ghi message={<b style='color:orange'> thì Error: The `style` prop expects a mapping from style properties to values, not a string. For example, style={{marginRight: spacing + 'em'}} when using JSX.
-                /// 3. Nếu ghi message={<b style={{color:orange}}> thì nó hiểu là có biến orange thì Error: orange is undefined
-        }
-        
-        //https://react-redux.js.org/using-react-redux/connect-mapstate
-        //https://react-redux.js.org/using-react-redux/connect-mapstate
-
-        //path='/aboutus' component={() => <Aboutus leaders={this.props.leaders} />}
-       
         return(
-               //mặc định khi chạy index.html thì sẽ tới /
-               // <Header/> component có chứa các ReactRouterDOM.Link to , nhưng không bao lấy các Route
-               // note: redirect có hiệu quả, vì các link lạ như http://127.0.0.1:5500/#/aaaaaa đều dẫn về home
-               //Không cần HashRouter bao quanh Header vì ở App.js đã có HashRouter bao quanh Main rồi
-               //nếu để <ReactRouterDOM.Switch> bao quanh Routes thì sẽ không tới được /menu/:dishId ; nếu để Switch bao quanh Header và các Routes và Footer thì component không hiện nội dung
-
-               //<ReactRouterDOM.Redirect to="/" /> thì khi form bên DishDetails submit lên URL, thì URL lạ sẽ được chuyển qua "/" tới Home
-                //React.createElement: type is invalid -- expected a string (for built-in components) or a class/function (for composite components nghĩa là component này chứa component khác) but got: <Contact />. Did you accidentally export a JSX literal instead of a component?
-                    ///câu đúng là phải cho một functional component vào thuộc tính component của <Route exact path='/contactus' component={() => <Contact resetFeedbackForm={this.props.resetFeedbackForm} />} />
-                //sau khi điền form xong, qua bên Home hay Menu khác, rồi quay trở lại Contact thấy dữ liệu vẫn còn
-
-                //TRƯỚC kia có cho Main refers tới <Contact/> của ContactComponent.js nhưng không thực hiện được mục đích của Lab09_2 là dữ liệu form không bị reset khi người dùng qua lại giữa các component trên menu
-                //Some components (commonly a header component) appear on every page, so are not wrapped in a <Route> . withRouter simply connects the component to the Router
-                
-                
-                //NOTE: Adjacent JSX must be wrapped in an enclosing tag
                 <div>
-                    <Header/>
+                    <TransitionGroup>
+                        <CSSTransition key={this.props.location.key} classNames="page" timeout={300}>
+                            <Header/>
+                        </CSSTransition>
+                    </TransitionGroup>
+                    
+
+
                     <TransitionGroup>
                         <CSSTransition key={this.props.location.key} classNames="page" timeout={300}>
                             <Switch>
-                                <Route exact path='/' component={HomePage3} /> 
+                                <Route exact path='/' component={()=>(
+                                    <HomePage
+                                        DISHES={this.props.dishes.dishes.filter((dish) => dish.featured)[0]}
+                                        DISHLOADING={this.props.dishes.isLoading}
+                                        DISHERRORMESSAGE={this.props.dishes.errMess}
+
+                                        PROMOTION={this.props.promotions.promotions.filter((promo) => promo.featured)[0]}
+                                        PROMOLOADING={this.props.promotions.isLoading}
+                                        PROMOERRORMESSAGE={this.props.promotions.errMess}
+
+                                        LEADERS={this.props.leaders.filter((leader) => leader.featured)[0]}
+                                    />
+                                )} /> 
                                 <Route exact path='/aboutus' component={() => <AboutUs leaders={this.props.leaders} />} />
-                                <Route exact path='/menu' component={() => <DishNoId dishes={this.props.dishes} />} />
+                                <Route exact path='/menu' component={() => <MenuClassComponent dishes={this.props.dishes.dishes} message={<b style={{color:'orange'}}>thêm param 0,1,2,3 trên URL, hoặc click hình món ăn để xem chi tiết món ăn</b>}/>} />
                                 <Route path='/menu/:dishId' component={DishWithId} />
                                 <Route exact path='/contactus' component={()=><ContactTranTienDat resetFeedbackForm={this.props.resetFeedbackForm}/> } />
                                 <Redirect to="/" />    

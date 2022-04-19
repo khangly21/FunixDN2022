@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Main from './components/MainComponent'; //Hiện chỉ dùng redux cho món ăn, không cho dùng connectedMain, thì dish={this.props.dishes.filter((dish) => dish.featured)[0]} sẽ bị báo lỗi undefined filter vì không nhận được mảng dishes
-import { HashRouter } from 'react-router-dom';
+import { HashRouter , BrowserRouter } from 'react-router-dom'; //HashRouter không hỗ trợ TransitionGroup và CSSTransition
 import { Provider } from 'react-redux';
 import { ConfigureStore } from './redux/configureStore';
 
@@ -22,11 +22,11 @@ class App extends Component {
           /// Ctrl+Click vào biến store vế phải sẽ trỏ tới const store bên trên đầu trang (cho thấy sự liên kết giữa các tên biến giống nhau), tương tự CtrlClick ConfigureStore() đầu trang 
           /// không có <ReactRouterDOM.BrowserRouter> sẽ không hiện trang web
           <Provider store={store}> 
-            <HashRouter>
+            <BrowserRouter>
                <div>
                   <Main/>
                </div>
-            </HashRouter>
+            </BrowserRouter>
           </Provider>
         // đã có BrowserRouter do đó trong Main không cần tới nữa
         //tiếp theo, connect() để kết nối React application to Redux store , tới trang MainComponent

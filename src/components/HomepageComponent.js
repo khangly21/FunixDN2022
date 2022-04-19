@@ -7,6 +7,7 @@ import { baseUrl } from '../shared/baseUrl';
 //Khi MainComponent gửi props qua HomepageComponent thì props có chứa 3 thuộc tính : dish,dishesLoading,dishesErrMess sẽ được gán cho 3 biến cùng tên
 export function RenderCard({ item,isLoading,errMess}){
   //still do the generic structure
+  console.log(item)
   if (isLoading) {
     return(
             <Loading />
@@ -39,24 +40,27 @@ export function RenderCard({ item,isLoading,errMess}){
       //const {name}=useParams()//https://stackoverflow.com/questions/66506891/useparams-hook-returns-undefined-in-react-functional-component
       //console.log(name);
 
+      /*
       const queryParams = new URLSearchParams(window.location.search);
       const USERname = queryParams.get('username');
       const rating = queryParams.get('rating');
       const comment = queryParams.get('comment');
       console.log(USERname,rating,comment); //YAY!
+      */
+      console.log(props.dish)
 
       return(
         
         <div className="container">
           <div className="row align-items-start">
             <div className="col-12 col-md m-1">
-                <RenderCard item={props.dish} isLoading={props.dishesLoading} errMess={props.dishesErrMess}/>
+                <RenderCard item={props.DISHES} isLoading={props.DISHLOADING} errMess={props.DISHERRORMESSAGE}/>
             </div> 
             <div className="col-12 col-md m-1">
-                <RenderCard item={props.promotion} isLoading={props.promoLoading} errMess={props.promoErrMess} />
+                <RenderCard item={props.PROMOTION} isLoading={props.PROMOLOADING} errMess={props.PROMOERRORMESSAGE} />
             </div>
             <div className="col-12 col-md m-1">
-                <RenderCard item={props.leader}/>
+                <RenderCard item={props.LEADERS}/>
             </div>
           </div>
         </div>
