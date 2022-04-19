@@ -20,6 +20,7 @@ import { connect } from 'react-redux';
 import {fetchStaffs} from '../redux/Action_Creators/asynchronous/staff_Thunk';
 import {fetchDepartments} from '../redux/Action_Creators/asynchronous/department_Thunk';
 import {fetchStaffsWage} from '../redux/Action_Creators/asynchronous/staffWage_Thunk';
+import { TransitionGroup,CSSTransition } from 'react-transition-group';
 
 export const mapStateToProps = state => {//Hàm  mapStateToProps được gọi mỗi khi state trong store thay đổi, đầu vào là global state của store?
     //trả về đối tượng props chứa 3 thuộc tính, VD this.props.staffs
@@ -206,15 +207,22 @@ class Main extends Component { //không export default class Main, mà phải ex
                     />
 
                   
-                       
-                                <WebBody_of_Employees 
+                    <TransitionGroup>
+                        <CSSTransition key={this.props.location.key}
+                            classNames="page"
+                            timeout={300}>
+
+                            <WebBody_of_Employees 
                                     //dữ liệu mảng lấy từ store, nhưng chưa lấy được department.name
                                     phong_ban_gui_EmpBody={this.props.departments.departments} 
                                     nhan_vien_gui_EmpBody={this.props.staffs.staffs} 
                                     //others, Chuoi_JSX do HeaderComponent sản xuất gửi về MainComponent rồi truyền tiếp cho WebBody_of_Employees
                                     data={this.state.Chuoi_JSX_tat_ca_Nhan_vien} //không bỏ được nếu không Nhấn nút Nhân viên không hiện ra gì hết
-                                    
-                                />
+                            /> 
+
+                        </CSSTransition>
+                    </TransitionGroup>   
+                                
                          
                     
 

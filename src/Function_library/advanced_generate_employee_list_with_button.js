@@ -1,5 +1,6 @@
 import React, { Component } from 'react'; //cần vì hàm Advanced_emp_list_generating sẽ trả về JSX.Element
 import { BrowserRouter, Link, HashRouter,Switch,Route} from 'react-router-dom';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import {Media,NavLink,Breadcrumb,BreadcrumbItem} from 'reactstrap';
 
 
@@ -16,12 +17,22 @@ export const Advanced_emp_list_generating=(props)=>{//Warning: The tag <advanced
                
                     return(
                         //note: Nếu cho Link vào BrowserRouter sẽ bị báo lỗi: Router chỉ có 1 CHild component thôi, do đó phải cho Link vào Switch
-                        <div style={{textAlign:"center"}}>
-                            <NavLink to={{pathname:`/nhan_vien/${nhan_vien.id}`}} style={{fontSize:"8px",color:"black"}} className="navitem_css"  >
-                                <Media onClick={() => setEmployeeId(`${nhan_vien.id}`)}  style={{width:"14vw"}} object src={nhan_vien.image} alt={nhan_vien.name}  />
-                            </NavLink> 
-                            <button key={nhan_vien.id} id="nut_nhan_vien">{nhan_vien.name}</button>
-                        </div>     
+                        <TransitionGroup>
+                            <CSSTransition
+                                //key={this.props.location.key}
+                                classNames="page"
+                                timeout={300}>
+                            
+                                <div style={{textAlign:"center"}}>
+                                    <NavLink to={{pathname:`/nhan_vien/${nhan_vien.id}`}} style={{fontSize:"8px",color:"black"}} className="navitem_css"  >
+                                        <Media onClick={() => setEmployeeId(`${nhan_vien.id}`)}  style={{width:"14vw"}} object src={nhan_vien.image} alt={nhan_vien.name}  />
+                                    </NavLink> 
+                                    <button key={nhan_vien.id} id="nut_nhan_vien">{nhan_vien.name}</button>
+                                </div>     
+
+                            </CSSTransition>
+                        </TransitionGroup>
+                          
                     ) 
                 //Sau khi click Media thì cập nhật stateful Id_nhan_vien_duoc_chon bằng hàm setEmployeeId(), khi đó Id_nhan_vien_duoc_chon != "" và component Advanced_emp_list_generating sẽ re-render
             }

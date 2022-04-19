@@ -1,8 +1,10 @@
 import React, { Component } from 'react'; 
 import { BrowserRouter, Link, HashRouter} from 'react-router-dom';
 import {Media,Breadcrumb,BreadcrumbItem,Navbar,NavLink,NavItem,NavbarBrand,NavbarToggler,Collapse,Nav} from 'reactstrap';
-//import {BreadcrumbsItem} from 'react-breadcrumbs-dynamic'; không hỗ trợ
-//import Breadcrumb from 'react-bootstrap/Breadcrumb';   //đã import nhưng react-bootstrap bị lỗi
+//import Breadcrumb from 'react-bootstrap/Breadcrumb'//Breadscrumb của bootstrap https://react-bootstrap.github.io/components/breadcrumb/
+//import {BreadcrumbsItem} from 'react-breadcrumbs-dynamic';Error ./node_modules/react-bootstrap/esm/Breadcrumb.js Module parse failed: Unexpected token (18:2)
+
+
 export default class HeaderClassComponent extends Component { 
     constructor(props) {
         super(props);
