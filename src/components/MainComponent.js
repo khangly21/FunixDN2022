@@ -20,8 +20,12 @@
    import { addComment,fetchDishes, fetchComments, fetchPromos } from '../redux/ActionCreator'; //nếu dẫn sai là Module not found: Error: Can't resolve '../redux/ActionCreators' do sai tên thư mục
 
    import { actions } from 'react-redux-form';
+   import {TransitionGroup,CSSTransition} from 'react-transition-group';
+
+
+
 //hàm này không nằm trong class Main, nếu nằm trong thì sẽ bind(this)
-const mapStateToProps = state => { //tham số state là lấy từ Redux store, xem reducer.js trả về đối tượng state chứa 4 anh nào: dishes, comments, promotions, leaders
+const mapStateToProps = state => { //tham số state là lấy từ Redux store, xem combineReducers trả về đối tượng state chứa 4 anh nào: dishes, comments, promotions, leaders
     // nhiệm vụ của hàm này là map Redux store's state vào props được available nhận bởi Main
     return {
         //các thuộc tính sau state phải có trong initialState
@@ -32,6 +36,7 @@ const mapStateToProps = state => { //tham số state là lấy từ Redux store,
         leaders: state.leaders
         //tuy nhiên muốn lấy các giá trị trên từ Redux Store thì phải connect trước đã, chỉ cần wrap Main component inside the connect()
     }
+    //Thông thường là return() , nhưng ở đây là return{ } trả về là props object, đượ truy cập bởi this.props.dishes
 }
 
 //receive dispatch function from store as parameter , vì trong Javascript onClick nhận 1 đối tượng hàm với tên gọi 
@@ -61,7 +66,7 @@ const mapDispatchToProps=(dispatch)=>({
     //Tại Contact, gắn nhãn cho form là <Form model="feedback" và onSubmit sẽ kích hoạt hàm dispatch làm reset form : this.props.resetFeedbackForm();
     //tại sao lại phải cho dispatch(actions.reset('feedback')) nằm trong 1 arrow function rồi truyền tới Contact??  vì nếu để theo kiểu gọi ham() thì hàm sẽ chạy ngay trong Main, trong khi yêu cầu hàm chỉ chạy khi submit form trong Child component là Contact
     fetchComments: () => dispatch(fetchComments()),
-    fetchPromos: () => dispatch(fetchPromos())
+    fetchPromos: () => dispatch(fetchPromos())  //hàm dispatch được nhận từ store
 })
 
 
@@ -84,16 +89,17 @@ class Main extends Component {
     }
 
     componentDidMount() {
-        //call/execute/invoke , this is very good time to fetch any data required for my application
+        //call/execute/invoke , this is very good time to fetch any data required for my application. Theo lý thuyết thì lúc này UI MainComponent đang invokes ActionCreator/Thunk
         this.props.fetchDishes(); //vì trước đó dispatch đã đưa hàm tạo hành động fetchDishes vào trong props fetchDishes, nên biến mới này thành hàm và được call bằng ()
-        this.props.fetchComments();
+        this.props.fetchComments(); //sau khi Main vào DOM thì Comments cũng được nhận từ server, do đó khi người dùng navigate tới DishDetailsComponent see4 không cần xét Comment có isLoading hay không vì đã có rồi
         this.props.fetchPromos();
     }
 
     
     render(){
-        //Các props sau đã available sau khi connect Main to mapStateToProps. Tuy nhiên mỗi khi state thay đổi thì hàm  mapStateToProps được gọi lại
-        console.log(this.props.dishes); //ok
+        //TEST DỮ LIỆU MAIN nhận được từ store
+        //Các props sau đã available sau khi connect Main to mapStateToProps. Tuy nhiên mỗi khi state thay đổi thì hàm  mapStateToProps được gọi lại (vì UI đã subscribes để nhận các thay đổi từ state trong store)
+        console.log(this.props.dishes); //ok. Khi ở HomePage thì {isLoading: true, errMess: null, dishes: Array(0)} . Xem tiếp cùng câu lệnh này tại MenuClassComponent sẽ nhận mảng 4 dishes
         console.log(this.props.promotions); //ok
         console.log(this.props.leaders); //ok
         console.log(this.props.comments);//ok
@@ -101,16 +107,21 @@ class Main extends Component {
         
         //Đặt tên component này là HomePage3 là để phân biệt với HomePage component trong file HomepageComponent.js, which is composable inside HomePage3
         const HomePage3 = () => {
-            //console.log(this.props.dishes.filter((dish) => dish.featured)[0]); 
+           
             return(
                 //file HomepageComponent.js
                 <HomePage 
+                    //dishes
                     dish={this.props.dishes.dishes.filter((dish) => dish.featured)[0]}
                     dishesLoading={this.props.dishes.isLoading}
                     dishesErrMess={this.props.dishes.errMess}
+
+                    //promotion
                     promotion={this.props.promotions.promotions.filter((promo) => promo.featured)[0]}
                     promoLoading={this.props.promotions.isLoading}
                     promoErrMess={this.props.promotions.errMess}
+
+                    //Sau khi fetch dữ liệu từ server thì sửa lại là this.props.leaders.leaders.filter((leader)
                     leader={this.props.leaders.filter((leader) => leader.featured)[0]}
                 />
             );      
@@ -164,28 +175,30 @@ class Main extends Component {
                 //sau khi điền form xong, qua bên Home hay Menu khác, rồi quay trở lại Contact thấy dữ liệu vẫn còn
 
                 //TRƯỚC kia có cho Main refers tới <Contact/> của ContactComponent.js nhưng không thực hiện được mục đích của Lab09_2 là dữ liệu form không bị reset khi người dùng qua lại giữa các component trên menu
+                //Some components (commonly a header component) appear on every page, so are not wrapped in a <Route> . withRouter simply connects the component to the Router
+                
+                
+                //NOTE: Adjacent JSX must be wrapped in an enclosing tag
                 <div>
-                       
-                            <Header/>
-                                
-                                <div>
-                                        
-                                        
-                                        <Route exact path='/' component={HomePage3} /> 
-                                        <Route exact path='/aboutus' component={() => <AboutUs leaders={this.props.leaders} />} />
-                                        <Route exact path='/menu' component={() => <DishNoId dishes={this.props.dishes} />} />
-                                        <Route path='/menu/:dishId' component={DishWithId} />
-                                        <Route exact path='/contactus' component={()=><ContactTranTienDat resetFeedbackForm={this.props.resetFeedbackForm}/> } />
-                                        <Redirect to="/" />    
-                                       
-                                </div>
-                        
-                            <Footer/>
+                    <Header/>
+                    <TransitionGroup>
+                        <CSSTransition key={this.props.location.key} classNames="page" timeout={300}>
+                            <Switch>
+                                <Route exact path='/' component={HomePage3} /> 
+                                <Route exact path='/aboutus' component={() => <AboutUs leaders={this.props.leaders} />} />
+                                <Route exact path='/menu' component={() => <DishNoId dishes={this.props.dishes} />} />
+                                <Route path='/menu/:dishId' component={DishWithId} />
+                                <Route exact path='/contactus' component={()=><ContactTranTienDat resetFeedbackForm={this.props.resetFeedbackForm}/> } />
+                                <Redirect to="/" />    
+                            </Switch>
+                        </CSSTransition>
+                    </TransitionGroup>    
+                    <Footer/>
                       
-                            
-
                 </div>
-            
+
+                            
+     
         )
     }
 }

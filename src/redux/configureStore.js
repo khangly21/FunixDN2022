@@ -2,10 +2,13 @@
 //hàm cấu hình store, nếu được gọi sẽ trả về một Redux store
 //applyMiddleware để áp dụng 2 hàm giữa là logger và thunk
 import { createStore, combineReducers,applyMiddleware } from 'redux';
+
+//import các reducers chuyên môn hóa
 import { Dishes } from './dishes';
 import { Comments } from './comments';
 import { Leaders } from './leaders';
 import { Promotions } from './promotions';
+
 //import 2 middlewares , now available and apply them to send data_arrays to reducers (Reducer will not store arrays anymore như Lab08_2 trên github, state=DISHES)
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
@@ -24,6 +27,8 @@ export const ConfigureStore = () => {
         //hàm Redux.combineReducers nhận đối tượng gọi là ReducerMapObject
         //hàm Redux.combineReducers turns an object whose values are different reducer functions, into a single reducer function. It will call every child functions and gather
         
+
+        //hàm dispatch(action) sẽ gửi 1 action object tới store nhằm làm thay đổi state đang lưu trong reducer
         combineReducers(
             {
                 dishes:Dishes,  //CtrlClick vế phải sẽ tới nơi cần thiết

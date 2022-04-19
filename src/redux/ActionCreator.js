@@ -1,5 +1,5 @@
 import * as ActionTypes from './ActionType';
-import { DISHES } from '../shared/dishes'; //không dùng nữa
+import { DISHES } from '../shared/dishes'; //không dùng Dishes reducer nữa
 import {baseUrl} from '../shared/baseUrl'; //now we have fetched or include the baseUrl
 //nhận tất cả Action Type từ ActionType.js
 //a function that creates an action object, and this function is invoked by Component UI
@@ -31,6 +31,8 @@ export const addComment=(dishId,rating,author,comment)=>({
 // Async code is unpredictable because completion is not known ahead of time and multiple requests complicate things
     ///the problem at hand lies in the fact Redux has no way of knowing when both async operations finish, while in case of many endpoints , we need many async operations and a way to know when all are done!
     /// a dispatched action này có thể được setTimeOut để chạy sau dispatched action khác
+
+//Minh họa 1
     let url = "http://jsonplaceholder.typicode.com/posts/6";
 
     let iterator = fetch(url);
@@ -39,13 +41,14 @@ export const addComment=(dishId,rating,author,comment)=>({
       .then(response => {
           return {
               data: response.json(),  //câu hỏi là data là Promise object hay chỉ là standard object which you can access property
-              status: response.status
+              status: response.status //thường res.status để phát hiện lỗi trong giao tiếp client-server
           }
       })
       //post là đối tượng kết quả từ return bên trên, hover xem kết quả
       .then(post => console.log(post.data.title)); //post.data có prototype là Promise object và không truy cập được giá trị, VD post.data.title
     ; //Why does response.json return a promise? 
 
+//Minh họa 2
     let iterator2 = fetch(url);
 
     iterator2
@@ -57,14 +60,19 @@ export const addComment=(dishId,rating,author,comment)=>({
   
     
 //fetch dữ liệu dishes + addDishes + dishesLoading + dishesFailed
-export const fetchDishes=()=>(dispatch)=>{
+
+   /// định nghĩa fetchDishes
+   ///Tham khảo: https://reactgo.com/redux-fetch-data-api/ +
+  /// https://stackoverflow.com/questions/60556683/redux-thunk-fetch-api-action-and-reducer
+  /// https://www.linkedin.com/pulse/redux-thunk-middleware-context-api-action-state-store-mostafa-mohamed
+export const fetchDishes=()=>(dispatch)=>{  //hàm tạo hành động hay Thunk này trong Lab09_3 là gửi hành động addDishes(dishes) tới store , còn trong Lab10_1 thì đầu tiên là "we issue the Fetch request to the server " , dữ liệu DISHES nhận từ server sẽ được gói trong "action" object bằng cách DISHES => dispatch(addDishes(DISHES))) và gửi tới Dishes reducer trong redux/dishes.js, nơi mà tùy ActionTypes mà trả về state tương ứng
     //vừa gọi dispatch vừa gọi hàm tạo hành động với mục đích loading chạy cùng lúc
     dispatch(dishesLoading(true)); //lát sẽ biết dishesLoading sẽ làm gì
 
     return fetch(baseUrl + 'dishes') //hover sẽ thấy fetch trả về Promise object là response
     //các arrow function nằm trong then() đều là các hàm callback
     .then(response => response.json()) //hover sẽ thấy fetch trả về Promise object là dishes
-    .then(dishes => dispatch(addDishes(dishes))); //hover sẽ thấy json() trả về Promise object là dishes
+    .then(dishes => dispatch(addDishes(dishes))); //hover sẽ thấy json() trả về Promise object (là 1 object đi vào hàm Promise trong then?) là dishes
     //khi obtain được dishes object, thì dùng hàm dispatch của store để chuyển action object tới store 
 
 }
@@ -127,3 +135,5 @@ export const addPromos = (promos) => ({
     type: ActionTypes.ADD_PROMOS,
     payload: promos
 });
+
+//khi chưa có fetch leader thì Card ở cột 3 Homepage sẽ không hiện ra hình ảnh

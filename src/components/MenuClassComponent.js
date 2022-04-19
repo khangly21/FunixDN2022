@@ -36,7 +36,10 @@ class MenuClassComponent extends React.Component {
     render() {
         //Nhận props.dishes từ Main và áp dụng map()
         //nhận props.onClick từ Main và áo dụng cho callback của hàm map()
-        console.log(this.props.dishes); //mảng 4 món ăn => OK
+        console.log(this.props.dishes); //Xem lúc ở HomePage cùng câu lệnh này sẽ ra {isLoading: true, errMess: null, dishes: Array(0)}. Còn tới MenuClassComponent thì nhận mảng 4 món ăn => OK
+
+
+
         const menu=this.props.dishes.map(this.Trinh_bay_cac_mon_trong_menu);
         const message=this.props.message;
         console.log(menu);
