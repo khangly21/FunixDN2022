@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 //NavLink và Link --> react-router-dom
 import {Media,Breadcrumb,BreadcrumbItem,Navbar,NavLink,NavItem,NavbarBrand,NavbarToggler,Collapse,Nav} from 'reactstrap';
 import Advanced_department_list_generating from '../../../Function_library/advanced_generate_department_list_with_button' ;
+import { FadeTransform } from 'react-animation-components';
 
 const WebBody_of_Departments=(props) => {
     let currentDate_DDMMYYYY=new Date().toLocaleDateString('en-GB', {
@@ -18,14 +19,25 @@ const WebBody_of_Departments=(props) => {
                 var So_luong_nhan_vien_trong_phong_ban=phong_ban.numberOfStaff;
             //NavLink tới cùng url không  to={{pathname:`/phong_ban/${phong_ban.id}`}}
             return( 
-                <NavLink>
-                    <div className="proportion_according_to_screen_size">
-                        <div className="boxes">
-                           <h1>{ten_phong_ban}</h1>
-                           <p>Số lượng nhân viên: {So_luong_nhan_vien_trong_phong_ban}</p>
-                        </div>
-                    </div>  
-                </NavLink> 
+                
+                    <FadeTransform
+                        in
+                        transformProps={{
+                            exitTransform: 'scale(0.5) translateY(-50%)'
+                        }}
+                    > 
+                         <NavLink>
+                            <div className="proportion_according_to_screen_size">
+                                <div className="boxes">
+                                   <h1>{ten_phong_ban}</h1>
+                                   <p>Số lượng nhân viên: {So_luong_nhan_vien_trong_phong_ban}</p>
+                                </div>
+                            </div>  
+                         </NavLink>
+                         
+
+                    </FadeTransform>
+                
             )
         }
     )

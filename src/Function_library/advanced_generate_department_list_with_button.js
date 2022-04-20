@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Link, HashRouter,Switch,Route} from 'react-router-dom';
 import {NavLink,Button,Media,Breadcrumb,BreadcrumbItem} from 'reactstrap'; //NavLink thuộc reactstrap chỉ trang trí hay điều hướng cùng 1 chứ không điều hướng như Link trong react-router-dom
-
+import { FadeTransform } from 'react-animation-components';
 
 export class makeCardUI extends React.Component{
     constructor(props){ 
@@ -9,14 +9,23 @@ export class makeCardUI extends React.Component{
     }
     render(){
         return(
-            <div className="card">
-                <div className="card__body">
-                    <img style={{width:'26vw',height:'23vw'}} src="https://source.unsplash.com/1600x1050/?nature" alt="my image"/>
-                    <h2 className="card__title">Our staff in {} department</h2>
-                    <p className="card__description"></p>
+            <FadeTransform
+                in
+                transformProps={{
+                    exitTransform: 'scale(0.5) translateY(-50%)'
+                }}
+            >
+                <div className="card">
+                    <div className="card__body">
+                        <img style={{width:'26vw',height:'23vw'}} src="https://source.unsplash.com/1600x1050/?nature" alt="my image"/>
+                        <h2 className="card__title">Our staff in {} department</h2>
+                        <p className="card__description"></p>
+                    </div>
+                    <button className="card__btn">View details</button>
                 </div>
-                <button className="card__btn">View details</button>
-            </div>
+
+            </FadeTransform>
+            
         )
     }
         

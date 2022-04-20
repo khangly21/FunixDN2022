@@ -1,7 +1,7 @@
 import React, { Component } from 'react'; 
 import { Link } from 'react-router-dom';
 import {Breadcrumb,BreadcrumbItem} from 'reactstrap';
-
+import { FadeTransform, Fade, Stagger } from 'react-animation-components';
 
 const WebBody_of_Salaries=(props) => {
     let currentDate_DDMMYYYY=new Date().toLocaleDateString('en-GB', {
@@ -22,18 +22,24 @@ const WebBody_of_Salaries=(props) => {
                   var Luong_lam_tron=Math.floor(He_so_luong_Nhan_vien*3000000+So_ngay_lam_them*200000);
                
                   return(
+                    <Stagger in>
                       <div className="responsive_to_screen_size">
-                          <div className="box" style={{backgroundColor:"brown",color:"white",margin:"3px",padding:"10px"}}>
-                              <h1>Bảng lương</h1>
-                              <h3>{Ten_Nhan_vien}</h3>
-                              <p>Mã nhân viên: <b>{Ma_so_Nhan_vien}</b></p>
-                              <p>Hệ số lương: <b>{He_so_luong_Nhan_vien}</b></p>
-                              <p>Số ngày làm thêm: <b>{So_ngay_lam_them}</b></p>
-                              <div className="sub_box" style={{backgroundColor:"paleturquoise",color:"orangered"}}>
-                                  <p>Lương:{Luong_lam_tron}</p>
-                              </div>
-                          </div>
+                        
+                               <div className="box" style={{backgroundColor:"brown",color:"white",margin:"3px",padding:"10px"}}>
+                                   <Fade in>
+                                        <h1>Bảng lương</h1>
+                                        <h3>{Ten_Nhan_vien}</h3>
+                                        <p>Mã nhân viên: <b>{Ma_so_Nhan_vien}</b></p>
+                                        <p>Hệ số lương: <b>{He_so_luong_Nhan_vien}</b></p>
+                                        <p>Số ngày làm thêm: <b>{So_ngay_lam_them}</b></p>
+                                        <div className="sub_box" style={{backgroundColor:"paleturquoise",color:"orangered"}}>
+                                            <p>Lương:{Luong_lam_tron}</p>
+                                        </div>
+                                   </Fade>
+                               </div>
+                        
                       </div>
+                    </Stagger>
                   )
               }
     )

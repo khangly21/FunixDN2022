@@ -2,7 +2,7 @@ import React, { Component } from 'react'; //cần vì hàm Advanced_emp_list_gen
 import { NavLink,BrowserRouter, Link, HashRouter,Switch,Route} from 'react-router-dom';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import {Media,Breadcrumb,BreadcrumbItem} from 'reactstrap';
-
+import { FadeTransform } from 'react-animation-components';
 
 export const Advanced_emp_list_generating=(props)=>{//Warning: The tag <advanced_emp_list_generating> is unrecognized in this browser. If you meant to render a React component, start its name with an uppercase letter.
     const [Id_nhan_vien_duoc_chon,setEmployeeId]=React.useState(""); //useState() returns a stateful value EmplueeId="" and a function to update it
@@ -21,10 +21,18 @@ export const Advanced_emp_list_generating=(props)=>{//Warning: The tag <advanced
                               /// Choice 1: dùng ReactRouterDOM.NavLink hoặc ReactRouterDOM.Link thì mới có http://localhost:3000/nhan_vien/1 khi chọn hình có STT 1 , sau đó có thể định nghĩa path tới component employeeDetails và không sử dụng , hoặc cập nhật state trong else{//Id_nhan_vien_duoc_chon != ""
                               /// Choice 2: còn nếu Reactstrap.NavLink thì cũng có SPA, onClick={() => setEmployeeId(`${nhan_vien.id}`)} nhưng tới cùng 1 đường dẫn http://localhost:3000/nhan_vien  , không có param :staffId  và không thực hiện else{//Id_nhan_vien_duoc_chon != ""
                         <div style={{textAlign:"center"}}>
-                            <Link to={`/nhan_vien/${nhan_vien.id}`} style={{fontSize:"8px",color:"black"}} className="navitem_css"  >
-                                <Media   style={{width:"14vw"}} object src={nhan_vien.image} alt={nhan_vien.name}  />
-                            </Link> 
-                            <button key={nhan_vien.id} id="nut_nhan_vien">{nhan_vien.name}</button>
+                            <FadeTransform
+                                in
+                                transformProps={{
+                                    exitTransform: 'scale(0.5) translateY(-50%)'
+                                }}
+                            >
+                                <Link to={`/nhan_vien/${nhan_vien.id}`} style={{fontSize:"8px",color:"black"}} className="navitem_css"  >
+                                    <Media   style={{width:"14vw"}} object src={nhan_vien.image} alt={nhan_vien.name}  />
+                                </Link> 
+                                <button key={nhan_vien.id} id="nut_nhan_vien">{nhan_vien.name}</button>
+                            </FadeTransform>
+                            
                         </div>     
 
                        
