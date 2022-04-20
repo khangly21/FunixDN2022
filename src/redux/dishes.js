@@ -24,7 +24,7 @@ export const Dishes=(state={ isLoading: true,
                 return {...state, isLoading: true, errMess: null, dishes: []}
     
             case ActionTypes.DISHES_FAILED:
-                return {...state, isLoading: false, errMess: action.payload};
+                return {...state, isLoading: false, errMess: action.payload}; //khi giao tiếp client-server có error, thì nội dung error.message trong payload sẽ hiện trên trang web, VD 404 Not Found
     
             default:
                 return state; //ban đầu

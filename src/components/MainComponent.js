@@ -112,7 +112,7 @@ class Main extends Component {
         console.log(this.props.leaders); //ok
         console.log(this.props.comments);//ok
         console.log(this.props.addComment); //ok!
-        
+        /*
         const DishWithId = ({match}) => { 
             //thuộc tính thứ ba là addComment sẽ giúp component DishDetails gián tiếp gửi được thông tin user has submitted tới Store thông qua Action Creator và Action
             return(
@@ -127,8 +127,20 @@ class Main extends Component {
                 />
             );
         };
+        */
 
         return(
+            //https://stackoverflow.com/questions/50290408/how-to-use-react-ga-with-hashrouter
+                /// Warning: < HashRouter> ignores the history prop.
+                /// https://www.hkinfosoft.com/blog/dynamic-transitions-with-react-router-and-react-transition-group/
+                    //// thực ra this.props.location By default, a switch uses history.location to select the route to render. However you can provide a location prop to the switch that will override the default history.location value
+                /// https://tech.lalilo.com/dynamic-transitions-with-react-router-and-react-transition-group
+            // thuộc tính của component Switch
+                /// <Switch location={{location}}là cách extract destructure biến location từ props https://www.freecodecamp.org/news/the-basics-of-destructuring-props-in-react-a196696f5477/
+                /// tương đương với <Switch location={this.props.location} trong tài liệu Reading của Coursera
+                /// tuy nhiên Muppala không viết location cho Switch cũng ok
+
+                //
                 <div>
                     <TransitionGroup>
                         <CSSTransition key={this.props.location.key} classNames="page" timeout={300}>
@@ -137,10 +149,10 @@ class Main extends Component {
                     </TransitionGroup>
                     
 
-
+                     
                     <TransitionGroup>
                         <CSSTransition key={this.props.location.key} classNames="page" timeout={300}>
-                            <Switch>
+                            <Switch location={this.props.location}>
                                 <Route exact path='/' component={()=>(
                                     <HomePage
                                         DISHES={this.props.dishes.dishes.filter((dish) => dish.featured)[0]}
@@ -156,7 +168,14 @@ class Main extends Component {
                                 )} /> 
                                 <Route exact path='/aboutus' component={() => <AboutUs leaders={this.props.leaders} />} />
                                 <Route exact path='/menu' component={() => <MenuClassComponent dishes={this.props.dishes.dishes} message={<b style={{color:'orange'}}>thêm param 0,1,2,3 trên URL, hoặc click hình món ăn để xem chi tiết món ăn</b>}/>} />
-                                <Route path='/menu/:dishId' component={DishWithId} />
+                                <Route path='/menu/:dishId' component={({match})=><DishDetails   //không phải gọi DishDetails bình thường mà phải cho nó vào 1 hàm nhận tham số match
+                                     dish={this.props.dishes.dishes.filter((dish) => dish.id === parseInt(match.params.dishId,10))[0]} 
+                                     isLoading={this.props.dishes.isLoading}
+                                     errMess={this.props.dishes.errMess}
+                                     comments={this.props.comments.comments.filter((comment) => comment.dishId === parseInt(match.params.dishId,10))}
+                                     commentsErrMess={this.props.comments.errMess}
+                                     addComment={this.props.addComment}
+                                />} />
                                 <Route exact path='/contactus' component={()=><ContactTranTienDat resetFeedbackForm={this.props.resetFeedbackForm}/> } />
                                 <Redirect to="/" />    
                             </Switch>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Main from './components/MainComponent'; //Hiện chỉ dùng redux cho món ăn, không cho dùng connectedMain, thì dish={this.props.dishes.filter((dish) => dish.featured)[0]} sẽ bị báo lỗi undefined filter vì không nhận được mảng dishes
-import { HashRouter , BrowserRouter } from 'react-router-dom'; //HashRouter không hỗ trợ TransitionGroup và CSSTransition
+import { HashRouter , BrowserRouter } from 'react-router-dom'; //HashRouter không hỗ trợ history nên vô hiệu hóa TransitionGroup và CSSTransition
 import { Provider } from 'react-redux';
 import { ConfigureStore } from './redux/configureStore';
 

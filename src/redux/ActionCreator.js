@@ -70,11 +70,52 @@ export const fetchDishes=()=>(dispatch)=>{  //hàm tạo hành động hay Thunk
     dispatch(dishesLoading(true)); //lát sẽ biết dishesLoading sẽ làm gì
 
     return fetch(baseUrl + 'dishes') //hover sẽ thấy fetch trả về Promise object là response
-    //các arrow function nằm trong then() đều là các hàm callback
-    .then(response => response.json()) //hover sẽ thấy fetch trả về Promise object là dishes
-    .then(dishes => dispatch(addDishes(dishes))); //hover sẽ thấy json() trả về Promise object (là 1 object đi vào hàm Promise trong then?) là dishes
-    //khi obtain được dishes object, thì dùng hàm dispatch của store để chuyển action object tới store 
+    //when we encounter errors, first thing is how to handling errors
+    //note that server's response could be data response or error response 
+    //Whatever the case, we need to handle problems 
+    .then( //SITUATION #1: YOU ACTUALLY RECEIVE A RESPONSE FROM SERVER, AND THIS MAY BE NOT_OK RESPONSE
+        response => {
+        //what do you do if you receive the response correctly? 
+        if (response.ok) {
+          return response;  //we will just return the response. After that, the received response will be available for the next "then"
+        } else { //Except 200 code, you encounter errors, what do you do
+        //generate an error object in Javascript, inside it we set up a message to be delivered "Error detected"
+        //extract a status containing response status code from response and a statusText
+        // 300,400,500 are response error codes we will take as status, 200 is ok which we already handled in if
+        //statusText contains any error message that server sends back
+          var error = new Error('Error detected' + response.status + ': ' + response.statusText); //join together in error message
+          error.response = response; //gán cho error
+          //throw error in a promise handler
+          throw error; //(1)
+        }
+      },
+      //some situation the server does not even respond
+      //so promise handling should be implemented
+      //error handler 
 
+      //SITUATION #2: YOU DON'T HERE BACK ANYTHING FROM THE SERVER (thử Ctr+C to shut down json-server then React client trying to talk to server , it will fail)
+      //so you must handle error appropriately
+      error => {
+            var errmess = new Error(error.message); //khi error phát sinh trong giao tiếp client-server, sẽ có thông tin trong error.message
+            throw errmess; //(2) //THÔNG thường là báo ngay trên trang web: Failed to fetch
+      })
+    //các arrow function nằm trong then() đều là các hàm callback (to handle response parameter coming)
+
+    //If you know how promises work, when the above returns something, that will be delivered in as an incoming parameter to the next "then" với các promises handler ở đây
+    .then(response => response.json()) //hover sẽ thấy fetch trả về Promise object là dishes
+    .then(dishes => dispatch(addDishes(dishes))) //hover sẽ thấy json() trả về Promise object (là 1 object đi vào hàm Promise trong then?) là dishes
+    //khi obtain được dishes object, thì dùng hàm dispatch của store để chuyển action object tới store 
+    //implement catch here to catch the error then handle the error appropriately
+    .catch(error => dispatch(dishesFailed(error.message))) //we dispatched a dishesFailed action with the error message included. This will ensure your state will be updated with error message
+    //throw then catch error
+    //In handling of promises, an error will cause a rejected promise . Therefore we will catch using the .catch of promises . Inside the catch you will receive the error
+    //the catch would be caused because you throw an error at (1) or at (2). Either case we will handle error appropriately 
+
+    
+    
+    
+    
+    //That's all, this is how we handle response we receive from server
 }
 
 export const addDishes = (dishes) => ({
@@ -96,8 +137,22 @@ export const dishesFailed = (errmess) => ({
 export const fetchComments = () => (dispatch) => {    
     //comments sẽ được load ngay khi HomePage loaded, nên không dùng commentsLoading
     return fetch(baseUrl + 'comments')
+    .then(response => {
+        if (response.ok) {
+          return response;
+        } else {
+          var error = new Error('Error ' + response.status + ': ' + response.statusText);
+          error.response = response;
+          throw error;
+        }
+      },
+      error => {
+            var errmess = new Error(error.message);
+            throw errmess;
+      })
     .then(response => response.json())
-    .then(comments => dispatch(addComments(comments)));   //phân biệt hàm tạo hành động addComment() bên trên
+    .then(comments => dispatch(addComments(comments)))  //phân biệt hàm tạo hành động addComment() bên trên
+    .catch(error => dispatch(commentsFailed(error.message)));
 };
 
 export const commentsFailed = (errmess) => ({
@@ -118,8 +173,22 @@ export const fetchPromos = () => (dispatch) => {
     dispatch(promosLoading(true));
 
     return fetch(baseUrl + 'promotions')
+    .then(response => {
+        if (response.ok) {
+          return response;
+        } else {
+          var error = new Error('Error ' + response.status + ': ' + response.statusText);
+          error.response = response;
+          throw error;
+        }
+      },
+      error => {
+            var errmess = new Error(error.message);
+            throw errmess;
+      })
     .then(response => response.json())
-    .then(promos => dispatch(addPromos(promos)));
+    .then(promos => dispatch(addPromos(promos)))
+    .catch(error => dispatch(promosFailed(error.message)));
 }
 
 export const promosLoading = () => ({

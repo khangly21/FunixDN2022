@@ -6,6 +6,7 @@ import { addComment } from "../redux/ActionCreator";
 import CommentForm from "./CommentForm";
 import { Loading } from './LoadingComponent';
 import { baseUrl } from '../shared/baseUrl';
+import { FadeTransform, Fade, Stagger } from 'react-animation-components';
 
 
 //FUNCTIONAL COMPONENT
@@ -83,13 +84,19 @@ export function RenderDish({dish}) { //là cách khác thay vì viết props, c�
     //các children được trả về bởi callback của map() phải có key
     return(
         <div key={dish.id} className="col-12 col-md-5 m-1">
-            <Card>
-                <CardImg width="100%" src={baseUrl + dish.image} alt={dish.name}/>
-                <CardBody>
-                    <CardTitle>{dish.name}</CardTitle>
-                    <CardText>{dish.description}</CardText>
-                </CardBody>
-            </Card>
+            <FadeTransform
+                in
+                transformProps={{
+                    exitTransform: 'scale(0.5) translateY(-50%)'
+                }}>
+                <Card>
+                    <CardImg width="100%" src={baseUrl + dish.image} alt={dish.name}/>
+                    <CardBody>
+                        <CardTitle>{dish.name}</CardTitle>
+                        <CardText>{dish.description}</CardText>
+                    </CardBody>
+                </Card>
+            </FadeTransform>
         </div>
         
     );
@@ -122,15 +129,20 @@ export function RenderCommentItem({comments,addComments,dishId}) {//chú ý para
             <div>
                 <h4 style={{color:'blue'}}>Comments</h4>
                 <ul className="list-unstyled">
-                    {comments.map((comment)=>{
-                       return(
-                           <li key={comment.id}>
-                               <p>{comment.comment}</p>
-                               <p>--on {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comment.date)))} --</p>
-                               <p>-- By {comment.author} --</p>
-                           </li>
-                       )
-                   })}
+                    <Stagger in>
+                        {comments.map((comment)=>{
+                           return(
+                               <Fade in>
+                                    <li key={comment.id}>
+                                        <p>{comment.comment}</p>
+                                        <p>--on {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comment.date)))} --</p>
+                                        <p>-- By {comment.author} --</p>
+                                    </li>
+                               </Fade>
+                              
+                           )
+                       })}
+                    </Stagger>
                 </ul>
                 <CommentForm dishId={dishId} addComment={addComments}/>
             </div>
