@@ -15,9 +15,7 @@ const WebBody_of_InputEmployeeName =(props)=>{
     console.log(Chuoi_tim_kiem);
     console.log(staffs);
     const Mang_da_loc_ten_nhan_vien=array_Searching_for_Name(staffs,Chuoi_tim_kiem);
-    const Tao_Chuoi_JSX_tu_mang_Nhan_vien_loc_theo_ten_nhan_vien=""    
     
-    /*
     const Tao_Chuoi_JSX_tu_mang_Nhan_vien_loc_theo_ten_nhan_vien=Mang_da_loc_ten_nhan_vien.map(
         (staff)=>{
             var DOB = new Date(staff.doB);  //object  
@@ -49,7 +47,7 @@ const WebBody_of_InputEmployeeName =(props)=>{
         }
         
     )
-    */
+    
 
     console.log("Chuoi_tim_kiem khi ở file inputEmployeeNameBodyComponent.js:",Chuoi_tim_kiem);
     if(Chuoi_tim_kiem!="chưa có gì"){

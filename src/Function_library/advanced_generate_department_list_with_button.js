@@ -2,23 +2,6 @@ import React, { Component } from 'react';
 import { BrowserRouter, Link, HashRouter,Switch,Route} from 'react-router-dom';
 import {NavLink,Button,Media,Breadcrumb,BreadcrumbItem} from 'reactstrap'; //NavLink thuộc reactstrap chỉ trang trí hay điều hướng cùng 1 chứ không điều hướng như Link trong react-router-dom
 
-//export với <make_cardui/> thì 0 reference nên phải gọi hàm trực tiếp
-//https://dev.to/ugglr/react-functional-components-const-vs-function-2kj9
-/*
-export const make_cardui=(props)=>{
-    //trả về JSX element
-    return(
-        <div className="card">
-            <div className="card__body">
-                <img style={{width:'26vw',height:'23vw'}} src="https://source.unsplash.com/1600x1050/?nature" alt="my image"/>
-                <h2 className="card__title">Our staff in {} department</h2>
-                <p className="card__description"></p>
-            </div>
-            <button className="card__btn">View details</button>
-        </div>
-    )
-}
-*/
 
 export class makeCardUI extends React.Component{
     constructor(props){ 
@@ -45,11 +28,6 @@ export const Advanced_department_list_generating=(props)=>{
     
     //hàm tạo card
     const make_cardui=(dept,chosen_staff_array)=>(
-        //trả về JSX element
-        //dùng map để trích thông tin nhân viên tạo thành Chuoi_JSX
-            ///https://www.reactshark.com/blog/map-inside-jsx
-        //text-decoration:none không bỏ dot trong ul được https://stackoverflow.com/questions/25092666/text-decoration-none-not-working-on-ul
-            ///list-style:none nhắm vào ul
         <div>
             <div className="card">
                 <div className="card__body">
@@ -160,10 +138,6 @@ export const Advanced_department_list_generating=(props)=>{
             </div>
         )
     }
-
-    
-  
-    
 }
 
 

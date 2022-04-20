@@ -6,6 +6,7 @@ html,body {
   width:cal(100%-0px);
   height:auto;
   overflow-x:hidden; 
+  font-family: 'Sofia';font-size: 22px;
 }
 
 .footerCSS{
@@ -150,7 +151,7 @@ a {
 /*TẠO ngón trỏ khi hover lên navlink, vì reactstrap không hỗ trợ*/
 /*https://www.includehelp.com/code-snippets/change-link-color-on-hover-in-css.aspx*/
 
-  .inactive{
+  .inactive{  /*khi đã có ReactRouterDOM.NavLink thì không cần bắt con trỏ text thành cursor nữa, vì con trỏ text là của Reactstrap.NavLink*/
     cursor: pointer;
     color:blue;
   }

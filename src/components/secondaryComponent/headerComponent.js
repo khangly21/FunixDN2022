@@ -1,10 +1,11 @@
 import React, { Component } from 'react'; 
-import { BrowserRouter, Link, HashRouter} from 'react-router-dom';
-import {Media,Breadcrumb,BreadcrumbItem,Navbar,NavLink,NavItem,NavbarBrand,NavbarToggler,Collapse,Nav} from 'reactstrap';
+import { Link } from 'react-router-dom';
+import {Media,Breadcrumb,BreadcrumbItem,Navbar,NavItem,NavbarBrand,NavbarToggler,Collapse,Nav} from 'reactstrap';
 //import Breadcrumb from 'react-bootstrap/Breadcrumb'//Breadscrumb của bootstrap https://react-bootstrap.github.io/components/breadcrumb/
 //import {BreadcrumbsItem} from 'react-breadcrumbs-dynamic';Error ./node_modules/react-bootstrap/esm/Breadcrumb.js Module parse failed: Unexpected token (18:2)
 
-
+//very important, NavLink must be from react-router-dom , not reactstrap
+import {NavLink} from 'react-router-dom';
 export default class HeaderClassComponent extends Component { 
     constructor(props) {
         super(props);
@@ -43,38 +44,7 @@ export default class HeaderClassComponent extends Component {
         console.log("Mảng các phòng ban",mang_cac_doi_tuong_phong_ban); // ok, sẽ giúp tạo Chuoi_JSX đầu vào của departmentBodyComponent.js
         console.log("Mảng các bảng lương Nhân viên",mang_cac_doi_tuong_luong_nhan_vien); //ok
     
-        
-
-        //BẢNG LƯƠNG
-            //////chỉ sử dụng máy chủ /staffsSalary bởi mang_cac_doi_tuong_luong_nhan_vien, chứ không dùng mang_cac_doi_tuong_nhan_vien như thông thường
-        const Mang_thong_tin_ve_bang_luong=mang_cac_doi_tuong_luong_nhan_vien.map(
-            (sheet)=>{
-                
-                var Ten_Nhan_vien=sheet.name;
-                var Ma_so_Nhan_vien=sheet.id;
-                var He_so_luong_Nhan_vien=sheet.salaryScale;
-                var So_ngay_lam_them=sheet.overTime/8;
-                var Luong_lam_tron=Math.floor(He_so_luong_Nhan_vien*3000000+So_ngay_lam_them*200000);
-             
-                return(
-                    <div className="responsive_to_screen_size">
-                        <div className="box" style={{backgroundColor:"brown",color:"white",margin:"3px",padding:"10px"}}>
-                            <h1>Bảng lương</h1>
-                            <h3>{Ten_Nhan_vien}</h3>
-                            <p>Mã nhân viên: <b>{Ma_so_Nhan_vien}</b></p>
-                            <p>Hệ số lương: <b>{He_so_luong_Nhan_vien}</b></p>
-                            <p>Số ngày làm thêm: <b>{So_ngay_lam_them}</b></p>
-                            <div className="sub_box" style={{backgroundColor:"paleturquoise",color:"orangered"}}>
-                                <p>Lương:{Luong_lam_tron}</p>
-                            </div>
-                        </div>
-                    </div>
-                )
-            }
-        )
-
-                var Chuoi_JSX_lam_dau_vao_cua_MainComponent="";
-                
+    /*
                 var Chuoi_JSX_lam_dau_vao_cua_Salary_bodyComponent=(
                     //dùng a sẽ load toàn trang
                     //Khi inspect, <a to="/">Cake Company</a> tương đương <a href="/">Cake Company</a>
@@ -99,22 +69,19 @@ export default class HeaderClassComponent extends Component {
                     </div>
                     
                 )
-
-                let Chuoi_JSX_lam_dau_vao_cua_employeebodyComponent="clicked";
-                let Chuoi_JSX_lam_dau_vao_cua_Department_bodyComponent="clicked";
+    */
+                //let Chuoi_JSX_lam_dau_vao_cua_MainComponent="";
+                //let Chuoi_JSX_lam_dau_vao_cua_employeebodyComponent="clicked";
+                //let Chuoi_JSX_lam_dau_vao_cua_Department_bodyComponent="clicked";
                 
         return(
-            
-                //Dùng NavLink cho đồng nhất với các components của reactstrap, vì Link là của react-router-dom
-                //chỉ có Route mới có exact path="", còn Link hay NavLink không có exact to=""
-                //NavbarBrand có sẵn href, nên không cần Link to="" bên trong 
-                //vấn đề với Nav: https://stackoverflow.com/questions/52545074/navlink-react-router-dom-components-hover-not-working
-                // NavLink to "nhan_vien" chỉ hoạt động khi có  
+                //cấu trúc Nav theo https://www.geeksforgeeks.org/reactjs-reactstrap-navbar-component/
+                //<NavbarBrand href="#"  vì sẽ có dấu # ở http://localhost:3000/#
                 <Navbar dark="true" color="primary">
                     <div className="container">
-                        <NavbarBrand href="#" style={{color:"white"}}>
+                        <NavbarBrand style={{color:"white"}}>
                             <i className="fa fa-birthday-cake" aria-hidden="true"></i>
-                            <NavLink to="/" onClick={()=>this.props.onClickonCakeCompany(Chuoi_JSX_lam_dau_vao_cua_MainComponent)}><b style={{color:"white"}}>
+                            <NavLink className="nav-link" to="/" ><b style={{color:"white"}}>
                                 THE CAKE COMPANY</b>
                             </NavLink>
                         </NavbarBrand>
@@ -124,14 +91,16 @@ export default class HeaderClassComponent extends Component {
                             <Nav navbar class="nav">
                                 <NavItem>
                                     <NavLink 
-                                        className="inactive" to="/nhan_vien" onClick={()=>this.props.onClickonLiEmployee(Chuoi_JSX_lam_dau_vao_cua_employeebodyComponent)}  > <i className="fa fa-id-badge" aria-hidden="true"> </i> <b>Nhân viên </b>
+                                        className="nav-link" to="/nhan_vien"  > <i className="fa fa-id-badge" aria-hidden="true"> </i> <b>Nhân viên</b>
                                     </NavLink>     
                                 </NavItem>
+
                                 <NavItem> 
-                                    <NavLink className="inactive" to="/phong_ban" onClick={()=>this.props.onClickonLiDepartment(Chuoi_JSX_lam_dau_vao_cua_Department_bodyComponent)}   ><i className="fa fa-building-o" aria-hidden="true">  <b>Phòng ban</b></i></NavLink>
+                                    <NavLink className="nav-link" to="/phong_ban" ><i className="fa fa-building-o" aria-hidden="true"></i> <b>Phòng ban</b></NavLink>
                                 </NavItem>
+
                                 <NavItem>
-                                    <NavLink className="inactive" to="/bang_luong" onClick={()=>this.props.onClickonLiSalary(Chuoi_JSX_lam_dau_vao_cua_Salary_bodyComponent)}><i className="fa fa-paypal" aria-hidden="true">  <b>Bảng lương</b></i> </NavLink>     
+                                    <NavLink className="nav-link" to="/bang_luong"><i className="fa fa-paypal" aria-hidden="true"></i>  <b>Bảng lương</b> </NavLink>     
                                 </NavItem>
                             </Nav>
                         </Collapse>
@@ -141,3 +110,23 @@ export default class HeaderClassComponent extends Component {
     }
 }
 
+//<NavLink className="nav-link inactive" to="/home" onClick={()=>this.props.onClickonCakeCompany(Chuoi_JSX_lam_dau_vao_cua_MainComponent)}><b style={{color:"white"}}>
+
+/*
+    <NavLink 
+        className="nav-link inactive" to="/nhan_vien" onClick={()=>this.props.onClickonLiEmployee(Chuoi_JSX_lam_dau_vao_cua_employeebodyComponent)}  > <i className="fa fa-id-badge" aria-hidden="true"> </i> <b>Nhân viên </b>
+    </NavLink>   
+*/
+/*
+    <NavLink 
+         className="nav-link inactive" to="/nhan_vien" onClick={()=>this.props.onClickonLiEmployee(Chuoi_JSX_lam_dau_vao_cua_employeebodyComponent)}  > <i className="fa fa-id-badge" aria-hidden="true"> </i> <b>Nhân viên </b>
+    </NavLink>   
+*/
+
+/*
+    <NavLink className="nav-link inactive" to="/phong_ban" onClick={()=>this.props.onClickonLiDepartment(Chuoi_JSX_lam_dau_vao_cua_Department_bodyComponent)}   ><i className="fa fa-building-o" aria-hidden="true">  <b>Phòng ban</b></i></NavLink>
+*/ 
+
+/*
+    <NavLink className="nav-link inactive" to="/bang_luong" onClick={()=>this.props.onClickonLiSalary(Chuoi_JSX_lam_dau_vao_cua_Salary_bodyComponent)}><i className="fa fa-paypal" aria-hidden="true">  <b>Bảng lương</b></i> </NavLink>   
+*/

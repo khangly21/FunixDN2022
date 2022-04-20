@@ -421,9 +421,9 @@ export default class WebBody_of_Employees extends React.Component{
       //Không submit form để gửi Chuoi_Tim_kiem
       if(typeof(this.state.formSubmitdata)==="number"){ 
          
-         if(Chuoi_JSX_danh_sach_nhan_vien != "")  //Chuoi_JSX_danh_sach_nhan_vien bị dừng ở đây
+         if(Chuoi_JSX_danh_sach_nhan_vien != "")  //tức là Chuoi_JSX_danh_sach_nhan_vien = "clicked" được truyền từ HeaderComponent qua MainComponent qua employeeBodyComponent.js
          {
-
+     
             return( 
                  
                  <div className="container-fluid">
@@ -590,11 +590,14 @@ export default class WebBody_of_Employees extends React.Component{
                  </div>
                
            ) 
+
+         /*
          }else{
               return(
                 <div></div>
               )
          }
+         */
       }else{
          //CHUỖI TÌM KIẾM
          let mang_Nut_va_Hinh_nhan_vien=[];
@@ -622,10 +625,11 @@ export default class WebBody_of_Employees extends React.Component{
             </div>
          )
       }
-
+   }}
+}
 
 
        
-    }
-}
+    
+
 
