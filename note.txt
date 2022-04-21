@@ -1,0 +1,56 @@
+﻿KẾ THỪA lab10_1
+
+JSON-Server
+json-server --watch db.json -d 2000 -p 3001
+
+
+GIT  
+- git init 
+- tạo file note.txt 
+- git add note.txt  (hay git add .)
+- git commit -m "first commit to make master branch"
+- git branch 
+   * master
+- git checkout -b LAB010_3    //tạo và chuyển tới local branch LAB010_3
+- git branch 
+   *LAB010_3
+    master
+    
+- git ls-files
+- git remote add LAB10_3_label https://github.com/khangly21/FunixDN2022.git  
+- git push LAB10_3_label LAB010_3   //phải cùng tên với local branch LAB10_3
+  
+- Cập nhật
+  ** git add .
+  ** git commit -m "modified lab10_3"
+  ** git push LAB10_3_label LAB010_3
+
+
+            
+- Lab10_3 Fetch post comment 
+   ** Reading
+      *** https://www.coursera.org/learn/front-end-react/supplement/J1zTN/exercise-instructions-fetch-post-comment
+   ** Video 
+      *** https://www.coursera.org/learn/front-end-react/lecture/hulCn/exercise-video-fetch-handling-errors
+   ** Nội dung chính:
+      *** configure Fetch to be able to post data to the server.
+          **** perform POST operation to add comment to server
+      *** Receive and process the response to the POST operation on the server
+      *** Planning:
+         **** ActionCreators.js and update
+         **** comment.js and remove the following two lines
+      *** chi tiết:
+         **** post data to add resource to the server
+         **** we will use Fetch post to add comment to the "comments" list on the json-server   (dishId, comment, rating, author)
+              => we modified data on server-side 
+         **** do POST operation using Fetch, sChuyện gì xảy ra khi comments list json ở server được updated? 
+            ***** updated data trong json-server sẽ được push vào Redux store
+            ***** when the store get updated, this reflects in out views
+         **** hàm addComment thuộc ActionCreators.js cho thấy cách thêm một đối tượng comment vào trong Redux store 
+            ***** bằng cách tạo Action object (2 trường type và payload) để thay đổi state trong store, sync với mapStateToProps ngay lập tức để truyền dữ liệu cho React app 
+         **** để post đối tượng comment tới server
+            ***** tạo action creator là postComment , nhận bộ 4 tham số y chang addComment 
+            
+
+
+ 
