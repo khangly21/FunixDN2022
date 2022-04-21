@@ -20,7 +20,11 @@ class CommentForm extends Component{
     handleComment(values) {//không cần dùng event.target.value
         this.toggleModal();
         //gọi hàm addComment() với 4 tham số, click "1 reference" của Class CommentForm để xem
-        this.props.addComment(this.props.dishId,values.rating,values.username,values.comment);
+        this.props.addComment(
+          this.props.dishId,
+          values.rating,
+          values.author,
+          values.comment);
         //event.preventDefault() , bài giảng không dùng event, và các sau khi submit form sẽ không có method GET truyền tham số lên thanh địa chỉ
     }
 

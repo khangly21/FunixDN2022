@@ -10,7 +10,7 @@ export const addComment=(dishId,rating,author,comment)=>({
     //return a pure Javascript object , inside composed of type and payload
     //Any action object must contain a type
     type:ActionTypes.ADD_COMMENT,
-    //payload contains whatever to be carried in the Action object towards the Reducer
+    //payload contains whatever to be carried in the Action object towards the Reducer to add comment
     payload:{
         //Payload is a Javascript object
         //what is the payload going to contain?
@@ -22,6 +22,14 @@ export const addComment=(dishId,rating,author,comment)=>({
     }
 
 });
+
+
+//TRONG LAB10_3 sẽ post comment mới vào json-server để 
+//postComment sẽ phối hợp với addComment để gửi đối tượng comment mới từ UI component tới json-server để push vào mảng comments trong db.json
+export const postComment=(dishId,rating,author,comment)=>({
+  //this will perform on the server 
+  //and the function addComment now simpler because it just receice the comment than the old way we have done
+})
 
 //hàm fetchDishes trả về 1 hàm có thể truy cập store's dispatch và store's state 
 //do fetchDishes trả ra hàm nên fetchDishes là thunk

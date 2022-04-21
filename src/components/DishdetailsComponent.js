@@ -124,6 +124,7 @@ export function RenderDish2(props) {
 //Cách 2: function RenderCommentItem(props){ // truy cập bằng cách truyền thống let comments=props.comments;}  
 export function RenderCommentItem({comments,addComments,dishId}) {//chú ý param thứ 2 là 1 function object khi được gọi phía CommentForm sẽ cần 4 tham số (dishId,rating,author,comment)
     if (comments != null){
+        console.log(comments); //ok!!
         return(
         
             <div>
@@ -133,8 +134,9 @@ export function RenderCommentItem({comments,addComments,dishId}) {//chú ý para
                         {comments.map((comment)=>{
                            return(
                                <Fade in>
-                                    <li key={comment.id}>
-                                        <p>{comment.comment}</p>
+                                    <li key={comment.id} style={{marginBottom:"2vw",listStylePosition:"inside",border:"1vw solid chocolate"}}>
+                                        <p>Rating: {comment.rating}</p>
+                                        <b style={{color:"chocolate"}}>{comment.comment}</b>
                                         <p>--on {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comment.date)))} --</p>
                                         <p>-- By {comment.author} --</p>
                                     </li>
