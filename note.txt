@@ -4,7 +4,7 @@ JSON-Server
 json-server --watch db.json -d 2000 -p 3001
 
 
-GIT  
+GIT  (local nằm trong thư mục LAB10_3 chứ không phải trong thư mục con lab10_3)
 - git init 
 - tạo file note.txt 
 - git add note.txt  (hay git add .)
@@ -25,7 +25,8 @@ GIT
   ** git commit -m "modified lab10_3"
   ** git push LAB10_3_label LAB010_3
 
-
+- Sửa lỗi không hiện tác giả (chỉ hiện ra nội dung và ngày tháng hiện tại comment) khi người dùng post comment : 
+   ** tham khảo https://codesandbox.io/s/lab-08-2-qsds2i
             
 - Lab10_3 Fetch post comment 
    ** Reading
