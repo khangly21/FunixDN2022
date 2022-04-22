@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import {Card,CardImg,CardText,CardBody,CardTitle,Breadcrumb,BreadcrumbItem,Button,Modal,ModalHeader,ModalBody,Row,Label} from "reactstrap";
 import { Link } from "react-router-dom";
 import { Control, LocalForm } from "react-redux-form";
-import { addComment } from "../redux/ActionCreator";
+//import { addComment } from "../redux/ActionCreator";
 import CommentForm from "./CommentForm";
 import { Loading } from './LoadingComponent';
 import { baseUrl } from '../shared/baseUrl';
@@ -60,7 +60,7 @@ const DishDetails = (props) => { //nhận dữ liệu props từ Main là 1 đ�
                     <div className="col-12 col-md-5 m-1">
                         <RenderCommentItem 
                             comments={props.comments}
-                            addComments={props.addComment}
+                            postComment={props.postComment}
                             dishId={props.dish.id}
                             //author={props.comments.author} //có thể không cần, chỉ cần comments map ra các comment sau đó dùng comment.author, thử cách author này và thay thế comment.author
                         />
@@ -68,10 +68,7 @@ const DishDetails = (props) => { //nhận dữ liệu props từ Main là 1 đ�
                     </div>   
                 </div>
             </div>
-            //chú ý addComments={props.addComment} , bên dưới nếu extract từ props addComment là ReferenceError
-            //trong bài giảng thầy Muppala thì <RenderComments comments={props.comments}/> , và The CommentForm component is used by the RenderComments function to display the button for toggling the modal.
-            //sau đó thêm 2 attributes vào là addComment được supplied từ ConnectedMainComponent và dishId 
-            // tại sao cần tham số dishId ?? vì 'the comments itself does not know the Id of the dish for which the comment item is being rendered, so I will pass the dishId as props'
+          
         )
     }else {
         return <div></div>;
@@ -118,12 +115,12 @@ export function RenderDish2(props) {
     );
 }
 
-//nhận props từ Parent là DishDetails
-//Cách 1 ('destructuring the props' aka 'extracting from the props' so that it will be available for this component): function RenderCommentItem({comments,addComment,dishId}){//truy cập không props, chỉ có comments , nếu ghi props.comments là undefined props}
-    /// lần lượt gán props.comments , props.addComments , props.dishId vào các biến mới cùng tên là comments,addComments,dishId
-//Cách 2: function RenderCommentItem(props){ // truy cập bằng cách truyền thống let comments=props.comments;}  
-export function RenderCommentItem({comments,addComments,dishId}) {//chú ý param thứ 2 là 1 function object khi được gọi phía CommentForm sẽ cần 4 tham số (dishId,rating,author,comment)
+
+export function RenderCommentItem({comments,postComment,dishId}) {//chú ý param thứ 2 là 1 function object khi được gọi phía CommentForm sẽ cần 4 tham số (dishId,rating,author,comment)
+    //Ask mentor: khi destructure từ props thì có bắt buộc gán vào các biến cùng tên (addComments) với các thuộc tính của props.addComment? Lab10_1 thấy được
     if (comments != null){
+        console.log(comments); //ok!!
+        console.log(postComment);
         return(
         
             <div>
@@ -134,9 +131,10 @@ export function RenderCommentItem({comments,addComments,dishId}) {//chú ý para
                            return(
                                <Fade in>
                                     <li key={comment.id}>
-                                        <p>{comment.comment}</p>
+                                        <p>-------------Rated: {comment.rating} ----------------------</p>
+                                        <b style={{color:"chocolate"}}>{comment.comment}</b>
                                         <p>--on {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comment.date)))} --</p>
-                                        <p>-- By {comment.author} --</p>
+                                        <b style={{color:"red"}}>-- By {comment.author} --</b>
                                     </li>
                                </Fade>
                               
@@ -144,7 +142,7 @@ export function RenderCommentItem({comments,addComments,dishId}) {//chú ý para
                        })}
                     </Stagger>
                 </ul>
-                <CommentForm dishId={dishId} addComment={addComments}/>
+                <CommentForm dishId={dishId} postComment={postComment}/>
             </div>
             //tuy nhiên sau khi submit comment form, thì dữ liệu được truyền với method GET tới trang chủ với URL như: 
                /// http://127.0.0.1:5500/?username=lyvietkhang&rating=1&comment=TEST&remember=on#/

@@ -6,39 +6,85 @@ import {baseUrl} from '../shared/baseUrl'; //now we have fetched or include the 
 //arrow function nhận 4 parameters và return an action object { ... }
 //Then, the action object is dispatched to a Reducer inside a state Store
 //in Store, which part of the global state will be affected? you will send various part of a comment to Store
-export const addComment=(dishId,rating,author,comment)=>({
-    //return a pure Javascript object , inside composed of type and payload
-    //Any action object must contain a type
+export const addComment=(dishId,rating,author,comment)=>(
+  //BEFORE: onSubmit CommentForm, nhận 4 thông tin người dùng rồi được dispatch tới Redux bởi Main component
+  //AFTER: không nhận comment gồm 4 thông tin của người dùng nữa (do postComment đã làm), thực tế là nhận OK_response từ server trả về, rồi gói thành 1 đối tượng để postComment dispatch nó đi tới Redux store
+  {  //là hàm tạo đối tượng dựa trên comment của người dùng, rồi chuyển tới Redux store thông qua hàm dispatch() của store
     type:ActionTypes.ADD_COMMENT,
     //payload contains whatever to be carried in the Action object towards the Reducer to add comment
     payload:{
-        //Payload is a Javascript object
-        //what is the payload going to contain?
-        //first, contain the dishId which is addComment's parameter
-        dishId:dishId,
-        rating:rating,
-        author:author,
-        comment:comment
-    }
-
-});
+        comment:comment //không dùng dishId,rating,author nữa, thì later we will update the reducer comment too
+    }   
+  }
+);
 
 
 //TRONG LAB10_3 sẽ post comment mới vào json-server để 
-//postComment sẽ phối hợp với addComment để gửi đối tượng comment mới từ UI component tới json-server để push vào mảng comments trong db.json
-export const postComment=(dishId,rating,author,comment)=>({
-  //this will perform on the server 
-  //and the function addComment now simpler because it just receice the comment than the old way we have done
-})
+//postComment là 1 function of function sẽ phối hợp với addComment để gửi đối tượng comment mới từ UI component tới json-server để push vào mảng comments trong db.json
+//postComment vừa là dispatcher (khi submit form addComment vào Store) vừa là nơi push đối tượng lên json-server
+export const postComment=(dishId,rating,author,comment)=>(dispatch)=>{ //Thunk này trả về 1 hàm which nhận dispatch làm tham số
+    //this will perform on the server 
+    //and the function addComment now simpler because it just receice the comment than the old way we have done
+    //What do we do when postComment nhận 4 tham số? Tạo 1 Javascript object, sau đó map 4 tham số nhận được vào trong Javascript object đó 
+    
+    const newComment={
+      dishId:dishId, //Chú ý: không phải comment id của newComment vì cái này được server tự động tạo khi push mới vào mảng
+      rating:rating,
+      author:author,
+      comment:comment
+    }
+    //add a new property to above Javascript object
+    newComment.date = new Date().toISOString();
 
-//hàm fetchDishes trả về 1 hàm có thể truy cập store's dispatch và store's state 
-//do fetchDishes trả ra hàm nên fetchDishes là thunk
-// fetchDishes hỗ trợ async action (thay vì chạy nối tiếp nhau thi có thể cùng lúc song song) bằng cách quy định dispatch nào chạy trước, dispatch nào chạy sau
-   /// VD thay vì cho action tự do tới Reducer thì ràng buộc bằng setTimeOut
-//Nhìn chung, asynchrony in react-redux is often done via thunk, we async dispatch chaining with Redux-Thunk! 
-// Async code is unpredictable because completion is not known ahead of time and multiple requests complicate things
-    ///the problem at hand lies in the fact Redux has no way of knowing when both async operations finish, while in case of many endpoints , we need many async operations and a way to know when all are done!
-    /// a dispatched action này có thể được setTimeOut để chạy sau dispatched action khác
+    //push the comment to the server. DO fetch operation here, but in this case, use POST operation, so you need to supply value for it
+       /// recall that POST operation requires you send data into body of message
+       /// In addition to the body, set up headers application/json
+    return fetch(baseUrl+'comments', 
+       // now we define the structure of request message: body, headers, method,
+        {
+          method: "POST",//POST sẽ vừa gửi vừa nhận dữ liệu //những bài trước không nói gì thì default method to GET OPERATION
+          body: JSON.stringify(newComment), //json hóa javascript object, rồi cho vào trong body trong POST message we send out
+          headers: {
+            "Content-Type": "application/json" //recall that the POST body contains data in JSON format
+          },
+          credentials: "same-origin" //we will deal with it in NodeJS course: same-origin, cross-origin
+        }) //thiếu ) chỗ này thì TypeError: {(intermediate value)(intermediate value)(intermediate value)(intermediate value)}.then is not a function
+        //When the fetch operation is carried out, obviously you will receive a response from server. So how you handle response 
+        // very similar way we did earlier for GET operation,nên copy paste vào đây
+        .then(response => {
+             if (response.ok) {
+               return response;
+             } else {//không nhận được trả lời từ server
+               var error = new Error('Error ' + response.status + ': ' + response.statusText);
+               error.response = response;
+               throw error;
+             } 
+        },
+        //nhận được trả lời nhưng là báo lỗi
+        error => {
+            var errness=new Error(error.message);
+            throw errness;
+        })
+       .then(response => response.json())
+
+       //dữ liệu updated response.json() nhận được từ server đã bao gồm newComment và id được gán cho nó
+       .then(response => dispatch(addComment(response))) //sử dụng 
+       .catch(error =>  { 
+            console.log('post comments', error.message); 
+            alert('Your comment could not be posted\nError: '+error.message); 
+       })
+    
+    //That is how you will POST comment to server: Vừa SEND vừa RECEIVE
+        /// create POST message and SEND to server 
+        /// RECEIVE the response that should be the updated comment array that will be pushed to Redux store by doing dispatch
+        /// if receive error res, just print to log and pop up alert
+    //How to make use of postComment?
+        /// update reducer comment.js tại ADD_COMMENT, nhưng trước đó, the comment posted bu user cần chỉnh sửa thông tin tại server side trước khi trả về rồi lưu vào Redux store
+        ///Tiếp theo, chỉnh sửa giúp cho MainComponent nhận quyền được gọi postComment nhằm kích hoạt việc chuyển đối tượng có chứa commnent mới vào Redux store
+};
+
+
+
 
 //Minh họa 1
     let url = "http://jsonplaceholder.typicode.com/posts/6";
@@ -111,6 +157,8 @@ export const fetchDishes=()=>(dispatch)=>{  //hàm tạo hành động hay Thunk
 
     //If you know how promises work, when the above returns something, that will be delivered in as an incoming parameter to the next "then" với các promises handler ở đây
     .then(response => response.json()) //hover sẽ thấy fetch trả về Promise object là dishes
+
+    //Dữ liệu dishes lấy từ server sẽ được add thêm nữa
     .then(dishes => dispatch(addDishes(dishes))) //hover sẽ thấy json() trả về Promise object (là 1 object đi vào hàm Promise trong then?) là dishes
     //khi obtain được dishes object, thì dùng hàm dispatch của store để chuyển action object tới store 
     //implement catch here to catch the error then handle the error appropriately
@@ -166,12 +214,13 @@ export const fetchComments = () => (dispatch) => {
 export const commentsFailed = (errmess) => ({
     type: ActionTypes.COMMENTS_FAILED,
     payload: errmess
-});
+}); //gói error message với thông tin liên quan thành một đối tượng để chuyển đi
 
-export const addComments = (comments) => ({ //khác component addComment
-    type: ActionTypes.ADD_COMMENTS,
+//được sử dụng bởi componentDidMounted --> fetchComments() --> nhận response từ server rồi addComments
+export const addComments = (comments) => ({ //khác hàm tạo hành động  addComment  đã định nghĩa ở trên
+    type: ActionTypes.ADD_COMMENTS, //chú ý: hàm addComment phía trên cũng dùng action type ADD_COMMENT
     payload: comments
-});
+}); //thật ra là gói dữ liệu mảng bình luận nhận từ server cùng các thông tin liên quan, rồi được dispatch tới Redux store
 
 
 
@@ -209,7 +258,7 @@ export const promosFailed = (errmess) => ({
 });
 
 export const addPromos = (promos) => ({
-    type: ActionTypes.ADD_PROMOS,
+    type: ActionTypes.ADD_PROMOS,  
     payload: promos
 });
 

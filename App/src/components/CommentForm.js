@@ -19,8 +19,12 @@ class CommentForm extends Component{
     //function called after form submission event
     handleComment(values) {//không cần dùng event.target.value
         this.toggleModal();
-        //gọi hàm addComment() với 4 tham số, click "1 reference" của Class CommentForm để xem
-        this.props.addComment(this.props.dishId,values.rating,values.username,values.comment);
+    
+        this.props.postComment( //nhận các biến đầu vào như đã định nghĩa ở ActionCreator.js. Câu hỏi là có thể gọi trực tiếp addComment mà không cần props không
+             this.props.dishId,
+             values.rating,
+             values.author, //values.username hay values.author ? Ghi sai thành username là nhập xong sẽ không hiển thị tên tác giả
+             values.comment);
         //event.preventDefault() , bài giảng không dùng event, và các sau khi submit form sẽ không có method GET truyền tham số lên thanh địa chỉ
     }
 

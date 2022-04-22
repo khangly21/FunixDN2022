@@ -17,7 +17,10 @@
   
    import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
    import { connect } from 'react-redux';
-   import { addComment,fetchDishes, fetchComments, fetchPromos } from '../redux/ActionCreator'; //nếu dẫn sai là Module not found: Error: Can't resolve '../redux/ActionCreators' do sai tên thư mục
+
+   //Lab10_2 thì addComment chính là dispatcher được gọi khi submit Comment với LocalForm, khi đó dispatcher này sẽ gửi đối tượng B chứa tất cả giá trị của model tới Redux store, nơi đây B được concat vào state mảng hiện tại đang chứa tất cả comments trong json-server được updated từ comments=[] lúc componentDidMount()
+   //Trong Lab10_3 thì addComment is no longer be DIRECTLY accessible by MainComponent, instead, postComment ,which contains addComment, adds a comment to database
+   import {postComment, addComment,fetchDishes, fetchComments, fetchPromos } from '../redux/ActionCreator'; //nếu dẫn sai là Module not found: Error: Can't resolve '../redux/ActionCreators' do sai tên thư mục
 
    import { actions } from 'react-redux-form';
    import {TransitionGroup,CSSTransition} from 'react-transition-group';
@@ -64,7 +67,9 @@ const mapStateToProps = state => { //tham số state là lấy từ Redux store,
 
 //receive dispatch function from store as parameter , vì trong Javascript onClick nhận 1 đối tượng hàm với tên gọi 
 
-const mapDispatchToProps=(dispatch)=>({
+const mapDispatchToProps=(dispatch)=>({ //mapDispatchToProps là hàm nhận hàm dispatch của store và trả về các method definitions
+
+
      //bây giờ, UI component Main có thể invokes Action để tạo object
      //dispatch<A extends Action>(action)
 
@@ -75,7 +80,9 @@ const mapDispatchToProps=(dispatch)=>({
 
     //https://react-redux.js.org/using-react-redux/connect-mapdispatch
         ///The mapDispatchToProps function will be called with dispatch as the first argument. You will normally make use of this by returning new functions that call dispatch() inside themselves, and either pass in a plain action object directly or pass in the result of an action creator.
-    addComment:(dishId,rating,author,comment)=>dispatch(addComment(dishId,rating,author,comment)), //ghi dài vậy chứ thực ra là hàm dispatch(action) phân phối action tới store
+
+    //phải gọi là dispatching_addComment
+    postComment:(dishId,rating,author,comment)=>dispatch(postComment(dishId,rating,author,comment)), //ghi dài vậy chứ thực ra là hàm dispatch(action) phân phối action tới store
     //this can be used/available within Main component here after connect() . Then what should we make use of it in connected Main Component?
     //Tham số của hàm dispatch là gì? either pass in a plain action object directly or pass in the result of an action creator.
 
@@ -88,7 +95,7 @@ const mapDispatchToProps=(dispatch)=>({
     //Như vậy Main có thể truyền dispatch này cho Contact thông qua props
     //Tại Contact, gắn nhãn cho form là <Form model="feedback" và onSubmit sẽ kích hoạt hàm dispatch làm reset form : this.props.resetFeedbackForm();
     //tại sao lại phải cho dispatch(actions.reset('feedback')) nằm trong 1 arrow function rồi truyền tới Contact??  vì nếu để theo kiểu gọi ham() thì hàm sẽ chạy ngay trong Main, trong khi yêu cầu hàm chỉ chạy khi submit form trong Child component là Contact
-    fetchComments: () => dispatch(fetchComments()),
+    fetchComments: () => dispatch(fetchComments()), //xem ActionCreator fetchComments()
     fetchPromos: () => dispatch(fetchPromos())  //hàm dispatch được nhận từ store
 })
 
@@ -99,9 +106,9 @@ class Main extends Component {
     }
 
     componentDidMount() {
-        //call/execute/invoke , this is very good time to fetch any data required for my application. Theo lý thuyết thì lúc này UI MainComponent đang invokes ActionCreator/Thunk
+        //call/execute/invoke các dispatchers , this is very good time to fetch any data required for my application. Theo lý thuyết thì lúc này UI MainComponent đang invokes ActionCreator/Thunk
         this.props.fetchDishes(); //vì trước đó dispatch đã đưa hàm tạo hành động fetchDishes vào trong props fetchDishes, nên biến mới này thành hàm và được call bằng ()
-        this.props.fetchComments(); //sau khi Main vào DOM thì Comments cũng được nhận từ server, do đó khi người dùng navigate tới DishDetailsComponent see4 không cần xét Comment có isLoading hay không vì đã có rồi
+        this.props.fetchComments(); //sau khi Main vào DOM thì mảng json comments có sẵn cũng được nhận từ server, do đó khi người dùng navigate tới DishDetailsComponent sẽ không cần xét Comment có isLoading hay không vì đã có rồi
         this.props.fetchPromos();
     }
 
@@ -111,7 +118,7 @@ class Main extends Component {
         console.log(this.props.promotions); //ok
         console.log(this.props.leaders); //ok
         console.log(this.props.comments);//ok
-        console.log(this.props.addComment); //ok!
+        console.log(this.props.postComment);
         /*
         const DishWithId = ({match}) => { 
             //thuộc tính thứ ba là addComment sẽ giúp component DishDetails gián tiếp gửi được thông tin user has submitted tới Store thông qua Action Creator và Action
@@ -142,14 +149,9 @@ class Main extends Component {
 
                 //
                 <div>
-                    <TransitionGroup>
-                        <CSSTransition key={this.props.location.key} classNames="page" timeout={300}>
-                            <Header/>
-                        </CSSTransition>
-                    </TransitionGroup>
                     
+                    <Header/>
 
-                     
                     <TransitionGroup>
                         <CSSTransition key={this.props.location.key} classNames="page" timeout={300}>
                             <Switch location={this.props.location}>
@@ -172,15 +174,17 @@ class Main extends Component {
                                      dish={this.props.dishes.dishes.filter((dish) => dish.id === parseInt(match.params.dishId,10))[0]} 
                                      isLoading={this.props.dishes.isLoading}
                                      errMess={this.props.dishes.errMess}
-                                     comments={this.props.comments.comments.filter((comment) => comment.dishId === parseInt(match.params.dishId,10))}
+
+                                     comments={this.props.comments.comments.filter((comment) => comment.dishId === parseInt(match.params.dishId,10))} //1 món (1 dishId) sẽ có nhiều comments khác nhau
                                      commentsErrMess={this.props.comments.errMess}
-                                     addComment={this.props.addComment}
+                                     postComment={this.props.postComment}
                                 />} />
                                 <Route exact path='/contactus' component={()=><ContactTranTienDat resetFeedbackForm={this.props.resetFeedbackForm}/> } />
                                 <Redirect to="/" />    
                             </Switch>
                         </CSSTransition>
                     </TransitionGroup>    
+                    
                     <Footer/>
                       
                 </div>

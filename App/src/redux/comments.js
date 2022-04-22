@@ -1,20 +1,22 @@
 //có chịu ảnh hưởng từ Action Type 
 //import { COMMENTS } from "../shared/comments";   <== Không cần thiết nữa, vì dữ liệu sẽ tải từ the Air
 import * as ActionTypes from "./ActionType";
-//hàm sau sẽ make change với bản copy của phần comment của state
+//hàm sau sẽ make change initial state vì đã có một gói đối tượng mang payload được dispatch tới. Reducer sẽ extract thông tin từ đối tượng và sẽ tạo phiên bản mới của state
 export const Comments=(state= { 
         errMess: null, 
         comments:[]
       },action)=>{ //state in parameter cannot be modified, chỉ có cách dùng 1 bản sao của nó rồi modify và return
     switch (action.type) {
-        case ActionTypes.ADD_COMMENTS:
+        case ActionTypes.ADD_COMMENTS: //WHEN? khi componentDidMount() thì các comments có sẵn trong bộ dữ liệu được
           return {...state, errMess: null, comments: action.payload};
 
-        case ActionTypes.ADD_COMMENT:
+        case ActionTypes.ADD_COMMENT: //WHEN? liên quan biến cố người dùng nhập bình luận
             var comment = action.payload;
-            comment.id = state.comments.length;
-            comment.date = new Date().toISOString();
-            return { ...state, comments: state.comments.concat(comment)};
+            /* comment's Id và date sẽ được loại bỏ trong Lab10_3 thì comment mới đã được thêm vào mảng trên server và server automatically add id cho comment mới  trong mảng trả về*/
+            //tương tự date đã được thêm vào comment mới rồi
+                //comment.id = state.comments.length;
+                //comment.date = new Date().toISOString();
+            return { ...state, comments: state.comments.concat(comment)}; //take care of adding new comment to Redux store
 
         case ActionTypes.COMMENTS_FAILED:
             return {...state, errMess: action.payload,commnents:[]};
