@@ -6,15 +6,14 @@ import {baseUrl} from '../shared/baseUrl'; //now we have fetched or include the 
 //arrow function nhận 4 parameters và return an action object { ... }
 //Then, the action object is dispatched to a Reducer inside a state Store
 //in Store, which part of the global state will be affected? you will send various part of a comment to Store
-export const addComment=(dishId,rating,author,comment)=>(
+export const addComment=(comment)=>(
   //BEFORE: onSubmit CommentForm, nhận 4 thông tin người dùng rồi được dispatch tới Redux bởi Main component
   //AFTER: không nhận comment gồm 4 thông tin của người dùng nữa (do postComment đã làm), thực tế là nhận OK_response từ server trả về, rồi gói thành 1 đối tượng để postComment dispatch nó đi tới Redux store
   {  //là hàm tạo đối tượng dựa trên comment của người dùng, rồi chuyển tới Redux store thông qua hàm dispatch() của store
     type:ActionTypes.ADD_COMMENT,
     //payload contains whatever to be carried in the Action object towards the Reducer to add comment
-    payload:{
-        comment:comment //không dùng dishId,rating,author nữa, thì later we will update the reducer comment too
-    }   
+    //payload:comment //là bài giảng Muppala, tương ứng trong Reducer comments.js sẽ truy cập bằng var comment = action.payload  //nếu ghi payload:{comment:comment}  thì sau khi submit comment không hiện ngay lập tức, phải F5 mới ra
+    payload:{comment:comment} //thì bên tương ứng trong Reducer comments.js sẽ truy cập bằng var comment = action.payload.comment;
   }
 );
 

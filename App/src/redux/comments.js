@@ -11,7 +11,7 @@ export const Comments=(state= {
           return {...state, errMess: null, comments: action.payload};
 
         case ActionTypes.ADD_COMMENT: //WHEN? liên quan biến cố người dùng nhập bình luận
-            var comment = action.payload;
+            var comment = action.payload.comment;
             /* comment's Id và date sẽ được loại bỏ trong Lab10_3 thì comment mới đã được thêm vào mảng trên server và server automatically add id cho comment mới  trong mảng trả về*/
             //tương tự date đã được thêm vào comment mới rồi
                 //comment.id = state.comments.length;
