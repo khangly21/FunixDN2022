@@ -21,6 +21,8 @@ export const addComment=(comment)=>(
 //TRONG LAB10_3 sẽ post comment mới vào json-server để 
 //postComment là 1 function of function sẽ phối hợp với addComment để gửi đối tượng comment mới từ UI component tới json-server để push vào mảng comments trong db.json
 //postComment vừa là dispatcher (khi submit form addComment vào Store) vừa là nơi push đối tượng lên json-server
+
+//chỉ nhận params nào được điền trong form
 export const postComment=(dishId,rating,author,comment)=>(dispatch)=>{ //Thunk này trả về 1 hàm which nhận dispatch làm tham số
     //this will perform on the server 
     //and the function addComment now simpler because it just receice the comment than the old way we have done
