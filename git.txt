@@ -5,7 +5,7 @@
 - git commit -m "first commit to make master branch"
 - git branch 
    * master
-- git checkout -b DBI202x_Assignment2_khanglvfx15073@funix.edu.vn   //PHẢI TRÙNG tên thư mục KHI upload lên remote
+- git checkout -b DBI202x_Assignment2_khanglvfx15073@funix.edu.vn   //PHẢI TRÙNG tên này KHI upload lên remote
 - git branch 
 - git ls-files
 - git remote add DBI_ASM2_label https://github.com/khangly21/FunixDN2022.git
@@ -16,3 +16,287 @@
   ** git add .
   ** git commit -m "modified assignment 2"
   ** git push DBI_ASM2_label DBI202x_Assignment2_khanglvfx15073@funix.edu.vn
+
+ASSIGNMENT 2:
+* Câu 1 (Triangle)/
+   https://vndoc.com/quan-he-giua-ba-canh-cua-mot-tam-giac-bat-dang-thuc-tam-giac-185648
+   Có 2 trường hợp
+      ** TH1: có 1 cặp cạnh có độ dài <= cạnh còn lại
+          *** Kết luận: "NOT A TRIANGLE"
+      ** TH2: 1 cặp cạnh bất kỳ có độ dài > cạnh còn lại
+   
+   -- chỉ cần hiển thị cột kết quả
+--Try 1
+ SELECT 
+   CASE 
+      WHEN A+B>C AND B+C>A AND A+C>B THEN 
+          CASE
+              WHEN A = B AND B = C THEN 'EQUILATERAL'
+              WHEN A = B OR B = C OR A = C THEN 'ISOSCELES'
+              ELSE 'SCALENE'
+          END
+      ELSE 'NOT A TRIANGLE'
+   END
+ FROM TRIANGLES
+
+ -- wrong answer 
+
+-- Try 2
+SELECT
+   CASE 
+      WHEN (A+B>C AND B+C>A AND A+C>B) THEN 
+          CASE
+              WHEN A = B AND B = C THEN 'Equilateral'
+              WHEN A = B OR B = C OR A = C THEN 'Isosceles'
+              ELSE 'Scalene'
+          END
+      ELSE 'Not A Triangle'
+   END
+ FROM TRIANGLES
+ -- phải các loại tam giác không ghi hoan c
+
+ * Câu 2 (PADS)
+SELECT Name+'('+ LEFT(Occupation,1) +')'
+FROM OCCUPATIONS
+ORDER BY Name ASC
+
+-- output them in the following format: There are a total of [occupation_count] [occupation]s.
+SELECT 'There are a total of '+ CAST(count(*) as varchar(10))+ ' '+ LOWER(Occupation)+'s.' as COUNT 
+-- SELECT 'There are a total of'+ count(*) as COUNT : Conversion failed when converting the varchar value 'There are a total of' to data type int.
+-- SELECT 'There are a total of '+ CAST(count(*) as varchar(10))as COUNT + Occupation   -- sai do as X phải ở sau cùng
+FROM OCCUPATIONS
+WHERE 1=1
+GROUP BY Occupation
+ORDER BY COUNT ASC
+
+--Submitted code:
+SELECT Name+'('+ LEFT(Occupation,1) +')'  
+FROM OCCUPATIONS
+ORDER BY Name ASC
+
+SELECT 'There are a total of '+ CAST(count(*) as varchar(10))+ ' '+ LOWER(Occupation)+'s.' as COUNT 
+FROM OCCUPATIONS
+WHERE 1=1
+GROUP BY Occupation
+ORDER BY COUNT ASC
+
+3 (Occupations)/
+-- sắp theo cột các tên thuộc một nghề nghiệp , chỗ nào không có tên thì để NULL  
+-- https://comdy.vn/sql-server/pivot-trong-sql-server/
+-- https://www.sqlservertutorial.org/sql-server-pivot/
+
+SELECT
+    [Doctor], [Professor], [Singer], [Actor]
+FROM
+(
+    SELECT ROW_NUMBER() OVER (PARTITION BY OCCUPATION ORDER BY NAME) [RowNumber], * FROM OCCUPATIONS
+) AS tempTable
+PIVOT
+(
+    MAX(NAME) FOR OCCUPATION IN ([Doctor], [Professor], [Singer], [Actor])
+) AS pivotTable
+
+4 (Sum)/
+bước 1: FROM CITY
+bước 2: WHERE DISTRICT='California' 
+bước 3: SELECT sum(POPULATION)
+
+SELECT sum(POPULATION)
+FROM CITY
+WHERE DISTRICT='California'
+
+5/
+SELECT count(POPULATION)
+FROM CITY
+WHERE POPULATION>100000
+
+6/
+SELECT avg(POPULATION)
+FROM CITY 
+WHERE District='California'
+
+7/ 
+--https://www.codehub.com.vn/Hoc-SQL/Ham-COUNT-AVG-Va-SUM-Trong-SQL
+--https://blog.sqlauthority.com/2017/06/04/round-round-number-sql-server-interview-question-week-125/
+SELECT FLOOR(avg(POPULATION))
+FROM CITY 
+-- sai?
+
+SELECT AVG(POPULATION)
+FROM CITY
+-- AVG luôn trả về int theo hướng làm tròn xuống, vd 1083839.667 sẽ trả về 1983839
+-- tương đương
+SELECT FLOOR(AVG(POPULATION))
+FROM CITY
+
+8/
+SELECT SUM(POPULATION)
+FROM CITY
+WHERE COUNTRYCODE='JPN'
+
+9/
+SELECT MAX(POPULATION)-MIN(POPULATION)
+FROM CITY
+
+10 (The blunder)/
+-- https://www.w3schools.com/SQL/func_sqlserver_avg.asp (sau decimal point sẽ có digits)
+-- ceil vs floor vs round : https://sqlstudies.com/2016/10/05/floor-round-and-ceiling/
+-- It returns the same data type as floor (0 scale where possible) but returns the integer equal to or higher (>=) than the value passed in.
+-- https://www.w3schools.com/SQL/func_sqlserver_replace.asp
+   --- Note: The search is case-insensitive
+   --- Tip: Also look at the STUFF() function.
+
+SELECT AVG(Salary)-AVG(CAST(REPLACE(CAST(Salary as varchar(10)),'0','') as INT))
+FROM EMPLOYEES
+-- WRONG answer 
+
+SELECT CEILING(AVG(Salary)-AVG(CAST(REPLACE(CAST(Salary as varchar(10)),'0','') as INT)))
+FROM EMPLOYEES
+-- kết quả 2252
+
+SELECT CEILING(
+        AVG(CAST(Salary AS FLOAT))-AVG(CAST(REPLACE(Salary,0,'') AS float))
+      )
+FROM EMPLOYEES
+-- wrong answer 2253.0 trong khi kết quả phải là 2253
+-- vì sao CEILING cho ra .0 ?
+
+SELECT ROUND( 
+      AVG(CAST(Salary AS Float)) - AVG(CAST(REPLACE(Salary, 0, '') AS Float)),-2     )
+FROM EMPLOYEES;
+-- 2300 , wrong
+
+SELECT cast( 
+      AVG(CAST(Salary AS Float)) - AVG(CAST(REPLACE(Salary, 0, '') AS Float)) as INT )
+FROM EMPLOYEES;
+--2252 wrong
+
+-- ĐÁP án đúng
+SELECT CAST(CEILING((AVG(CAST(Salary AS Float)) - AVG(CAST(REPLACE(Salary, 0, '')AS Float)))) AS INT)
+FROM EMPLOYEES;
+
+11 (Weather2)/
+-- https://qastack.vn/programming/10380197/sql-rounding-off-to-2-decimal-places
+SELECT CAST(  ROUND(  (SUM(LAT_N) ),2) as numeric(36,2) ) , CAST(  ROUND(  (SUM(LONG_W) ),2) as numeric(36,2) ) 
+FROM STATION
+
+12 (Weather 13)/
+  -- kiểu dữ liệu dạng số https://timoday.edu.vn/cauhoi/question/kich-thuoc-kieu-du-lieu-dang-so-number-trong-sql-server/
+SELECT ROUND(SUM(LAT_N),4) 
+FROM STATION
+WHERE LAT_N BETWEEN  38.7880 AND 137.2345     
+-- wrong answer : 36354.81350000
+
+SELECT CAST( ROUND(SUM(LAT_N),4) as NUMERIC(36,2)  )
+FROM STATION
+WHERE LAT_N BETWEEN  38.7880 AND 137.2345
+--wrong anwser: 36354.81
+
+SELECT CAST( ROUND(SUM(LAT_N),4) as NUMERIC(36,4)  )
+FROM STATION
+WHERE LAT_N BETWEEN  38.7880 AND 137.2345
+
+13 (Weather 14)/
+SELECT CAST(ROUND(MAX(LAT_N),4) AS numeric(36,4))
+FROM STATION
+WHERE LAT_N<137.2345
+
+14 (Weather 16)/
+SELECT CAST(ROUND(MIN(LAT_N),4) AS numeric(36,4))
+FROM STATION
+WHERE LAT_N>38.7780
+
+15 (Weather 18)/ query the Mahattan Distance between P1 and P2 
+-- https://xlinux.nist.gov/dads/HTML/manhattanDistance.html
+-- The distance between two points measured along axes at right angles. 
+--In a plane with p1 at (x1, y1) and p2 at (x2, y2), it is |x1 - x2| + |y1 - y2|
+-- absolute value
+-- https://database.guide/abs-examples-in-sql-server/
+-- https://askinglot.com/how-do-i-get-manhattan-distance-in-sql
+
+-- P1(a,b)
+-- P2(c,d)
+-- Khoảng cách Mahattan là:
+-- |a - c| + |b - d| = |minLAT-maxLAT|+|minLONG-maxLONG|
+
+-- a= minLAT
+-- b= minLONG
+-- c= maxLAT
+-- d= maxLONG
+
+SELECT CAST(ROUND( (ABS(min(LAT_N)-min(LONG_W))+ABS(max(LAT_N)-max(LONG_W))) , 4) AS numeric(36,4))
+FROM STATION
+--wrong answer 19.9191
+
+SELECT ROUND( (ABS(min(LAT_N)-min(LONG_W))+ABS(max(LAT_N)-max(LONG_W))) , 4)
+FROM STATION
+
+--wrong answer 19.91910000
+
+SELECT CAST(ROUND((MAX(Lat_N) - MIN(Lat_N)) + (MAX(Long_W) - MIN(Long_W)), 4) AS numeric(36,4)) FROM Station;
+-- right answer 259.6859 
+-- cơ bản trước khi cast là: select round( abs( min(lat_n)- max(lat_n) ) + abs( min(long_w)- max(long_w) ), 4 ) from station; 
+
+SELECT CAST(ROUND( (ABS(min(LAT_N)-min(LONG_W))+ABS(max(LAT_N)-max(LONG_W))) , 4) AS numeric(36,4)) 
+FROM STATION
+-- wrong answer 19.9191
+
+SELECT ABS(min(LAT_N)-min(LONG_W))+ABS(max(LAT_N)-max(LONG_W))
+FROM STATION
+-- wrong 19.91911328
+
+SELECT CAST(ROUND( ABS(MIN(LAT_N)-MAX(LAT_N)) + ABS(MIN(LONG_W)-MAX(LONG_W))  , 4) AS numeric(36,4)) FROM Station;
+-- right answer: 259.6859
+
+19/ 
+-- https://www.w3resource.com/sql/arithmetic-functions/power.php
+-- P1(a,c)  
+-- P2(b,d)
+-- cặp a,b lần lượt là minLAT và maxLAT 
+-- cặp c,d lần lượt là minLONG và maxLONG
+-- Khoảng cách Euclide là: https://en.wikipedia.org/wiki/Euclidean_distance
+-- Euclidean Distance = SQRT(SQUARE(b-a)+SQUARE(d-c)) =SQRT(SQUARE(maxLAT - minLAT)+SQUARE(maxLong-minLong)) 
+
+SELECT CAST(ROUND( SQRT(SQUARE(MIN(LONG_W)-MIN(LAT_N))+SQUARE(MAX(LONG_W)-MAX(LAT_N)))   , 4) AS numeric(36,4)) 
+FROM Station;
+-- wrong answer 19.8870
+
+SELECT CAST(ROUND( SQRT(POWER(MIN(LONG_W)-MIN(LAT_N),2)+POWER(MAX(LONG_W)-MAX(LAT_N),2))) AS numeric(36,4)) 
+FROM Station;
+-- wrong answer : 19.8870
+
+
+Select CAST(round(sqrt(  power((min(lat_n)-max(lat_n)),2) 
+                  + power((min(long_w)-max(long_w)),2))
+             ,4) AS NUMERIC(36,4))
+From station
+-- run!! 184.1616
+
+
+Select CAST(round(sqrt(  power((MAX(lat_n)-MIN(lat_n)),2) 
+                  + power((MAX(long_w)-MIN(long_w)),2))
+             ,4) AS NUMERIC(36,4))
+From station
+-- run!! 184.1616
+
+20/
+SELECT su.hacker_id, ha.name
+FROM Submissions as su, Hackers as ha , Challenges as Cha , Difficulty as Di
+WHERE su.hacker_id=ha.hacker_id AND Cha.challenge_id=su.challenge_id AND Di.difficulty_level=Cha.difficulty_level  AND Di.score=su.score
+GROUP BY su.hacker_id,ha.name
+ORDER BY count(*)
+HAVING count(*)>1 
+
+
+-- code đúng là:
+SELECT ha.hacker_id, ha.name
+FROM Submissions as su, Hackers as ha , Challenges as Cha , Difficulty as Di
+WHERE su.hacker_id=ha.hacker_id AND Cha.challenge_id=su.challenge_id AND Di.difficulty_level=Cha.difficulty_level  AND Di.score=su.score
+GROUP BY ha.hacker_id,ha.name  
+HAVING count(ha.hacker_id)>1  
+ORDER BY count(Cha.challenge_id) DESC , ha.hacker_id ASC 
+
+
+21/
+SELECT
+
