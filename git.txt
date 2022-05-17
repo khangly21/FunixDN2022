@@ -122,8 +122,11 @@ SELECT FLOOR(avg(POPULATION))
 FROM CITY 
 -- sai?
 
+Đáp án:
 SELECT AVG(POPULATION)
 FROM CITY
+
+
 -- AVG luôn trả về int theo hướng làm tròn xuống, vd 1083839.667 sẽ trả về 1983839
 -- tương đương
 SELECT FLOOR(AVG(POPULATION))
@@ -298,5 +301,13 @@ ORDER BY count(Cha.challenge_id) DESC , ha.hacker_id ASC
 
 
 21/
-SELECT
+SELECT ASM2_Students.ID,ASM2_Students.Name,P2.Salary ,ASM2_Friends.Friend_ID,ASM2_Packages.Salary AS Friend_Salary
+FROM ASM2_Students 
+JOIN ASM2_Friends
+   ON ASM2_Students.ID=ASM2_Friends.ID
+JOIN ASM2_Packages
+   ON ASM2_Friends.Friend_ID=ASM2_Packages.ID
+JOIN ASM2_Packages P2
+   ON P2.ID=ASM2_Friends.ID
 
+- Sau khi tạo bảng tổng hợp, sẽ truy vấn
