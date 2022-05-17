@@ -1,0 +1,18 @@
+﻿GIT  (Tên thư mục: DBI202x_Assignment3_khanglvfx15073@funix.edu.vn)
+- git init 
+- tạo file code.txt 
+- git add code.txt 
+- git commit -m "first commit to make master branch"
+- git branch 
+   * master
+- git checkout -b DBI202x_Assignment3_khanglvfx15073@funix.edu.vn   //PHẢI TRÙNG tên này KHI upload lên remote
+- git branch 
+- git ls-files
+- git remote add DBI_ASM3_label https://github.com/khangly21/FunixDN2022.git
+- git push DBI_ASM3_label DBI202x_Assignment3_khanglvfx15073@funix.edu.vn
+
+
+- Cập nhật
+  ** git add .
+  ** git commit -m "modified assignment 3"
+  ** git push DBI_ASM3_label DBI202x_Assignment3_khanglvfx15073@funix.edu.vn
