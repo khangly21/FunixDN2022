@@ -16,3 +16,238 @@
   ** git add .
   ** git commit -m "modified assignment 3"
   ** git push DBI_ASM3_label DBI202x_Assignment3_khanglvfx15073@funix.edu.vn
+
+- bài làm
+
+* Câu 1 (Weather Observation Station 5)
+SELECT TOP(1) CITY, len(CITY) AS char_length
+FROM STATION
+GROUP BY CITY
+ORDER BY char_length DESC
+
+SELECT TOP(1) CITY, len(CITY) AS char_length
+FROM STATION
+GROUP BY CITY
+ORDER BY char_length ASC
+
+* Câu 2 (Binary Tree Nodes)
+SELECT
+      CASE
+          WHEN ( P IS NULL AND N IS NOT NULL) THEN CONCAT(N, ' Root')
+          WHEN N IN (SELECT DISTINCT P FROM BST) THEN CONCAT(N, ' Inner')
+          ELSE CONCAT(N, ' Leaf')
+      END
+FROM BST
+ORDER BY N
+
+* Câu 3 (New Companies)
+SELECT DISTINCT Company.company_code,Company.founder,count(DISTINCT Lead_Manager.lead_manager_code) AS Quantity_of_lead_manager,
+                count(DISTINCT Senior_manager.senior_manager_code) AS Quantity_of_Senior_manager ,
+                count(DISTINCT Manager.manager_code) AS Quantity_of_Manager,
+                count(DISTINCT Employee.employee_code) AS Quantity_of_employee
+FROM Company
+INNER JOIN Employee ON Employee.company_code=Company.company_code
+INNER JOIN Lead_Manager ON Lead_Manager.company_code=Company.company_code
+INNER JOIN Manager ON Manager.company_code=Company.company_code
+INNER JOIN Senior_manager ON Senior_manager.company_code=Company.company_code
+GROUP BY Company.company_code,Company.founder
+ORDER BY Company.company_code,Quantity_of_lead_manager,Quantity_of_Senior_manager,Quantity_of_Manager
+
+* Câu 4 (Top Earners)
+SELECT TOP(1) CAST(months*salary AS varchar(10) ) +' '+ CAST(count( months*salary) as varchar(10)) 
+FROM Employee
+GROUP BY months*salary
+ORDER BY months*salary DESC 
+
+* Câu 5 (Weather Observation Station 15)
+SELECT TOP(1) CAST( LONG_W  AS numeric(36,4)) 
+FROM STATION
+WHERE LAT_N<137.2345 
+ORDER BY LAT_N DESC
+
+* Câu 6 (Weather Observation Station 17)
+SELECT TOP(1) CAST( LONG_W  AS numeric(36,4)) 
+FROM STATION
+WHERE LAT_N > 38.7780
+ORDER BY LAT_N ASC
+
+* Câu 7 (Weather Observation Station 20)
+SELECT DISTINCT CAST(PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY LAT_N) OVER() AS DECIMAL(10,4)) FROM STATION
+
+* Câu 8 (Population Census)
+SELECT SUM(CITY.POPULATION)
+FROM CITY
+INNER JOIN COUNTRY
+ON CITY.CountryCode = COUNTRY.Code
+WHERE COUNTRY.CONTINENT='Asia'
+
+* Câu 9 (African Cities)
+SELECT CITY.NAME
+FROM CITY
+INNER JOIN COUNTRY
+ON CITY.CountryCode = COUNTRY.Code
+WHERE CONTINENT='Africa'
+
+* Câu 10 (Average Population of Each Continent)
+SELECT COUNTRY.Continent,AVG(CITY.Population)
+FROM CITY
+INNER JOIN COUNTRY
+ON CITY.CountryCode = COUNTRY.Code
+group by  COUNTRY.Continent
+
+* Câu 11 (The Report)
+SELECT
+     CASE
+         WHEN  G.Grade <8 THEN NULL
+         ELSE S.Name
+     END,  G.Grade , S.Marks
+FROM Students AS S
+INNER JOIN Grades AS G
+ON S.Marks BETWEEN G.Min_Mark AND G.Max_Mark
+ORDER BY G.Grade DESC, S.Name 
+
+hay
+
+SELECT IIF(G.Grade < 8, NULL,S.Name),G.Grade,S.Marks
+FROM Students AS S
+INNER JOIN Grades AS G
+ON S.Marks BETWEEN G.Min_Mark AND G.Max_Mark
+ORDER BY G.Grade DESC, S.Name 
+
+* Câu 12 (Ollivander's Inventory)
+SELECT id, age, coins_needed, power
+FROM 
+(
+    SELECT W.id, WP.age, W.coins_needed, W.power,
+    ROW_NUMBER() OVER 
+        (
+            PARTITION BY W.code,W.power  
+            ORDER BY W.coins_needed, W.power DESC
+        ) AS RowNumber
+    FROM Wands W WITH (NOLOCK)
+    INNER JOIN Wands_Property WP WITH (NOLOCK) ON W.code = WP.code
+    WHERE WP.is_evil = 0
+)
+AS Wand_Data
+WHERE RowNumber = 1
+ORDER BY power DESC, age DESC
+
+
+* Câu 13 (Challenges)
+WITH data (hacker_id,name,ChallengeCounting    )AS(
+       SELECT H.hacker_id,name, COUNT(challenge_id) AS ChallengeCounting 
+       FROM Hackers as H
+        INNER JOIN Challenges as C
+       ON H.hacker_id=C.hacker_id
+       GROUP BY H.hacker_id,name
+       )
+  /*select records from above*/
+ SELECT hacker_id,name,ChallengeCounting   
+ FROM data 
+ WHERE 
+      ChallengeCounting = (
+         SELECT max(ChallengeCounting)
+         FROM data   
+      ) OR
+      ChallengeCounting  IN (
+          SELECT ChallengeCounting  
+          FROM data
+          GROUP BY ChallengeCounting  
+          HAVING count(ChallengeCounting)=1 
+      )
+ ORDER BY ChallengeCounting DESC, hacker_id
+
+
+
+* Câu 14 (Contest Leaderboard)
+with x (hacker_id,name,challenge_id,score)
+as(
+    select SS.hacker_id , name, challenge_id, max(score) AS maximumScore_of_a_hacker
+    from Submissions as SS
+         INNER JOIN Hackers
+         on SS.hacker_id=Hackers.hacker_id
+    group by SS.hacker_id,name,challenge_id
+)
+
+SELECT hacker_id, name, sum(score) as totalScore
+FROM x
+GROUP BY hacker_id,name
+HAVING sum(score) != 0  
+ORDER BY totalScore DESC,hacker_id ASC
+
+
+
+* Câu 15 (SQL Project Planning)
+WITH x AS
+(
+    SELECT Start_Date,End_Date
+    FROM 
+   (SELECT Start_Date FROM Projects WHERE Start_Date NOT IN (SELECT End_Date FROM Projects)) a,
+   (SELECT End_Date FROM Projects WHERE End_Date NOT IN (SELECT Start_Date FROM Projects)) b
+   WHERE Start_Date<End_Date
+   GROUP BY Start_Date,End_Date
+  
+)
+select Start_Date,End_Date
+from (
+select Start_Date,End_Date ,
+       row_number() over(partition by Start_Date order by End_Date ASC) as roworder  
+from x
+) temp
+where roworder = 1
+ORDER BY DATEDIFF(day,Start_Date,End_Date) ASC, Start_Date 
+
+
+* Câu 16 (Symmetric Pairs)
+SELECT f1.X, f1.Y
+FROM Functions f1
+INNER JOIN Functions f2  
+ON f1.X=f2.Y AND f2.X=f1.Y
+GROUP BY f1.X, f1.Y
+HAVING COUNT(f1.X)>1 OR  f1.X<f1.Y
+ORDER BY f1.X 
+
+* Câu 17 (Interviews)
+WITH SUM_View_Stats AS (
+SELECT challenge_id
+    , total_views = sum(total_views)
+    , total_unique_views = sum(total_unique_views)
+FROM View_Stats 
+GROUP BY challenge_id
+)
+,SUM_Submission_Stats AS (
+SELECT challenge_id
+    , total_submissions = sum(total_submissions)
+    , total_accepted_submissions = sum(total_accepted_submissions)
+FROM Submission_Stats 
+GROUP BY challenge_id
+)
+
+SELECT    con.contest_id
+        , con.hacker_id
+        , con.name
+        , SUM(total_submissions)
+        , sum(total_accepted_submissions)
+        , sum(total_views)
+        , sum(total_unique_views)
+FROM Contests con
+INNER JOIN Colleges col
+    ON con.contest_id = col.contest_id
+INNER JOIN Challenges cha
+    ON cha.college_id = col.college_id
+LEFT JOIN SUM_View_Stats vs
+    ON vs.challenge_id = cha.challenge_id
+LEFT JOIN SUM_Submission_Stats ss
+    ON ss.challenge_id = cha.challenge_id
+GROUP BY con.contest_id,con.hacker_id,con.name
+HAVING (SUM(total_submissions)
+        +sum(total_accepted_submissions)
+        +sum(total_views)
+        +sum(total_unique_views)) <> 0
+ORDER BY con.contest_ID
+
+* Câu 18 (15 Days of Learning SQL)
+
+
+
+
