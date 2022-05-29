@@ -1,0 +1,21 @@
+YÊU CẦU
+-Tạo một node server, khi truy cập vào http://localhost:3000 thì log ra console toàn bộ thuộc tính của request đến.
+
+
+GIT  (Tên thư mục: NJS101x_Lab1.2_khanglvfx15073@funix.edu.vn)
+- git init 
+- git add .
+- git commit -m "first commit to make master branch"
+- git branch 
+   * master
+- git checkout -b NJS101x_Lab1.2_khanglvfx15073@funix.edu.vn   //PHẢI TRÙNG tên này KHI upload lên remote
+- git branch 
+- git ls-files
+- git remote add NJS_lab1.2_label https://github.com/khangly21/FunixDN2022.git
+- git push NJS_lab1.2_label NJS101x_Lab1.2_khanglvfx15073@funix.edu.vn
+
+
+- Cập nhật
+  ** git add .
+  ** git commit -m "modified Lab1.2"
+  ** git push NJS_lab1.2_label NJS101x_Lab1.2_khanglvfx15073@funix.edu.vn  
