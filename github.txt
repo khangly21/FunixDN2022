@@ -1,8 +1,9 @@
 YÊU CẦU: Lab 1.6: Đọc nội dung body của request Khi có POST method được gửi tới http://localhost:3000/message , sau đó ghi nội dung đó vào file message.txt
+       ** Chú ý: Không cần redirect với code 302
 
 GIT  (Tên thư mục: NJS101x_Lab1.6_khanglvfx15073@funix.edu.vn)
 - git init 
-- git add .
+- git add . 
 - git commit -m "first commit to make master branch"
 - git branch 
    * master

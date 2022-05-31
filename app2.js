@@ -27,12 +27,14 @@ const server=http.createServer((req,res)=>{
             const message=parsedBody.split('=')[1];
             fs.writeFileSync('message.txt',message);
         })
-        // ***
-        res.statusCode=302;
-        res.setHeader('Location','/');
-        return res.end();
+        
     }
-});
-server.listen(3009);
 
-// Vì sao *** nằm trong  if(url==='/message' sẽ xảy ra trình duyệt tìm kiếm vô hạn sau khi nhấn SEND?
+    //vì tính ASYNC của Nodejs, các registered Event Listerner sẽ chạy sau các dòng sau đây
+    res.statusCode=302;
+    res.setHeader('Location','/');
+    return res.end();
+    //làm sao báo lỗi không nhận được dữ liệu ở NODEJS 
+});
+server.listen(3010);
+
