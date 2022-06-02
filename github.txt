@@ -1,0 +1,18 @@
+﻿YÊU CẦU: Lab 1.8: Cài đặt nodemon và sử dụng để ứng dụng sẽ tự động khởi động lại mỗi khi có file được chỉnh sửa và lưu lại
+     
+GIT  (Tên thư mục: NJS101x_Lab1.8_khanglvfx15073@funix.edu.vn)
+- git init 
+- git add . 
+- git commit -m "first commit to make master branch"
+- git branch 
+   * master
+- git checkout -b NJS101x_Lab1.8_khanglvfx15073@funix.edu.vn   //PHẢI TRÙNG tên này KHI upload lên remote
+- git branch 
+- git ls-files
+- git remote add NJS_lab1.8_label https://github.com/khangly21/FunixDN2022.git
+- git push NJS_lab1.8_label NJS101x_Lab1.8_khanglvfx15073@funix.edu.vn
+
+- Cập nhật
+  ** git add .
+  ** git commit -m "modified Lab1.8"
+  ** git push NJS_lab1.8_label NJS101x_Lab1.8_khanglvfx15073@funix.edu.vn  
