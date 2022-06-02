@@ -1,19 +1,20 @@
-﻿YÊU CẦU: Lab 1.7: Sử dụng Hệ thống Mô-đun Node
-Thực hiện export 2 thuộc tính là handler và someText trong cùng một module, chỉnh sửa code tương ứng ở nơi import và sử dụng module.
+﻿YÊU CẦU: Lab 1.9:  Tự động khởi động lại trình gỡ lỗi sau khi chỉnh sửa ứng dụng
+Tạo và sửa file .vscode\launch.json để chương trình tự động khởi động lại trình gỡ lỗi mỗi lần sửa và lưu các file.
+
      
-GIT  (Tên thư mục: NJS101x_Lab1.7_khanglvfx15073@funix.edu.vn)
+GIT  (Tên thư mục: NJS101x_Lab1.9_khanglvfx15073@funix.edu.vn)
 - git init 
 - git add . 
 - git commit -m "first commit to make master branch"
 - git branch 
    * master
-- git checkout -b NJS101x_Lab1.7_khanglvfx15073@funix.edu.vn   //PHẢI TRÙNG tên này KHI upload lên remote
+- git checkout -b NJS101x_Lab1.9_khanglvfx15073@funix.edu.vn   //PHẢI TRÙNG tên này KHI upload lên remote
 - git branch 
 - git ls-files
-- git remote add NJS_lab1.7_label https://github.com/khangly21/FunixDN2022.git
-- git push NJS_lab1.7_label NJS101x_Lab1.7_khanglvfx15073@funix.edu.vn
+- git remote add NJS_lab1.9_label https://github.com/khangly21/FunixDN2022.git
+- git push NJS_lab1.9_label NJS101x_Lab1.9_khanglvfx15073@funix.edu.vn
 
 - Cập nhật
   ** git add .
-  ** git commit -m "modified Lab1.7"
-  ** git push NJS_lab1.7_label NJS101x_Lab1.7_khanglvfx15073@funix.edu.vn  
+  ** git commit -m "modified Lab1.9"
+  ** git push NJS_lab1.9_label NJS101x_Lab1.9_khanglvfx15073@funix.edu.vn  

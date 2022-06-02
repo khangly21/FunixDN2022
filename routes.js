@@ -34,6 +34,7 @@ const fs=require('fs');
                 //chứ không writeFile ngay lập tức vì phải đón nhận new comming requests . Chỉ writeFile khi request nào tới hạn
                 return  req.on('end',()=>{
                     const parsedBody=Buffer.concat(body).toString();
+                    console.log(parsedBody);
                     const message=parsedBody.split('=')[1];
                     fs.writeFile('message.txt',message,err=>{
                         res.statusCode=302;
