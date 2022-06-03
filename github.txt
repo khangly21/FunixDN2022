@@ -1,0 +1,20 @@
+﻿Lab 2.2: Cài đặt Middleware
+Đăng ký 2 middleware và in ra console log ở mỗi middleware, gọi hàm next để cả 2 dòng console log đều được in ra.
+
+
+GIT  (Tên thư mục: NJS101x_Lab2.2_khanglvfx15073@funix.edu.vn)
+- git init 
+- git add . 
+- git commit -m "first commit to make master branch"
+- git branch 
+   * master
+- git checkout -b NJS101x_Lab2.2_khanglvfx15073@funix.edu.vn   //PHẢI TRÙNG tên này KHI upload lên remote
+- git branch 
+- git ls-files
+- git remote add NJS_lab2.2_label https://github.com/khangly21/FunixDN2022.git
+- git push NJS_lab2.2_label NJS101x_Lab2.2_khanglvfx15073@funix.edu.vn
+
+- Cập nhật
+  ** git add .
+  ** git commit -m "modified Lab2.2"
+  ** git push NJS_lab2.2_label NJS101x_Lab2.2_khanglvfx15073@funix.edu.vn  
