@@ -1,0 +1,23 @@
+﻿Lab 2.5: Phân tích cú pháp Requests đến
+Ở trang http://localhost:3000/add-product trả về một trang HTML với nội dung là 1 form dùng để post sản phẩm (bao gồm thông tin về title) tới http://localhost:3000/product.
+Tạo middleware ứng với http://localhost:3000/product nhận post request đến và log ra console req.body
+
+
+
+
+GIT  (Tên thư mục: NJS101x_Lab2.5_khanglvfx15073@funix.edu.vn)
+- git init 
+- git add . 
+- git commit -m "first commit to make master branch"
+- git branch 
+   * master
+- git checkout -b NJS101x_Lab2.5_khanglvfx15073@funix.edu.vn   //PHẢI TRÙNG tên này KHI upload lên remote
+- git branch 
+- git ls-files
+- git remote add NJS_lab2.5_label https://github.com/khangly21/FunixDN2022.git
+- git push NJS_lab2.5_label NJS101x_Lab2.5_khanglvfx15073@funix.edu.vn
+
+- Cập nhật
+  ** git add .
+  ** git commit -m "modified Lab2.5"
+  ** git push NJS_lab2.5_label NJS101x_Lab2.5_khanglvfx15073@funix.edu.vn  
