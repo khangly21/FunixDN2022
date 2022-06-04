@@ -19,6 +19,10 @@
     //the order of middlewares matters
     //giả sử app.use(adminRoutes()); nằm sau "/" thì nó không bao giờ được reach tới, vì "/" bao hàm cả "/add-product" và "/product" 
 
+    app.use((rea,res,next)=>{
+        res.status(404).send('<h1>Page not found</h1>');
+        //ngoài ra có thể res.setHeader().send()
+    })
 
     app.listen(3025); //tạo 1 listening server
 
