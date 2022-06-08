@@ -1,12 +1,12 @@
     const path=require('path');
     const express=require('express'); 
     const bodyParser=require('body-parser');
+    const expressHbs=require('express-handlebars');
 
     const app=express(); 
 
-    //set configuration
-    app.set('view engine','pug'); //use pug here because we installed the pug templating engine
-    //xem tài liệu thì default folder là "views"
+    app.engine('hbs',expressHbs()); 
+    app.set('view engine','hbs'); //hbs tương ứng với hbs
     app.set('views','views');
     
 
