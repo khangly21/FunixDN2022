@@ -1,0 +1,39 @@
+    const path=require('path');
+    const express=require('express'); 
+    const bodyParser=require('body-parser');
+    const expressHbs=require('express-handlebars');
+
+    const app=express(); 
+
+    app.engine('hbs',expressHbs({layoutsDir:'views/layouts/',defaultLayout:'main-layout',extname:'hbs'})); 
+    app.set('view engine','hbs'); //hbs tương ứng với hbs
+    app.set('views','views');
+    
+
+    //import middleware
+    const adminData=require('./routes/admin');//không cần .js vì nó tự động được thêm vào
+    const shopRoutes=require('./routes/shop');
+
+    //using bodyParser object 
+    //here and now what this does is it registers a middleware nhờ gọi hàm urlencoded() , sẽ có ảnh hưởng req.body mặc dù we cannot see it
+    app.use(bodyParser.urlencoded({extended:false}));
+    //Tác dụng của hàm urlencoded: this will not parse all kinds of possible bodies, files, json and so on but this will parse bodies like the one we're getting here, sent through a form
+    //Vậy nó hỗ trợ form gửi req object
+    
+    //serve / grand access to static files
+    app.use(express.static(path.join(__dirname,'public')));
+    
+    app.use('/admin',adminData.routes); //  '/admin' as a filter path! only routes starting with /admin will go into the admin routes file
+    app.use(shopRoutes);
+
+    //incoming request sẽ goes thru top to bottom các middleware trên
+    //the order of middlewares matters
+    //giả sử app.use(adminRoutes()); nằm sau "/" thì nó không bao giờ được reach tới, vì "/" bao hàm cả "/add-product" và "/product" 
+
+    app.use((req,res,next)=>{
+        res.status(404).render('404extended',{pageTitle:'Page Not Found'});
+        //ngoài ra có thể res.setHeader().send()
+    })
+
+    app.listen(3028); //tạo 1 listening server
+
