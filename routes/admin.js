@@ -13,7 +13,12 @@ const products=[];
 console.log('rootDir:   '+rootDir)
 //  /admin/add-product =>GET because I only want to handle get requests 
 router.get('/add-product',(req,res,next) => {
-    res.render('add-product',{pageTitle:'Add Product',path:'/admin/add-product',formCSS:true,productCSS:true,activeAddProduct:true}); 
+    res.render('add-product',{
+        pageTitle:'Add Product',
+        path:'/admin/add-product',
+        formCSS:true,
+        productCSS:true,
+        activeAddProduct:true}); 
     //doesn't have to match the path this route has, just a pattern I like.
 });
 
