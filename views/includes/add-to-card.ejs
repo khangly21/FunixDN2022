@@ -1,0 +1,10 @@
+<form action="/cart" method="POST"> <!--POSR req có thể thêm dynamic segment cho /cart-->
+    <!--post request and this has one important implication,
+we can pass data in the request body (This was not possible for a get request). this is also what we use when adding a product-->
+    <button class="btn">Add to Cart</button>
+    <input type="hidden" name="productId" value="<%= product.id  %>"/> <!--we will retrieve the productID from incoming POST request-->
+</form>
+
+<!--Chú ý: nếu include file partials này vào for loop  for (let product of prods) thì sẽ Reference Error vì biến product ở add-to-card.ejs không phải local variable đối với for-->
+<!--but you can pass it to that include trong 3 views có Add to card-->
+<!--again pass an object {product:product} and simply add that variable again.-->

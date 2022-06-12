@@ -1,0 +1,17 @@
+<%- include('../includes/head.ejs') %>
+    </head>
+
+    <body>
+        <%- include('../includes/navigation.ejs') %>
+        <main class="centered"> <!--evrything will be centered horizontally-->
+            <!--Tiếp theo,  I expect to get information about the product -->
+            <h1><%= product.title %></h1>
+            <hr>
+            <div>
+                <img src="<%= product.imageUrl %>" alt="<%= product.title %>">
+            </div>
+            <h2><%= product.price %></h2>
+            <p><%= product.description %></p>
+            <%- include('../includes/add-to-card.ejs') %> 
+        </main>
+        <%- include('../includes/end.ejs') %>
