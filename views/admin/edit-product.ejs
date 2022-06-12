@@ -1,0 +1,36 @@
+<%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/forms.css">
+    <link rel="stylesheet" href="/css/product.css">
+</head>
+
+<body>
+   <%- include('../includes/navigation.ejs') %>
+    <!--EJS nhận biến editing với giá trị boolean. Khi nhấn navigation "Add Product" thì editing là false, khi nhấn "Edit" thì editing là true-->
+    <main>
+        <form class="product-form" action="/admin/<% if (editing) { %>edit-product<% } else { %>add-product<% } %>" method="POST">
+            <!--I can inject these EJS segments dynamically into the url because this will just be converted to normal  HTML text in the end.-->
+            <!--chú ý là hiện nay chưa có /admin/edit-product.ejs => POST để form này submit tới-->
+            <div class="form-control">
+                <label for="title">Title</label>
+                <!--Nếu editing=true thì hiển thị thông tin SP vào input và có thể modify-->
+                <!--ngược lại editing=false thì không hiển thị SP vì controller getAddProduct cũng không gửi thông tin product tới view này-->
+                <input type="text" name="title" id="title" value="<% if (editing) { %><%= product.title %><% } %>">
+            </div>
+            <div class="form-control">
+                <label for="imageUrl">Image URL</label>
+                <input type="text" name="imageUrl" id="imageUrl" value="<% if (editing) { %><%= product.imageUrl %><% } %>">
+            </div>
+            <div class="form-control">
+                <label for="price">Price</label>
+                <input type="number" name="price" id="price" step="0.01" value="<% if (editing) { %><%= product.price %><% } %>">
+            </div>
+            <div class="form-control">
+                <label for="description">Description</label>
+                <textarea name="description" id="description" rows="5"><% if (editing) { %><%= product.description %><% } %></textarea>
+            </div>
+
+            <button class="btn" type="submit"> <% if(editing){%>  Update Product  <% } else { %>Add Product<% } %></button>
+            <!--Form sẽ chứa sẵn thông tin và nút Update Product nếu gặp đường dẫn sau: http://localhost:3000/admin/edit-product/123245?edit=true hay http://localhost:3000/admin/edit-product/123245?edit=false-->
+        </form>
+    </main>
+<%- include('../includes/end.ejs') %>
