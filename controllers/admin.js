@@ -68,5 +68,7 @@ exports.getProducts = (req, res, next) => {
 exports.postDeleteProduct=(req,res,next)=>{
     //extract productId trong input hidden của form post 
     const prodId=req.body.productId ;
-    
+    console.log("prodId",prodId);
+    Product.deleteById(prodId);
+    res.redirect('/admin/products'); //the same khi updatedProduct.save();
 }
