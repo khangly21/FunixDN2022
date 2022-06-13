@@ -1,0 +1,19 @@
+<%- include('../includes/head.ejs') %>
+    </head>
+
+    <body>
+        <%- include('../includes/navigation.ejs') %>
+        <main>
+            <% if(products.length > 0) { %>
+                <!--I wanna render products here-->
+                <% products.forEach(p=>{  %>
+                     <!--Here, I output product information -->
+                     <!--chú ý là p theo định nghĩa trong controllers>>shop.js chính là đối tượng {productData:product,qty:cardProductData.qty}-->
+                     <li><%= p.productData.title %> (<%= p.qty %>)</li>
+                <% }) %>
+            <% } else { %>
+                <h1>No Products in Cart!</h1>
+            <% } %>
+
+        </main>
+        <%- include('../includes/end.ejs') %>
