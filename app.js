@@ -33,7 +33,7 @@ app.use((req, res, next) => {
       console.log(user.isNewRecord) //false ;
       console.log(user.dataValues.id) //1 
       console.log(user.dataValues); //nice
-      req.user = user; //muốn truy cập id thì req.user.id hay req.user.get('id')
+      req.user = user; //dù req.user là Sequelize object (có chứa plain Javascript object về user và thông tin khác) , muốn truy cập id thì req.user.id hay req.user.get('id')
       console.log("req.user ta vừa thêm vào là: \n",req.user)
       next();
     })

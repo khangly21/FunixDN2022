@@ -11,7 +11,7 @@ exports.postAddProduct = (req, res, next) => {
   User.create({name:req.user.name,email:req.user.email})
   //tạo user mới (INSERT INTO users) thành công, nhưng báo lỗi TypeError: newUser.createProduct is not a function
       .then(function(newUser){
-        return newUser.createProduct({
+        return newUser.createSANPHAM({
           title: title,
           price: price,
           imageUrl: imageUrl,
@@ -105,7 +105,8 @@ exports.postEditProduct = (req, res, next) => {
 
 exports.getProducts = (req, res, next) => {
   req.user
-    .getProducts()
+    .getSANPHAMs() //TypeError: req.user.getProducts is not a function
+    //Hiện tại thì SP post mới đã có ở menu Shop hay Product, nhưng bên Admin Products chưa cập nhật được. Why? Nếu không có thì làm sao Edit hay Delete?
     .then(products => {
       res.render('admin/products', {
         prods: products,
