@@ -1,0 +1,31 @@
+<%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/cart.css">
+    </head>
+
+    <body>
+        <%- include('../includes/navigation.ejs') %>
+        <main>
+            <% if(products.length > 0) { %>
+                <ul class="cart__item-list">
+                    <!--I wanna render products here-->
+                    <% products.forEach(p=>{  %>
+                         <!--EACH product of cart (aka cartitem) will loop through-->
+                         <!--Here, I output product information -->
+                         <!--chú ý là p theo định nghĩa trong controllers>>shop.js chính là đối tượng {productData:product,qty:cardProductData.qty}-->
+                         <li class="cart__item">
+                            <h1><%= p.title %> </h1>
+                            <h2>Quantity:<%= products[0].dataValues.cartItem.quantity %></h2> <!--Không đúng, products[0] chính là cartitem thứ nhất trong cart, điều này là cố định-->
+                            <h2>Quantity:<%= p.cartItem.quantity %></h2> <!--chính xác theo loop control-->
+                            <form action="/cart-delete-item" method="POST">
+                                <input type="hidden" name="productId" value="<%= p.id %>">
+                                <button class="btn" type="submit">Delete</button>
+                            </form>
+                         </li>
+                    <% }) %>
+                </ul>
+            <% } else { %>
+                <h1>No Products in Cart!</h1>
+            <% } %>
+
+        </main>
+        <%- include('../includes/end.ejs') %>
