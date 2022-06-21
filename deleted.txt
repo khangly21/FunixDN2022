@@ -1,0 +1,54 @@
+* {"id":"0.47198636776088865","title":"King Sauce","imageUrl":"https://raisonetgourmandise.com/wp-content/uploads/2018/11/sauce-bbq-maison-raisonetgourmandise-1300x1134.jpg","description":"chili sauce","price":"0.02"}
+* '1', 'feasgddOG', '2', 'ddgdg', 'ffdsadddg', '2022-06-17 20:09:55', '2022-06-19 06:36:47', '1'
+'2', 'Hikaru Nakamura', '10000', 'https://pbs.twimg.com/media/FUmKlr_X0AEuKDX?format=jpg&name=small', 'USA citizen', '2022-06-18 01:58:36', '2022-06-18 01:58:36', NULL
+'3', 'Fabiano Caruana _ Candidates 2022', '120000', 'https://cdn.chess24.com/wqrXnC_NToq1Xaj2N2r0Sw/original/caruana-bw.jpeg', 'Fabiano Caruana at the Candidates Opening Press Conference | photo: Stev Bonhage, FIDE', '2022-06-18 02:31:43', '2022-06-18 02:31:43', NULL
+'4', 'gddgg', '342353553', 'dgdgdgdgdg', 'dddfdhhshs', '2022-06-18 11:56:49', '2022-06-18 11:56:49', NULL
+'5', 'rrr', '2222', '2222', '2222', '2022-06-18 12:00:31', '2022-06-18 12:00:31', '1'
+'6', 'ttt', '45455', 'https://raisonetgourmandise.com/wp-content/uploads/2018/11/sauce-bbq-maison-raisonetgourmandise-1300x1134.jpg', 'dgdgfgf', '2022-06-18 13:49:46', '2022-06-18 13:49:46', NULL
+'7', 'WWW', '3333', 'https://raisonetgourmandise.com/wp-content/uploads/2018/11/sauce-bbq-maison-raisonetgourmandise-1300x1134.jpg', 'WERT', '2022-06-18 13:52:24', '2022-06-18 13:52:24', '1'
+'8', 'Carlsen', '3456', 'https://raisonetgourmandise.com/wp-content/uploads/2018/11/sauce-bbq-maison-raisonetgourmandise-1300x1134.jpg', 'DFFG', '2022-06-18 14:39:35', '2022-06-18 14:39:35', '1'
+'9', 'RGGSEG', '23443', 'https://raisonetgourmandise.com/wp-content/uploads/2018/11/sauce-bbq-maison-raisonetgourmandise-1300x1134.jpg', 'crccrrc', '2022-06-18 14:41:26', '2022-06-18 14:41:26', '1'
+'10', 'TU', '123455', 'https://raisonetgourmandise.com/wp-content/uploads/2018/11/sauce-bbq-maison-raisonetgourmandise-1300x1134.jpg', 'fantastic', '2022-06-18 15:39:11', '2022-06-18 15:39:11', '1'
+'11', 'TU', '123455', 'https://raisonetgourmandise.com/wp-content/uploads/2018/11/sauce-bbq-maison-raisonetgourmandise-1300x1134.jpg', 'fantastic', '2022-06-18 15:40:38', '2022-06-18 15:40:38', '1'
+'12', 'CEECEEC', '3343', 'https://raisonetgourmandise.com/wp-content/uploads/2018/11/sauce-bbq-maison-raisonetgourmandise-1300x1134.jpg', 'FCEFVEFWFV', '2022-06-18 15:40:59', '2022-06-18 15:40:59', '1'
+'13', 'scart', '123455', 'https://raisonetgourmandise.com/wp-content/uploads/2018/11/sauce-bbq-maison-raisonetgourmandise-1300x1134.jpg', 'sccc', '2022-06-18 16:01:49', '2022-06-18 16:01:49', '1'
+'14', 'rahaj', '453', 'https://raisonetgourmandise.com/wp-content/uploads/2018/11/sauce-bbq-maison-raisonetgourmandise-1300x1134.jpg', 'chess', '2022-06-18 16:17:37', '2022-06-18 16:17:37', '1'
+'15', 'qqq', '67766', 'https://raisonetgourmandise.com/wp-content/uploads/2018/11/sauce-bbq-maison-raisonetgourmandise-1300x1134.jpg', 'ddggdd', '2022-06-18 16:23:28', '2022-06-18 16:23:28', '1'
+'16', 's', '23', 'https://raisonetgourmandise.com/wp-content/uploads/2018/11/sauce-bbq-maison-raisonetgourmandise-1300x1134.jpg', 'EEEE', '2022-06-18 16:24:19', '2022-06-18 16:24:19', NULL
+'17', 'EEEE', '33322', 'https://raisonetgourmandise.com/wp-content/uploads/2018/11/sauce-bbq-maison-raisonetgourmandise-1300x1134.jpg', 'wxscd', '2022-06-18 16:40:00', '2022-06-18 16:40:00', '1'
+'18', 'Candidates in Spain', '12233232', 'https://cdn.chess24.com/U5AzBfG9TB6BMiJtpiEGVQ/original/palacio_2_2.jpeg', 'Inside the ‘hidden treasure’ ', '2022-06-19 00:57:32', '2022-06-19 00:57:32', '1'
+'19', 'giải Người thách đấu 2022', '23456', 'https://cdn.chess24.com/AG0WygKYTOOP4iNmGRIEIQ/original/palacio_6_2--1.jpeg', 'The Candidates Tournament will be streamed live on the internet, but seating at the playing venue is limited, with only 90 lucky spectators able to buy tickets', '2022-06-19 01:04:36', '2022-06-19 01:04:36', '1'
+'20', 'World chess championship 1985', '123322', 'https://pbs.twimg.com/media/EcVrxIlWsAsH0N6?format=jpg&name=small', 'Garry Kasparov faces Anatoly Karpov in the Leningrad half of their third World Championship match, which was held from July-October 1986.\r\nThe venue here was the Hotel \'Leningrad\', not far from the famous Finland Station.', '2022-06-19 01:22:30', '2022-06-19 01:22:30', '15'
+'22', 'Cao Bằng, Việt nam', '1111', 'https://tse3.mm.bing.net/th?id=OIP._5akOWW7OJ-MCohB2vbcQAHaEF&pid=Api', 'experience Cao Bằng', '2022-06-19 01:40:02', '2022-06-19 01:40:02', '1'
+'23', 'chim én non Tây Ban Nha', '123', 'https://i1-vnexpress.vnecdn.net/2022/06/18/VNE-Cook-9498-1655551988.jpg?w=1020&h=0&q=100&dpr=1&fit=crop&s=e3wjPUZJALAcVEoIzMsDRg', 'Én non bị \'nướng\' trong sóng nhiệt 40 độ C', '2022-06-19 08:38:47', '2022-06-19 08:38:47', '1'
+
+
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>JavaScript Global Properties</h1>
+<h2>UNDEFINED and NULL </h2>
+
+<p id="demo"></p>
+<p id="demo2"></p>
+<p id="demo3"></p>
+<script>
+let x;
+if (x == undefined) {
+  test1 = "undefined == null   TRUE!!";
+}else{
+  test1="no idea";
+}
+
+int y = null;
+if (y == null) {
+  test2 = "null == null   TRUE!!";
+}else{test2="no idea"}
+document.getElementById("demo").innerHTML = test1;
+document.getElementById("demo2").innerHTML =x;
+document.getElementById("demo3").innerHTML =test2;
+</script>
+
+</body>
+</html>
