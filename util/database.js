@@ -18,7 +18,7 @@ const MongoClient = mongodb.MongoClient;
 
 
 const mongoConnect=(callback)=>{ //Vì JS function là object nên function được là tham số của hàm
-    MongoClient.connect('mongodb+srv://lyvietkhang_admin:FLC0EfhTqJHonvsI@khangserver0.w0azxjp.mongodb.net/?retryWrites=true&w=majority')
+    MongoClient.connect('')
     .then(
          //had a successful connection, nghĩa là if(connection)
          //basically a client object which gives us access to the database , or a successful connection object
