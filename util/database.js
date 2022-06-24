@@ -11,7 +11,7 @@ let _db; //initially this will be undefined (variable)
 let x;
 let mongoConnect=(callback)=>{ 
     //connect to MongoDB Cloud database server using MongoClient class, chưa nói tới databaseName là gì đó là việc của MongoClient instance gọi db(databaseName)
-    MongoClient.connect('mongodb+srv://lyvietkhang_admin:FLC0EfhTqJHonvsI@khangserver0.w0azxjp.mongodb.net/?retryWrites=true&w=majority') //trước dấu ? của connection string đáng lẽ có tên của CSDL, vd "test" database. Do đó I add "shop", if that database doesn't exist yet, mongodb will create it as soon as we start writing data to it
+    MongoClient.connect('') //trước dấu ? của connection string đáng lẽ có tên của CSDL, vd "test" database. Do đó I add "shop", if that database doesn't exist yet, mongodb will create it as soon as we start writing data to it
     //trả về a Promise nếu resolve() thì trả về MongoClient_instance là "client database"  ,giống như "browser" cài vào máy tính vì máy tính không thể giao tiếp máy chủ, nếu reject() thì trả về error() 
     //We could close the connection with db.close() and wait for the next database connection request
     .then(
