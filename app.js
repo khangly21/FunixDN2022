@@ -9,6 +9,7 @@ const errorController = require('./controllers/error');
 //will import a function because I'm exporting a function in database.js.
 const mongoConnect=require('./util/database'); 
 
+//Chạy app
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -48,6 +49,38 @@ app.use(  (req,res,next) => {   //Ctrl K C   sẽ comment out cả block trong V
 // app.use(shopRoutes);
 
 app.use(errorController.get404);
+
+//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes#prototype_methods
+class Animal {
+    //chỉ có 1 hàm tên keyword là "constructor" bên trong class (Nhớ lại ngôn ngữ Java định nghĩa nhiều constructors tên giống class và khác nhau ở số lượng tham số)
+    
+    //Không có constructor() thì new Animal trỏ tới class Animal vì nó là hàm, để tạo ra instance rỗng { }, muốn instance có các thuộc tính thì cần constructor() lúc này new Animal trỏ tới constructor (nên 1 reference) nơi nó sẽ có thuộc tính
+    constructor(height,weight,width){
+        //click references của Animal class thì thấy không có 3 anh this này 
+        //Vậy 3 anh this này chính là để binds các instances vào 3 thuộc tính
+        //Quy tắc là instance properties được định nghĩa trong constructor! 
+        this.height= height;
+        this.weight= weight;
+        this.width=width;
+    }
+
+    speak() {
+      console.log(this);//biến this này KHÔNG trỏ tới class Animal (KHÔNG có trong 4 references). Như vậy obj.speak chính là một method. Nói cách khác, do method tên speak binds với instance, nên instance kế thừa hàm speak()
+    }
+    static eat() {
+      console.log(this); //biến this trỏ tới class Animal, vậy Animal.eat là một method. Instances sẽ không kế thừa hàm eat
+    }
+  }
+  
+  let obj = new Animal(8,8,8); //gọi hàm class, vì bản chất class là 1 hàm, thường gọi là utility function dùng trong applications
+  obj.speak(); // Animal {} diễn giải là "the Animal object"
+  let speak = obj.speak; //gán function obj.speak vào biến
+  speak(); // undefined
+  //obj.eat(); //gây ra app crash vì TypeError: obj.eat is not a function
+  
+  Animal.eat() // [class Animal], utility function hay gặp
+  let eat = Animal.eat; //gán function Animal.eat vào 1 biến 
+  eat(); // undefined
 
 //gọi thực thi hàm với tham số là một hàm callback
 //hàm callback sẽ được gọi thực thi sau khi kết nối thành công

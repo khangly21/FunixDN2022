@@ -23,7 +23,7 @@ const mongoConnect=(callback)=>{ //Vì JS function là object nên function đư
          //had a successful connection, nghĩa là if(connection)
          //basically a client object which gives us access to the database , or a successful connection object
          client=>{
-             console.log("CONNECTED!!!");
+             console.log("CONNECTED!!!"); //Nếu MongoDB mất kết nối là do lỗi IP address => Solution: https://baraksaidoff.medium.com/fixing-mongoserverselectionerror-while-connecting-mongodb-with-node-js-213aaf0bf596
              //Ý nghĩa:we have a file which when we execute, it would connect to mongodb. So  of course you want to execute this together with app.js (npm start)
              callback(client); ////hàm callback sẽ được gọi thực thi sau khi kết nối thành công
          }
