@@ -9,7 +9,7 @@ let _db; //initially this will be undefined (variable)
 
 //we can connect to mongoDB from inside Node
 let mongoConnect=(callback)=>{ //CHÚ Ý : app.js không có hàm callback
-    MongoClient.connect('mongodb+srv://lyvietkhang_admin:FLC0EfhTqJHonvsI@khangserver0.w0azxjp.mongodb.net/shop?retryWrites=true&w=majority') //trước dấu ? của connection string đáng lẽ có tên của CSDL, vd "test" database. Do đó I add "shop", if that database doesn't exist yet, mongodb will create it as soon as we start writing data to it
+    MongoClient.connect('') //trước dấu ? của connection string đáng lẽ có tên của CSDL, vd "test" database. Do đó I add "shop", if that database doesn't exist yet, mongodb will create it as soon as we start writing data to it
     //trả về a Promise nếu resolve() thì trả về MongoClient_instance là "client database"  ,giống như "browser" cài vào máy tính vì máy tính không thể giao tiếp máy chủ, nếu reject() thì trả về error() 
     //We could close the connection with db.close() and wait for the next database connection request
     .then(
