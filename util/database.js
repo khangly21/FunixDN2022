@@ -29,7 +29,7 @@ let mongoConnect=(callback)=>{ //Vì JS function là object nên function đư�
 
     //Kích hoạt hàm static MongoClient.connect
     // It will be created on the fly (tạo một cách nhanh chóng) when we first access it which is again fitting that flexibility theme mongodb gives us. In SQL we had to prepare everything in advance (như vậy thì mới viết lệnh SQL), at least when not using sequelize which also had to do that (Sequelize User.create() sẽ tạo bảng dựa trên modelName và tự tạo SQL for us) but it did it for us
-    MongoClient.connect('mongodb+srv://lyvietkhang_admin:FLC0EfhTqJHonvsI@khangserver0.w0azxjp.mongodb.net/shop?retryWrites=true&w=majority') //trước dấu ? của connection string đáng lẽ có tên của CSDL, vd "test" database. Do đó I add "shop", if that database doesn't exist yet, mongodb will create it as soon as we start writing data to it
+    MongoClient.connect('') //trước dấu ? của connection string đáng lẽ có tên của CSDL, vd "test" database. Do đó I add "shop", if that database doesn't exist yet, mongodb will create it as soon as we start writing data to it
     //connect là hàm trả về Promise<mongo.MongoClient> có thể hiểu là đối tượng Promise resolves một đối tượng kiểu dữ liệu mongo.MongoClient, đó chính là connected_mongoclient instance
     .then(
          //inside then, "sự kiện onfulfilled" there is a callback to execute when the Promise is resolved 
