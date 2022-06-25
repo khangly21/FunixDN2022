@@ -5,7 +5,7 @@ let _db;
 
 let mongoConnect=(callback)=>{ 
     // MongoClient is constructor to build MongoClient instances 
-    MongoClient.connect('mongodb+srv://lyvietkhang_admin:FLC0EfhTqJHonvsI@khangserver0.w0azxjp.mongodb.net/test?retryWrites=true&w=majority',{useUnifiedTopology:true}) 
+    MongoClient.connect('',{useUnifiedTopology:true}) 
   
     .then(
         MongoClient_instance=>{ //MongoClient instance is basically a `CLIENT OBJECT` (ý nói MongoClient_instance) which gives us access to the cloud  Mongo database server
