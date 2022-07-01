@@ -1,0 +1,18 @@
+﻿GIT  (Tên thư mục: NJS101x_Lab23_khanglvfx15073@funix.edu.vn)
+- git init
+- git add . 
+- git commit -m "LAB 6.23"
+- git branch 
+   * master
+- git checkout -b NJS101x_Lab23_khanglvfx15073@funix.edu.vn  (phải trùng push) 
+- git branch 
+- git ls-files
+- git remote add NJS_lab6.23_label https://github.com/khangly21/FunixDN2022.git
+- git push NJS_lab6.23_label NJS101x_Lab6.23_khanglvfx15073@funix.edu.vn
+
+- Cập nhật
+  ** git add .
+  ** git commit -m "modified Lab6.23"
+  ** git push NJS_lab6.23_label NJS101x_Lab6.23_khanglvfx15073@funix.edu.vn
+
+- copy từ thư mục SuabaiLab6.19
