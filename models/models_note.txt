@@ -1,0 +1,1 @@
+Cũng giống như Sequelize (order-item.js và order.js), Mongoose (tới bài 7 mới code) cho phép chúng ta xác định các Model - nơi tất cả các truy vấn được thực hiện.

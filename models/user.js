@@ -1,0 +1,219 @@
+// const mongodb = require('mongodb');
+// const getDb = require('../util/database').getDb;
+
+// const ObjectId = mongodb.ObjectId;
+
+// class User {
+//   //constructor tức là User(các giá trị tham số)
+//   //constructor được gọi với 'new' operator với các đầu vào giá trị
+//   //như vậy bản chất class là hàm với đầu vào và đầu ra là instance this
+//   //các hàm non-static đều yêu cầu this thực hiện hành động
+//   constructor(username, email, cart, id) {
+//     this.name = username;
+//     this.email = email;
+//     this.cart = cart; // {items: []} là cấu trúc của this.cart
+//     this._id = id;
+//   }//Sau khi tạo được User instance với các giá trị tham số, thì các thuộc tính this._id sẽ tham gia hàm updateOne()
+
+//   save() {
+//     const db = getDb();
+//     return db.collection('users').insertOne(this);
+//   }
+
+//   addToCart(product) {
+//     const cartProductIndex = this.cart.items.findIndex(cp => {
+//       return cp.productId.toString() === product._id.toString();
+//     });
+//     let newQuantity = 1;
+//     const updatedCartItems = [...this.cart.items];
+
+//     if (cartProductIndex >= 0) {
+//       newQuantity = this.cart.items[cartProductIndex].quantity + 1;
+//       updatedCartItems[cartProductIndex].quantity = newQuantity;
+//     } else {
+//       updatedCartItems.push({
+//         productId: new ObjectId(product._id),
+//         productTitle:product.title,
+//         quantity: newQuantity
+//       });
+//     }
+
+//     //đối tượng mới
+//     const updatedCart = {
+//       items: updatedCartItems
+//     };
+//     const db = getDb();
+//     return db
+//       .collection('users')  
+//       .updateOne(
+//         { _id: new ObjectId(this._id) },  //user nào
+//         { $set: { cart: updatedCart } }   //nếu chưa có cart property thì tạo mới, nếu có rồi thì overwrite
+//       );
+//   }
+
+//   getCart() {
+//     const db = getDb();
+//     const productIds = this.cart.items.map(i => {
+//       return i.productId;
+//     });
+
+//     //gửi JS array gồm các SP trong cart, mỗi item chứa full data về SP và quantity của item đó
+//        ///muốn vậy phải yêu cầu access tới database tên "test"
+//        ///db() sẽ trả về a reference/access tới MongoDB collection tên "products" , nếu chưa tồn tại thì create implicitly 
+//        ///Important: In MongoDB, a collection is not created until it gets content! MongoDB waits until you have inserted a document before it actually creates the collection.
+//        //https://www.w3schools.com/python/python_mongodb_create_collection.asp
+//     return db
+//       .collection('products')
+//       .find({ _id: { $in: productIds } })
+//       //{ } chính là query để return all documents in collection 
+//       //{ _id: { $in: productIds } } chính là return several documents that meet a condition 
+//       //lúc viết find( thì thấy Intellisense: Array.find() call predicate once for each element of the array, returning the FIRST value of array element where predicate is true, and undefine otherwise
+//       //mongodb Collection.find({ }) hay mongodb Collection.find(query) đều trả về 1 cursor
+//       //https://www.mongodb.com/docs/manual/reference/method/cursor.toArray/
+//       .toArray()
+//       .then(products => {
+//         return products.map(p => {
+//           return {
+//             ...p,
+//             quantity: this.cart.items.find(i => {
+//               return i.productId.toString() === p._id.toString();
+//             }).quantity
+//           };
+//         });
+//       });
+//   }
+
+//   deleteItemFromCart(productId) {
+//     const updatedCartItems = this.cart.items.filter(item => {
+//       return item.productId.toString() !== productId.toString();
+//     });
+//     const db = getDb();
+//     //code to update a specific user on database
+//     return db
+//       .collection('users')
+//       .updateOne(
+//         { _id: new ObjectId(this._id) }, //who is the user to be updated? 
+//         { $set: { cart: {items: updatedCartItems} } }
+//       );
+//   }
+
+//   addOrder(){ //Who calls this method to create "orders" collection ? 
+//     //doesn't take any arguments because the cart which will be passed as an order or as the data for the order is already registered on this user
+//     //I need to add the orders to my user or the other way around.
+//     //reach out to my database client
+//     const db=getDb();
+//     //Nếu tạo order mới không dùng object={} hay new Constructor() như db.collection('orders').insertOne(this.cart) thì order đó chứa thông tin tất cả hàng trong cart, nhưng không biết user của order là ai. Làm sao 
+//     //https://viblo.asia/p/javascript-object-trong-javascript-L4x5x44m5BM
+//     //object lưu các items, và object có thể được iterate như mảng
+    
+//     //gọi hàm getCart() trong cùng file 
+//     return this.getCart()   //Step 1
+//       .then(products=>{
+//            //Step 2 
+//               /// Nhắc lại, Javascript có kiểu dữ liệu object (KDL phức hợp) được linh hoạt tạo ra theo yêu cầu của úng dụng
+//               /// order object là sự kết hợp của KDL Product và KDL User
+//            const order={
+//              //đầy đủ thông tin sp trong cart
+//               items:products,
+//              //thông tin người user  some user data, not all but some
+//              user:{
+//                _id:new ObjectId(this._id), //trả về hàm ObjectId(hexadecimal string)
+//                name:this.name,
+//                email:this.email
+//              }
+//            }
+//              //cách lưu trữ này sẽ duplicate thông tin trong users collection and orders collection. Nhưng tui không quan tâm nhược điểm này vì lập luận sau:
+//                 /// the embeded user data in order might change for sure, but it doesn't need to be updated on all the orders because if you had like processed and open orders, for all processed orders, you wouldn't care too much if the user email changed because you might not need to touch it there. So now even if the user name would change, I could be fine with not changing it here and I care only changes in the users collection
+//                 /// of course if you do care, you can always get rid of all the data.
+//              //Như vậy tầm nhìn là thay vì trong MongoDB hiện nay 1 order{id,items_array} thì dự tính có thêm đối tượng user được tích hợp vào  
+//              // I also want to store more information about my products in items of order, than just id and quantity   
+//              //trong render ra view orders.ejs, có product.title tham gia ,thậm chí có thể hiển thị product.price   
+//              //Therefore, storing some extra information would be useful too
+//              //Muốn hiển thị title, price của product của user này thì phải làm việc (work on) the this.cart.items again  , and we need to fetch some data from our products database   
+//              //trong hàm getCart() đã có được cart với enriched (fully populated) information about all products .
+//              //So actually what we can do is in add order, I can first of all call this get cart and then add then to work with the data get cart gives me,  so with my updated products . these products will have all the product information (xuất phát từ products collection) along with the quantity (trích từ req.user.cart.items). I want these products be part of cart.items (done) and orders , too  
+//              // I really don't care about that information changing because if it should change, for orders we need a snapshot anyways, if the price of a product changes, that doesn't affect the past order (we wouldn't want to update the price even if it would change.),
+//              // for orders, such a snapshot and therefore an EMBEDED document is a great way of relating the ORDER and the PRODUCT because the product data might be duplicate but it doesn't need to change in the ORDERS collection because there, we want the snapshot.
+//              //https://www.mongodb.com/docs/cloud-manager/reference/api/snapshots/
+     
+//              //trả về insertion operation, ban đầu insertOne(this.cart) nhưng thiếu thông tin user, nên thay thế
+//              return db.collection('orders').insertOne(order); //Step 3
+      
+//     })   
+//       .then(result=>{ //Step 4
+//           //succeeded insertOne(order)
+//           //LOCALLY với req.user, I will empty my cart at this point vì toàn bộ items đã vào order 
+//           this.cart={items:[]};
+
+//           //REMOTELY, thì clear trong cart items trong database 
+//           //code to update a specific user on mongodb then set his CLEARED cart
+//           db
+//               .collection('users')
+//               .updateOne(
+//                 { _id: new ObjectId(this._id) }, //who is the user to be updated? search here
+//                 { $set: { cart: {items: []} } }
+//               );
+
+//           //So now I cleared both cart.items in the req.user object as well as in the database
+          
+//           //TÓM TẮT QUY TRÌNH
+//           /*
+//                 the order is 
+                
+//                 (Step 1) we get the cart which is essentially an array of products, 
+                
+//                 (Step 2) we create an order with THAT products and some date from req.user
+
+//                 (Step 3) then we insert this order object into our orders collection, that's new doc, we need to insert that, 
+                
+//                 (Step 4) sucessfully insertion operation, we'd return the
+
+//                 result of that
+
+//                 and then here, we know that we were successful with inserting this and we clean up our existing cart.
+
+//                 và clear nội dung của user.cart.items 
+//           */
+
+//       })
+//   }
+
+//   getOrders(){
+//     //reach out to database "test"
+//     const db=getDb();
+//     //we reach out to our orders collection and find() to find ALL orders for that user!
+//     //đầu tiên là compare userid với _id của user Object thuộc order 
+//     //user._id là user holds an embeded document. MongoDB BSON ObjectId dùng để định danh duy nhất (bên RDBMS có Primary Key)
+//     /*
+//        javascript find() method
+//        VD [circle,circle,square,square].find(square) --> square
+//     */
+//     //we can find more than 1, so use toArray() shortcut and Mongodb server sends JS array of orders to Node for that userId
+//     return db
+//         .collection('orders')
+//         .find({'user._id':new ObjectId(this._id)})
+//         .toArray(); //mongodb sends JS array of orders for Node client
+//         //then we output that order information
+//   }
+
+//   static findById(userId) { //https://www.softwaretestinghelp.com/mongodb/objectid-mongodb/
+//     //The ObjectId is a combination of time, random value and counter value
+//     //Each time when we call the ObjectId như X = ObjectId(), it creates a unique hexadecimal value như trong mongodb
+//        ///it’s just declaring the object ID without any parameter as a method.
+//        ///each time when we call ObjectID(), it will reserve a specific location within the virtual memory for a mongodb document
+//     //userId tham số là 
+//     const db = getDb();
+//     return db
+//       .collection('users')
+//       .findOne({ _id: new ObjectId(userId) })  //Define Specific ObjectId Hexadecimal với tham số xác định. VD y = ObjectId(“5bf142459b72e12b2b1b2cd”)
+//       .then(user => {
+//         //console.log(user);
+//         return user;
+//       })
+//       .catch(err => {
+//         console.log(err);
+//       });
+//   }
+// }
+
+// module.exports = User;
