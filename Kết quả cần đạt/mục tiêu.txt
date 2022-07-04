@@ -1,0 +1,5 @@
+- Khi schema không cấu trúc imageUrl
+- nhưng user input có imageUrl
+- và model chấp nhận object có imageUrl nhận dữ liệu đường dẫn
+- thì Product_instace.save() 
+- Kết quả CSDL MongoDB không lưu imageUrl, chỉ lưu những thông tin phù hợp với Schema của document!
