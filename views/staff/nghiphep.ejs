@@ -1,0 +1,157 @@
+<% block('MainCss',`<link rel="stylesheet" type="text/css" href="/css/nghiphep.css">`) -%>  
+
+<% layout('../layouts/layout.ejs') %>
+<title><%=  onLeaveForm.title %></title> 
+
+<!--GET => nghỉ phép-->
+<main>
+
+    <form class="onLeave-form" action="/staff/ngaynghiphepnam" method="POST">
+        <div class="form-control">
+            <label for="title">Title</label>
+            <input type="text" name="title" id="title" value="<%= onLeaveForm.title %>">
+        </div>
+        
+        <% if( onLeaveForm.annualLeave > 0) { %>         
+            <div class="form-control">
+                <!--Nếu số ngày annualLeave còn lại là 0 thì thông báo và không cho phép đăng ký.-->
+                <label for="annualLeave">Số ngày phép năm còn lại  (max: 12 ngày per year)</label>
+                <!--ký tự ejs thiếu = là không hiển thị số 15-->
+                <!-- ejs không lồng ejs mà viết nối tiếp nhau-->
+                    <input type="number" name="annualLeave" id="annualLeave" value="<%= onLeaveForm.annualLeave %>" readonly>
+            </div>
+
+            <div class="form-control">
+                <!--Chọn ngày nghỉ phép sẽ phụ thuộc số ngày phép năm còn lại--> <!--https://stackoverflow.com/questions/15933037/adding-input-fields-in-javascript-with-onclick-button-->
+                      <!--http://jsfiddle.net/nj4N4/7/-->
+                <!--https://youtu.be/p9cT_ehaR3E-->
+                <!--https://stackoverflow.com/questions/15933037/adding-input-fields-in-javascript-with-onclick-button-->
+                <!--https://stackoverflow.com/questions/48651477/get-multiple-user-inputs-in-one-form-field-->
+                
+                <label for="date_to_off">Chọn ngày và số giờ tương ứng để nghỉ phép (có thể nhiều ngày)</label>
+                <!--https://stackoverflow.com/questions/35607209/i-need-a-form-to-appear-when-i-click-on-a-button-->
+                <!-- you can add as many as input here for id if you want -->
+                <input type="button" id="more_fields" onclick="add_fields();" value="Add More" />
+    
+                <!--value phải đúng format như value="2023-08-27"-->
+                <!--input type="date" name="date_to_off[]" id="date_to_off_1"  value="<%= onLeaveForm.date_to_off_1  %>,<%= onLeaveForm.date_to_off_2  %>"-->  <!--value có 2 giá trị, sẽ không tác dụng, chỉ hiện 1 khung date--> <!--nếu có thuộc tính readonly thì không hiện tấm lịch cho chọn ngày-->
+                
+                <!--không có id do code trong date_fields được copy nhiều lần-->
+                <div id="fields_unremovable" class="date_fields">
+                    <article class="section_removable">
+                        <div class="row">
+                            <div class="col">
+                                <div>Date 1:</div>
+                                <input class="dateInput" type="date" name="date_to_off[]"   value="" >
+                            </div>
+
+                            <div class="col">
+                                <!--Chọn số giờ sẽ nghỉ (tối đa 8h cho mỗi ngày), số giờ sẽ nghỉ phải nhỏ hơn số ngày annualLeave còn lại (mỗi ngày annualLeave = 8h).-->
+                                <div>Hours 1:</div>
+                                <!-- type="number" hoặc type="range" , cái thứ 2 sẽ không biết chính xác chỉ ước chừng-->
+                                <!-- type ="time" để ghi nhận giờ:phút:giây từ 1 tới 23-->
+                                <!--cần id="hours" nhằm tính tổng sau này?? You are giving same id to multiple elements. Give class instead. Then get their sum.: https://stackoverflow.com/questions/56801837/how-to-calculate-sum-of-multiple-dynamic-input-fields-in-javascript-->
+                                <input class="hours" type="number" min="1" max="8" name="hour_to_off[]" value="" > <!--lấy giá trị người dùng nhập bằng DOM this.value-->
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <br>
+
+                <div>
+                    <input type="button" id="del_fields" onclick="delete_this_date();" value="del dates" />
+                    <!--button onclick="delete_this_date()">Remove date</!button-->  <!-- không nhấn button vì sẽ tới trang http://localhost:4000/staff/nghiphep%%3E-->
+                </div>
+
+                <div>
+                    <input type="button" id="sum_hours" onclick="sum_registered_hours();" value="Tính tổng hours đã đăng ký nghỉ phép" />
+                    <!--Cách 1:xem sum_registered_hours() trong nghiphep.ejs-->
+                       <i id="target_for_sum_hours"></i> <!-- thay vì ghi trực tiếp từ sum_registered_hours() , alternative là truyền từ staffController.js có được không-->
+                    <!--Cách 2: xem  sum_registered_hours_in_staffController() trong staffController.js-->
+                       <!--Cách 2 fails vì controller không tổng hợp được kết quả của dynamic array trong form-->
+                       
+                       <!--input type="button" id="Sum_hours" onclick="sum_registered_hours_in_staffController();" value="Tính tổng hours từ staffController" /-->
+                       <!--%= onLeaveForm.tong_gio  %-->
+                       <p id="target2_for_sum_hours"></p>
+
+                       <span>Số ngày phép năm đã đăng ký: </span> 
+                       <i id="target_for_day"></i>
+                       <br>
+                       
+                       <span>target_for_day_in_var</span>
+                       <i id="target_for_day_in_var"></i>
+                </div>
+
+                <div>
+                    <!--https://stackoverflow.com/questions/22434586/how-to-input-float-numbers-in-html-form-->
+                    <!--https://www.w3docs.com/snippets/javascript/how-to-get-the-value-of-text-input-field-using-javascript.html-->
+                        <label for="offdays">Nhập số ngày nghỉ (phải nhỏ hơn Số ngày phép năm còn lại)</label>
+                        <input type="number" step="0.01" id="registered_offdays" name="offdays" value="" />
+                    <!--0.01 chỉ lấy 2 chữ nearest sau thập phân,nếu nhập sai là ô input sẽ báo lỗi-->
+                    <!--không có step 0.01 là phải viết integer -->
+                </div>
+
+            
+                <div>
+                    <input type="button" id="update_annualLeave" onclick="delete_this_date();" value="del dates" />
+                    <!--button onclick="delete_this_date()">Remove date</!button-->  <!-- không nhấn button vì sẽ tới trang http://localhost:4000/staff/nghiphep%%3E-->
+                </div>
+
+            </div>
+    
+            <div class="form-control">
+                <label for="reason">Lý do</label>
+                <textarea name="reason" id="reason" rows="5"></textarea>
+            </div>
+           
+            <!--trước khi Nộp đơn, check tổng số giờ nghỉ đăng ký quy ra ngày phải < annualLeave trong CSDL-->
+               <!--https://stackoverflow.com/questions/56801837/how-to-calculate-sum-of-multiple-dynamic-input-fields-in-javascript-->
+            
+            <!--https://stackoverflow.com/questions/42910300/how-to-use-if-condition-inside-button-tag-->
+            <!--https://www.geeksforgeeks.org/if-else-condition-in-css/-->
+            <!--https://stackoverflow.com/questions/48518163/how-to-define-and-call-a-function-in-ejs-file-using-tags-->
+
+            <% if(onLeaveForm.annualLeave ){ %>
+                <!--không cần check Tổng giờ đăng ký nghỉ phải nhỏ hơn annualLeave , gọi hàm trong button cũng check được-->
+                <!--https://www.w3docs.com/snippets/javascript/how-to-get-the-value-of-text-input-field-using-javascript.html-->
+                <!--annualLeave  -  registered_offdays-->
+
+                <input type="submit" onclick="authen_inputValues()"  class="btn btn-success" value="Nộp đơn">
+            <% } else { %>
+                <em>Tổng giờ đăng ký nghỉ phải nhỏ hơn annualLeave</em>
+            <% } %>
+
+        <% }else { %>
+            <em style="color: blue; background-color: yellow;">   Chú ý: Không còn phép năm nào. Nên không thể đăng ký !</em>
+            
+        <% } %>   
+    </form>
+    
+    <br>
+    
+
+</main>
+
+<!--CÁC CÁCH PREVENT DATA FROM BEING SUMMITED -->
+   <!--Cách 1:  nếu <button>Go</button> nằm trong <form> thì chắc chắn click vào sẽ bị req tới trang khác làm cho jquery trên button này không chạy được. Solution là cho button này ra khỏi form-->
+      
+   <!--Cách 2: -->
+        <!--https://www.techiedelight.com/prevent-html-form-from-being-submitted-javascript/-->
+
+
+<!--https://stackoverflow.com/questions/55322763/how-to-use-external-javascript-file-into-an-ejs-file-->
+<!--sẽ sai khi src="/public/js/nghiphep.js"-->
+<% block('js', `<script src="/js/nghiphep.js"></script>`) -%> <!--cho phép nhận các hàm , và biết như ngaynghidangky-->
+
+<!--script sau không có tác dụng nào-->
+<% block('controllerjs',`<script src="../../controllers/staffController.js"></script>`) -%>
+
+<% block('jqueryButton', `
+    <script>
+        //jquery cho HTML button #jquery_store_songayphepnamdadangky_vao_bien, gắn HTML element này binds vào sự kiện onclick, callback ngay sau đó
+        $('#jquery_store_songayphepnamdadangky_vao_bien').on("click",function(){
+            window.alert("đã click vào HTML button #jquery_store_songayphepnamdadangky_vao_bien")
+        })
+    </script>
+` ) -%>

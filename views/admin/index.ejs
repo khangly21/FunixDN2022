@@ -1,0 +1,99 @@
+<% layout('../layouts/layout.ejs') %> <!--trả về đường dẫn tuyệt đối hướng dẫn file này tìm layout.js-->
+<!--layout('layout') ngay đây sẽ gặp Error: ENOENT: no such file or directory, open 'D:\KHOA_5_BACKEND1\Đồ án, Exercises, Labs, Final\ASSIGNMENT1\NodeJS_seedDatabase\views\buyer\layout.ejs'-->
+<!--cách 1:   <%= layout('../layouts/layout.ejs') %>  sẽ hiển thị undefined chỗ =      -->
+<!--cách 2:  <% layout('../layouts/layout.ejs') -%>    ok -->
+<!--cách 3: <%- layout('../layouts/layout.ejs') %>  ok  ,  thầy cũng áp dụng được cho hàm include(path) -->
+<h1>Article title: <span><%=  title %></span> </h1> <title><%=  title %></title>  <!--text-only trong title tags sẽ không render vì nó  is shown in the browser's title bar or in the page's tab -->
+
+<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#DogAddingFormModal">  <!--phải là type="button", nếu ghi type="submit" thì modal chỉ hiện ra khi click nút và biến mất khi thả nút-->
+    👉 Create a new dog
+</button>
+
+<!-- The Modal -->
+<div class="modal fade" id="DogAddingFormModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+  
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Register 1 new member</h4>
+        </div>
+  
+        <!-- Modal body -->
+        <div class="modal-body">
+            <form action="?" method="GET"> <!--GET req tới đúng http://localhost:4000/admin/findAllDog? với dấu hỏi nếu các input không có name và value-->
+                <div class="mb-3 row">
+                    <label for="inputName" class="col-sm-2 col-form-label">Name</label>
+                    <div class="col-sm-10">
+                        <input name="DogName" type="text" class="form-control" id="inputName">
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label for="inputAge" class="col-sm-2 col-form-label">Age</label>
+                    <div class="col-sm-10">
+                        <input name="DogAge" type="number" class="form-control" id="inputAge">
+                    </div>
+                </div>
+                <!--button ngoài form sẽ không Submit được-->
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+
+            
+        </div>
+  
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+  
+<hr/>
+<!--Bootstrap Layout:Grid , dùng div thay thế ul và li cũng được-->
+<!--https://stackoverflow.com/questions/7698764/custom-bullet-symbol-for-li-elements-in-ul-that-is-a-regular-character-and-->
+<div class="container">
+    <ul class="row">
+        <% if (dogs.length > 0) { %>
+            <% for (let dog of dogs) { %>
+                <li class="col">
+                    <!--section is thematic group of content, each section should be identify with h1-h6 as a child-->
+                    <section>
+                        <!--(name,age,annualLeave,doB,startDate,salaryScale (payScale),department,imageUrl)-->
+                        <h6>id:<%=  dog._id %> </h6>
+                        <p><b style="color:red">name:</b> <%=  dog.name %></p>
+                        <p><b style="color:red">age:</b> <%=  dog.age %></p>
+                        <p><b style="color:red">annualLeave:</b> <%= dog.annualLeave %></p>
+                        <p><b style="color:red">doB:</b> <%= dog.doB  %></p>
+                        <p><b style="color:red">startDate:</b> <%= dog.startDate  %></p>
+                        <p><b style="color:red">salaryScale:</b><%=  dog.salaryScale  %></p>
+                        <p><b style="color:red">department:</b><%=  dog.department %></p>
+                        <p><b style="color:red">imageUrl:</b><%= dog.imageUrl  %></p>
+                        <p><b style="color:red">createdAt:</b> <%=  dog.createdAt %></p>
+                        <p><b style="color:red">updatedAt:</b> <%=  dog.updatedAt %></p>
+                        <form>
+                            <button type="submit" class="btn btn-primary">Edit</button>
+                        </form>
+                        <br>
+                        <form>
+                            <button type="submit" class="btn btn-primary">Delete</button>
+                        </form>
+                    </section>
+                    <hr/>
+                </li>
+              <!--chỗ này mà có hr/ là không trình bày Bootstrap5 Grid layout được-->
+            <%}%>
+        <%}%>
+    </ul>
+</div>
+
+
+
+
+
+<!--  <% block('MainCss',`<link rel="stylesheet" type="text/css" href="../../public/css/main.css">`) -%>   dòng này không có tác dụng vì không giúp server phục vụ STATIC files-->
+<% block('MainCss',`<link rel="stylesheet" type="text/css" href="/css/main_admin.css">`) -%>   <!--đã giúp express.static() tìm static files ở đường dẫn tuyệt đối /public khi đó chỉ cần nối vào /css/main.css hay /js/main.js-->
+<!-- <% block('MainCss',`<link rel="stylesheet" href="./LocalMain.css">`) -%>  -->  <!--cũng là STATIC file, nhưng khai báo trong index.js thế nào?-->
+<% block('js', `<script src="../../public/js/main.js"></script>`) -%> <!--dùng '  ' cũng được-->

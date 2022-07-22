@@ -1,0 +1,167 @@
+1/
+express mặc định có layout.ejs , đặt đúng tên này. Do đó không cần khai báo layout.ejs trong app
+Muốn sử dụng nó phải    npm install ejs-blocks --save
+
+2/
+<%  if (prods.length > 0) { %>
+    <% for (let product of prods) { %>
+
+3/
+Phụ lục views >> staff >> index.ejs
+
+<%
+getPriceChgArrow = function(value) {
+    arrow_img_name = "";
+    if (value < 0) {
+        arrow_img_name = "Bé hơn 0";
+    }
+    else {
+        arrow_img_name = "Lớn hơn 0";
+    }
+    return arrow_img_name;
+}
+%>
+
+<%
+transferHourToMinutes=function(string){
+    var c=string.split(':');
+    return parseInt(c[0])*60+parseInt(c[1]); 
+}
+%>
+   <br>
+         <%= transferHourToMinutes('2:10:09')  %>
+         <%= transferHourToMinutes(  (new Date(attendance.updatedAt)).getHours()+":"+(new Date(attendance.updatedAt)).getMinutes()+":"+ (new Date(attendance.updatedAt)).getSeconds() )  %>
+         <%= getPriceChgArrow(4)  %>   <!--phải có =-->
+      <br>
+         <% let y=5.2 %>
+         <%=   parseInt(5.2)      %>
+      <br>
+         <%= parseInt(04) * 60 + parseInt(4)  %>
+      <br>
+         <%=  2+3 %> <!--không có = thì 2 không hiện-->
+       <!--11:29:15 -->
+
+
+        <!--https://www.w3docs.com/snippets/javascript/how-to-get-the-current-date-and-time-in-javascript.html-->
+         <%  
+              let currentDate = new Date();
+              let time = currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds();
+         %>
+
+         <%=  time  %>
+
+4/Ask mentor
+
+- TypeError: req.next is not a function
+
+exports.getKetthuclam=(req,res,next)=>{
+    
+    //MongooseError: Callback must be a function, got [object Object]
+    Attendance.find({})
+              .exec()
+              .then(attendances=>{
+                
+
+                res.render('staff/index',{
+                    title:"trang nhân viên",
+                    path:'/staff/ketthuclam', 
+                    Working:false,
+                    //lấy document cuối cùng
+                    attendance_danh_cho_Notice2:attendances[attendances.length-1] //muốn gọi hàm transferHourToMinutes phải có attendance_danh_cho_Notice2 , muốn vậy phải có attendances , có từ Attendance.find({}).exec().then(attendances=>
+
+                    //cần 1 mảng các đối tượng attendancediaries có các fields {work-location, createdAt, updatedAt} do staffController gửi tới khu vực dưới nút " Kết thúc làm " để hiển thị thông tin
+
+
+                });
+              })
+    
+    //cần 1 mảng các đối tượng attendancediaries có các fields {work-location, createdAt, updatedAt}
+    Attendance.find({ _id: 0}, {work_location:1}, {createdAt:1}, {updatedAt:1}, function (err, docs) {
+        if (err){
+            console.log(err);
+           
+        }
+        else{
+            console.log("Các docs cần work_location, createdAt, updatedAt: \n ", docs);
+            
+        }
+    }).exec();          
+}
+
+
+5/ Ngay trước if(Working)
+
+  <div class="container" style="width:80%">
+    <div class="row">
+      <div class="col">
+        <form action="/staff/diemdanh">
+          <button class="btn btn-outline-success" type="submit" >Điểm danh</button>
+        </form>
+      </div>
+  
+      <div class="col">
+        <form action="/staff/ketthuclam">
+          <button class="btn btn-outline-success rest" type="submit" >Kết thúc làm</button>
+        </form>
+      </div>
+    </div>
+    <!--nhờ có class=row mà 2 nút trên nằm ở 1 dòng riêng, không bị info tràn lên-->
+  </div>
+
+
+  <%-
+      let sum=0;  //không cho vào ejs thì sẽ hiển thị trong trình duyệt như Chuoi_HTML
+                 mang_doi_tuong_da_lam_trong_ngay.forEach(e=>{sum+=e})
+                     //https://www.w3docs.com/snippets/javascript/how-to-find-the-sum-of-an-array-of-numbers.html
+
+                      %>
+
+  <!--forEach mảng mang_doi_tuong_da_lam_trong_ngay để cộng các giá trị; forEach là 1 block nên ngoài <%= như trên, có thể dùng <% %> cho từng dòng-->
+                      let sum=0;
+                      <% mang_doi_tuong_da_lam_trong_ngay.forEach(function(dtuong){%>
+                          sum=sum+  <% =dtuong[0]  %>
+                      <% }) %>
+
+                      <%= sum %>
+
+//Xem xét các trường hợp return sau
+                                    //return c.toLocaleString().split(',')[1]                              //cách 1 này nếu 5 h chiều sẽ là 5 PM
+                                    //return c.getHours()  + ":" + c.getMinutes() + ":" + c.getSeconds();    //cách 2 này nếu 5 h chiều sẽ là 17 PM, do đó sẽ dễ dàng dùng hàm transferHourToMinutes để tính ra phút  VD  11:25:24 ở đầu và   17:28:36 ở cuối
+                                  // Đổi c của cách 2 ra phút (OK!)
+                                      //return transferHourToMinutes(c.getHours()  + ":" + c.getMinutes() + ":" + c.getSeconds())  //ok
+                                  // Số phút cho tới updatedAt:
+                                    //return u.toLocaleString().split(',')[1]  
+                                    //return u.getHours()  + ":" + u.getMinutes() + ":" + u.getSeconds();                                  
+                                  //Đổi u của cách 2 ra phút (OK!)
+                                      //return transferHourToMinutes(u.getHours()  + ":" + u.getMinutes() + ":" + u.getSeconds())
+                                  //return  ( new Date(e.createdAt).getHours()  + ":" + new Date(e.createdAt).getMinutes() + ":" + new Date(e.createdAt).getSeconds() ) + "until" + ( new Date(e.updatedAt).getHours()  + ":" + new Date(e.updatedAt).getMinutes() + ":" + new Date(e.updatedAt).getSeconds()    )
+
+
+
+            <%  
+               <!--Định nghĩa hàm-->
+                function sum_registered_hours(){
+                    var sum=0;
+                   <!--if You are giving same id to multiple elements thì trái quy tắc. Give class instead $('.hours'). Then get their sum.-->
+                   $('.hours').each(function(){
+                       sum += parseInt(this.value);
+                   });
+                   <!--common error is $ is not defined in ejs: https://stackoverflow.com/questions/43268148/use-jquery-with-ejs-template-->
+                      <!--you can't use client side javascript (jquery) with server side javascript (ejs)-->
+                }
+            %>         
+
+
+            <!-- <% if(sum > 8) { %>
+                               <td>sum-8</td>
+                            <% }else %>
+                               <td>0</td>
+                            <% } %> --> 
+
+
+<div>
+        <!--cần cấu trúc button đơn giản như <button>GO!</button> để jquery điều khiển, với điều kiện là phải nằm ngoài form để bấm vào thì jquery chạy mà không sợ GET req tới trang khác-->
+        <!-- cần phân biệt lúc nào dùng input_type_button vs input_type_submit vs button-->
+        <button id="jquery_store_songayphepnamdadangky_vao_bien">jquery lưu songayphepnamdadangky vào biến </button>
+        <p id="longtermTarget">hola hola</p>  <!-- làm sao gán chuỗi vào đây lâu dài với jquery-->
+    </div>                       

@@ -1,0 +1,73 @@
+<!--gọi static resources, không nhắc tới public folder-->
+<% block('MainCss',`<link rel="stylesheet" type="text/css" href="/css/doc_ghi_staff.css">`) -%>  
+
+<% layout('../layouts/layout.ejs') %> 
+
+<h1><%= title  %></h1>
+<em>chú ý: writeable will be green</em>
+<main>
+    <!--
+       
+            id (không thể chỉnh sửa)
+            name (không thể chỉnh sửa)
+            doB (không thể chỉnh sửa)
+            salaryScale (không thể chỉnh sửa)
+            startDate (không thể chỉnh sửa)
+            department (không thể chỉnh sửa)
+            annualLeave (không thể chỉnh sửa)
+            Image (có thể chỉnh sửa link)
+        
+
+    -->
+    <form action="/staff/post-profile" method="POST">
+        <div class="form-control" readonly>
+            <label for="id">Your id</label>
+            <input id="id" type="text" name="id" value="<%=  user._id %>" readonly>
+        </div>
+        
+
+        <div class="form-control" readonly>
+            <label for="name">Name</label>
+            <input id="name" type="text" name="Name" value="<%=  user.name %>" readonly>
+        </div>
+
+        <div class="form-control"  readonly>
+            <label for="dob">Birthday</label>
+            <input id="dob" type="date" name="Ngaysinh" value="<%=  doB %>" readonly>
+        </div>
+
+        <div class="form-control" readonly>
+            <label for="salaryScale">Salary Scale</label>
+            <input id="salaryScale" type="number" name="SaScale" value="<%=  user.salaryScale %>"  readonly>
+        </div>
+        
+        <div class="form-control" readonly>
+            <label for="startDate">Start date</label>
+            <input id="startDate" type="date" name="startDate" value="<%=  user.startDate %>"  readonly>
+        </div>
+        
+        <div class="form-control" readonly>
+            <label for="dep">Department</label>
+            <input id="dep" type="text" name="department" value="<%=  user.department %>" readonly>
+        </div>
+
+        <div class="form-control" readonly>
+            <label for="annualLeave">Annual Leave</label>
+            <input id="annualLeave" type="number" step="0.01" name="annualLeave" value="<%=  user.annualLeave %>"  readonly>
+        </div>
+
+        <div class="form-control" style="background-color: chartreuse;">
+            <label for="imageUrl">image Url</label>
+            <input id="imageUrl" type="text" name="imageUrl" value="<%=  user.imageUrl %>" >
+        </div>
+
+        <!--class form-control giúp div này ngăn cách với div kia bằng 1 đường horizon-->
+        <div class="form-control" style="background-color: aquamarine;">
+            <label for="submitButton">Đồng ý gửi</label>
+            <input id="submitButton" type="submit" class="btn btn-success"/> 
+        </div>
+    </form>
+</main>
+
+
+<% block('js', `<script src="/js/edit-profile.js"></script>`) -%>

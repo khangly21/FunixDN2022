@@ -1,0 +1,228 @@
+<% block('MainCss',`<link rel="stylesheet" type="text/css" href="/css/staff_hours_and_salary.css">`) -%>  
+
+<% layout('../layouts/layout.ejs') %> 
+
+<main>
+    <div class="container">
+        <h3><%= titleHours  %></h3> 
+        <i style="background-color: yellow;">*Note: giờ làm của toàn bộ quá trình làm ở công ty, không theo tháng</i>
+
+    <!--PHẦN 1: GIỜ LÀM MỖI NGÀY-->
+        <!--CÁCH 1 của PHẦN 1: dùng mảng attendances-->
+        <table class="table">
+            <thead>
+              <tr style="color:dodgerblue">
+                <th scope="col">#</th>
+                <th scope="col">Ngày </th>
+                <th scope="col">Nơi làm việc</th>
+                <th scope="col">annualLeave đã đăng ký</th>
+                <th scope="col">Giờ bắt đầu</th>
+                <th scope="col">Giờ kết thúc</th>  <!--(nếu chưa kết thúc thì hiển thị: -- hoặc để trống).-->
+                <th scope="col">Tổng số giờ đã làm của lần bắt đầu/kết thúc này </th> 
+                <!--th scope="col">Tổng số giờ đã làm cuối ngày </!--th-->  <!--https://stackoverflow.com/questions/30208088/sum-after-groupby-in-mongoose-->
+                   <!--In MongoDB 3.2 and earlier, $sum is available in the $group stage only.-->
+                   <!--If used on a field that contains both numeric and non-numeric values, $sum ignores the non-numeric values and returns the sum of the numeric values.-->
+              </tr>
+            </thead>
+            <tbody>
+              <% if(attendances.length > 0) {  %>
+                  <% for(let attendance of attendances){  %>
+                      <tr>
+                        <th scope="row"></th>
+                        
+                        <td><%= new Date(attendance.createdAt).getDate() + "/" + [new Date(attendance.createdAt).getMonth()+1] +"/" + new Date(attendance.createdAt).getFullYear() %></td> <!--NẾU có ; sau getDate() thì unexpected token ;-->
+                        <!-- cần hạn chế gọi hàm hay tính toán trong ejs, đó là lý do nên dùng mảng tong_hop?-->
+                        
+                        <td><%= attendance.work_location  %></td>
+                        <td><%= ngaynghiphepnamdangky %></td> <!--với mối quan hệ 1:1 giữa 2 bảng attendancediaries và dogs-->
+                        <td><%= new Date(attendance.createdAt) %></td> <!--không có = là bỏ trống không hiển thị-->
+                        <!--so sánh Giờ bắt đầu với Giờ kết thúc do đó phải chính xác tới giây (nếu chưa kết thúc thì hiển thị: -- hoặc để trống).-->
+                        <% if(   (new Date(attendance.createdAt)) === (new Date(attendance.updatedAt))  ) { %>
+                            <td> -- </td>
+                        <% }else{ %>
+                            <td><%= new Date(attendance.updatedAt) %></td>
+                        <% } %>
+                        
+                        <!--https://stackoverflow.com/questions/32208476/javascript-converting-a-date-into-seconds-->
+                        <!-- 1 hour có 3600 seconds -->
+                        <td>
+                           <%= (new Date(attendance.updatedAt).getTime()/1000)/3600 - (new Date(attendance.createdAt).getTime()/1000)/3600 %>
+                        </td>
+
+                        <!--Lưu ý: ô dưới field "#" bị bỏ trống, các ô còn lại được filled hết-->
+                      </tr>
+                  <% } %>
+              <% } %>
+            </tbody>
+        </table>
+
+        <!--CÁCH 2 của PHẦN 1: dùng mảng tong_hop-->
+        <table class="table">
+            <thead>
+              <tr style="color:dodgerblue">
+                <th scope="col">#</th>
+                <th scope="col">Ngày </th>
+                <th scope="col">Tháng </th>
+                <th scope="col">Năm </th>
+                <th scope="col">Nơi làm việc</th>
+                <th scope="col">annualLeave đã đăng ký</th>
+                <th scope="col">Giờ bắt đầu</th>
+                <th scope="col">Giờ kết thúc</th>  <!--(nếu chưa kết thúc thì hiển thị: -- hoặc để trống).-->
+                <th scope="col">Tổng số giờ đã làm của lần bắt đầu/kết thúc này </th> 
+                <!--th scope="col">Tổng số giờ đã làm cuối ngày </!--th-->  <!--https://stackoverflow.com/questions/30208088/sum-after-groupby-in-mongoose-->
+                   <!--In MongoDB 3.2 and earlier, $sum is available in the $group stage only.-->
+                   <!--If used on a field that contains both numeric and non-numeric values, $sum ignores the non-numeric values and returns the sum of the numeric values.-->
+              </tr>
+            </thead>
+            <tbody>
+              <% if(tong_hop.length > 0) {  %>
+                  <% for(let attendance of tong_hop){  %>
+                      <tr>
+                        <th scope="row"></th>
+                        
+                        <td><%= attendance.ngay %></td> 
+                        <!-- cần hạn chế gọi hàm hay tính toán trong ejs, đó là lý do nên dùng mảng tong_hop?-->
+                        <td><%= attendance.thang %></td> 
+                        <td><%= attendance.nam %></td>  <!--undefined nếu doi_tuong_ghi_nhan.nam bên staffController-->
+                        <td><%= attendance.noilamviec  %></td>
+                        <td><%= attendance.registered_annualLeave %></td> 
+                        <td><%= attendance.createdAt %></td> <!--không có = là bỏ trống không hiển thị-->
+                        <!--so sánh Giờ bắt đầu với Giờ kết thúc do đó phải chính xác tới giây (nếu chưa kết thúc thì hiển thị: -- hoặc để trống).-->
+                        <% if(   attendance.createdAt === attendance.updatedAt  ) { %>
+                            <td> -- </td>
+                        <% }else{ %>
+                            <td><%= attendance.updatedAt %></td>
+                        <% } %>
+                        
+                        <!--https://stackoverflow.com/questions/32208476/javascript-converting-a-date-into-seconds-->
+                        <!-- 1 hour có 3600 seconds -->
+                        <td>
+                           <%= ((attendance.updatedAt).getTime()/1000)/3600 - ((attendance.createdAt).getTime()/1000)/3600 %>
+                        </td>
+                      </tr>
+                  <% } %>
+              <% } %>
+            </tbody>
+        </table>
+
+
+
+
+    <!--PHẦN 2: CHI TIẾT LƯƠNG THÁNG-->
+    <!--Cách 1 của phần 2: dùng đối tượng doi_tuong_ngay_giolamviec rồi loop nó , tuy nhiên tạo bảng xong thì làm sao tính Lương cho từng Tháng??-->
+        <table class="table">
+            <thead>
+                <tr style="color:dodgerblue">
+                    <th>Tháng</th>
+                    <th>Ngày</th>
+                    <th>Tổng số giờ đã làm (1)</th>
+                    <th>Số giờ đăng ký cho annualLeave (10% tổng giờ)  (2)</th>
+                    <th>Số giờ (1)+(2) tính là làm thêm quá 8h (overtime)</th>
+                    <th>Số giờ thiếu khi làm chưa tới 8h (Tổng giờ đã làm (1) + annualLeave hour (2))</th>
+                    <th>Hệ số lương</th>
+                    <th>Lương hằng ngày</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <h3> <%= titleSalary %></h3>
+                
+                                <%  for(const key in doi_tuong_ngay_giolamviec){ %>
+                                    <% let sum=  doi_tuong_ngay_giolamviec[`${key}`].reduce(function (accumulator, currentValue) {
+                                        return accumulator + currentValue
+                                    }, 0) %>   <!--sau khi key đã defined -->
+                                    <tr>
+                                        <td><%= thang_cua_tung_attendance_document  %></td> <!--<%= thang_cua_tung_attendance_document  %> của cach 1 SAI do không rõ ràng, bound vào đối tượng nào?? -->
+                                        <td><%= key %></td>
+                                        <td><%= sum %> <!-- cột quan trọng nhất-->
+                                        </td>
+                                        <td><%= sum/10   %></td> 
+
+                                        <!-- Tính OVERTIME và UNDERTIME-->
+                                        <% if(sum + sum/10 >= 8) { %>
+                                           <td><%= sum+sum/10-8 %></td>
+                                        <% } else { %>  <!--thiếu { thì Error unexpected token ;  -->
+                                           <td> 0</td>
+                                        <% } %>
+                                        
+                                        <!--Tính UNDERTIME-->
+                                        <% if(sum + sum/10 < 8) { %>
+                                            <td> <%= 8-sum-sum/10 %></td>   <!--<td>8-(sum+sum/10)</td> hay <td>8-sum-sum/10</td> không ra kết quả-->
+                                        <% }else { %> 
+                                            <td>0</td>
+                                        <% } %>  
+
+                                        <!--Hệ số lương-->
+                                        <td><%= salaryScale  %></td>
+
+                                        <!--Lương hàng ngày = salaryScale*3000000 + (overTime - giờ thiếu)*200000 , trong đó giờ thiếu = giờ đã làm trong ngày + annual hours cho ngày đó   < 8h-->
+                                        <% if(sum >= 8) { %>
+                                            <td><%=  salaryScale*3000000/30 + (sum + sum/10 -8)*200000/30  %></td>
+                                        <% }else{ %>
+                                            <td><%=  salaryScale*3000000/30 - (8-sum-sum/10)*200000/30  %></td>
+                                        <% } %>
+                                    </tr>
+                                    
+                                <% } %>
+                        
+            </tbody>
+        </table>
+
+        <!--Cách 2 của Phần 2: dùng đối tượng tong_hop ở trên để làm tương tự cho tháng và tổng lương cho tháng đó. Do đó bảng chỉ gồm 2 cột là Tháng và Lương (cách làm tương tự cách 1 phần 2)-->
+            <!--Nếu cách 2 của phần 1 có nguyên liệu là đối tượng report_working_time_3 sau khi gọi hàm tonghopGiolam3 có cấu trúc '15/7/2022':[ 0.000680,0.000881666, 0 ] và '16/7/2022': [ a,b,c ]-->    
+            <!-- thì cách 2 phần 2 làm tương tự, staffController sẽ thay thế '15/7/2022' thành 'Tháng 7' để truyền qua view này 1 doi_tuong_Thang_Luong-->
+            <table class="table">
+                <thead>
+                    <tr style="color:dodgerblue">
+                        <th>Tháng</th>
+                        <th>Tổng giờ làm trong tháng</th>
+                        <th>Lương</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!--xử lý for...in cho các td-->
+                    <!--Lương = salaryScale * 3000000 + (overTime - số giờ làm thiếu) * 200000-->
+                    <!-- (overTime - số giờ làm thiếu) ra số giờ thực tế-->
+                    <%  for(const key in doi_tuong_thang7_luong){ %>
+                        <% let sum=  doi_tuong_thang7_luong[`${key}`].reduce(function (accumulator, currentValue) {
+                            return accumulator + currentValue
+                        }, 0) %>
+                        <tr>
+                            <td><%=key%></td>
+                            <td><%=sum%></td>
+                            <td><%= salaryScale*3000000 + (sum-8*30)*200000  %></td>
+                        </tr>
+
+                    <% } %>
+                </tbody>
+            </table>
+    </div>
+
+    
+</main>
+
+<% block('js', `<script src="/js/giolam_luong.js"></script>`) -%>
+
+<!--
+    <!DOCTYPE html>
+    <html>
+    <body>
+    
+    <h2>JavaScript getDay()</h2>
+    <p>The getDay() method returns the weekday as a number:</p>
+    
+    <p id="demo"></p>
+    
+    <script>
+    /*dạng date trên MongoDB 2022-07-15T04:25:27.163+00:00*/
+    const d = new Date("2022-07-15T04:25:27.163+00:00").getDate()
+    document.getElementById("demo").innerHTML = d;
+    </script>
+    
+    </body>
+    </html>
+
+    Trả về: JavaScript getDay()
+            The getDay() method returns the weekday as a number:
+            15
+-->

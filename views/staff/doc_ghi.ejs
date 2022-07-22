@@ -1,0 +1,27 @@
+<!--gọi static resources, không nhắc tới public folder-->
+<% block('MainCss',`<link rel="stylesheet" type="text/css" href="/css/doc_ghi_staff.css">`) -%>  
+
+<% layout('../layouts/layout.ejs') %> 
+
+<h1><%= title  %></h1>
+
+<main>
+      <!--https://www.w3schools.com/bootstrap5/tryit.asp?filename=trybs_card_image&stacked=h-->
+      <!--https://www.w3schools.com/howto/howto_css_flip_card.asp-->
+      <!--Card chứa form để vừa xem thông tin vừa edit-->
+
+      <!--template cho 1 đối tượng thôi, chứ không phải 1 template cho tất cả đối tượng mảng-->
+      <div class="container mt-3">
+        <div class="card" style="width:400px">
+            <img class="card-img-top" src="<%= user.imageUrl %>" alt="Card image" style="width:100%">
+            <div class="card-body">
+              <h4 class="card-title"><%= user.name %></h4>
+              <p class="card-text"><%= user.name %> is work at <%= user.department %>  department.</p>
+              <p>We love ❤️ that guy !!</p>
+              <a href="/staff/edit-profile" class="btn btn-primary">Edit Profile</a>
+            </div>
+        </div>
+      </div>
+</main>
+
+<% block('js', `<script src="/js/doc_ghi.js"></script>`) -%>
