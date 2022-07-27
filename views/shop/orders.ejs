@@ -1,0 +1,29 @@
+<%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/orders.css">
+    </head>
+
+    <body>
+        <%- include('../includes/navigation.ejs') %>
+        <main>
+            <!--orders nhận được là mảng các đối tượng order { _id  , users:{name,userId}, products: [ {product(_id,title,price,description,imageUrl ),quantity} , ...    ]}-->
+            <% if (orders.length <= 0) { %>
+                <h1>Nothing there!</h1>
+            <% } else { %>
+                <ul class="orders">
+                    <% orders.forEach(order => { %>
+                        <li class="orders__item">
+
+                            <h1>Order - # <%= order._id %></h1>
+
+                            <ul class="orders__products">
+                                <% order.products.forEach(p => { %>
+                                    <!--do schemaless nên không lấy được orderitem's title-->
+                                    <li class="orders__products-item"><%=  %> (<%= p.quantity %>)</li>
+                                <% }); %>
+                            </ul>
+                        </li>
+                    <% }); %>
+                </ul>
+            <% } %>
+        </main>
+        <%- include('../includes/end.ejs') %>

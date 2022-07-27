@@ -1,0 +1,10 @@
+<%- include('includes/head.ejs') %>
+</head>
+
+<body>
+    <%- include('includes/navigation.ejs') %>
+    <h1>Error: an internal server error!</h1>
+    <h3>Server resources not found!</h3>
+    <!--Trường hợp 1 xảy ra 500: khi làm cho err_mess undefined trong get404 nhưng vẫn đòi hiển thị trong 404.ejs-->
+    <!--Trường hợp 2 xảy ra 500: khi người dùng truy cập /errors-->
+<%- include('includes/end.ejs') %>

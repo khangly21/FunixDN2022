@@ -1,0 +1,14 @@
+<%- include('includes/head.ejs') %>
+</head>
+
+<body>
+    <%- include('includes/navigation.ejs') %>
+    
+    <% if( err_mess) { %>
+        <h1>Page Requested Not Found!</h1> <!--như cô hạnh làm đơn giản thì chỉ cần res.send("Error: request not found!"), còn ở đây dùng res.render với ejs templating engine-->
+        <h3><%= err_mess %></h3>
+    <% }else{  %>
+        <h1>Page Requested Not Found!</h1>
+        <h3><%= err_mess %></h3>  <!-- dòng này làm cho "Page Not Found!" không hiện ra mà render 500.ejs vì resource err_mess là undefined ngay trong internal server-->
+    <%  } %>
+<%- include('includes/end.ejs') %>
