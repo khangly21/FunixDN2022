@@ -1,0 +1,32 @@
+    <%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/forms.css">
+    <link rel="stylesheet" href="/css/auth.css">
+</head>
+
+<body>
+   <%- include('../includes/navigation.ejs') %>
+
+    <!--cấu trúc tương tự như admin>>edit-product.ejs-->
+    <!--action chỉ có 1 mode , always /login-->
+    <!--we will not start with default value như edit-product-->
+    <!-- type here will also be password so that the characters are hidden-->
+    <!--không phải type="button" , vì Buttons of this type are mostly used to execute JavaScript functions. https://www.dofactory.com/html/button/button-->
+    <main>
+        <form class="login-form" action="/login" method="POST">
+            <div class="form-control">
+                <label for="email">E-Mail</label>
+                <input type="email" name="email" id="email">
+            </div>
+            <div class="form-control">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password">
+            </div>
+            <button class="btn" type="submit">Login</button>
+        </form>
+    </main>
+
+<%- include('../includes/end.ejs') %>
+
+
+
+
