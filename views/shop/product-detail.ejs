@@ -1,0 +1,23 @@
+<%- include('../includes/head.ejs') %>
+    </head>
+
+    <body>
+        <%- include('../includes/navigation.ejs') %>
+        <button style="background: linear-gradient(to right, red, orange , yellow, green, cyan, blue, violet); color:white;
+        background-clip: text;" type="button">Session views:<%=  sessionViews %></button> <!--https://rainbowcoding.com/posts/how-to-create-rainbow-text-in-html-css-javascript-->
+        <button style="background: linear-gradient(to bottom, red, orange , yellow, green, cyan, blue, violet); color:white;
+        background-clip: text;" type="button">KYC: <%= isAuthenticated? true : false %></button>
+        
+        <main class="centered">
+            <h1><%= product.title %></h1>
+            <hr>
+            <div class="image">
+                <img src="<%= product.imageUrl %>" alt="<%= product.title %>">
+            </div>
+            <h2><%= product.price %></h2>
+            <p><%= product.description %></p>
+            <%  if(isAuthenticated) { %>
+                <%- include('../includes/add-to-cart.ejs', {product: product}) %>
+            <%  } %>
+        </main>
+        <%- include('../includes/end.ejs') %>
