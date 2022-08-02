@@ -1,0 +1,16 @@
+﻿GIT  (Tên thư mục: NJS101x_Lab8.13_khanglvfx15073@funix.edu.vn)
+- git init
+- git add . 
+- git commit -m "first commit to make master branch"
+- git branch 
+   * master
+- git checkout -b NJS101x_Lab8.13_khanglvfx15073@funix.edu.vn  (phải trùng push) 
+- git branch 
+- git ls-files
+- git remote add NJS_Lab8.13_label https://github.com/khangly21/FunixDN2022.git
+- git push NJS_Lab8.13_label NJS101x_Lab8.13_khanglvfx15073@funix.edu.vn
+
+- Cập nhật
+  ** git add .
+  ** git commit -m "modified Lab8.13"
+  ** git push NJS_LabLab8.13_label NJS101x_Lab8.13_khanglvfx15073@funix.edu.vn

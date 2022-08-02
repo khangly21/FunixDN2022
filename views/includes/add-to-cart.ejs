@@ -1,0 +1,6 @@
+<!--this entire view should only be rendered if we can add the item to the cart, so if we do have a session if we are authenticated-->
+
+<form action="/cart" method="post">
+    <button class="btn" type="submit">Add to Cart</button>
+    <input type="hidden" name="productId" value="<%= product._id %>">
+</form>
