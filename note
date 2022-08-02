@@ -1,0 +1,3 @@
+- auth.js  
+   Đáng lẽ là save() trả về Promise
+nhưng thử nghiệm save(callback) trả về void
